@@ -1,0 +1,14 @@
+/app/node_modules/
+/app/bower_components/
+/app/public/storage/
+/app/public/photos/
+/app/public/temp/
+/app/vendor/
+/.idea
+/wordpress/wp-content/uploads/
+
+/app/Homestead.json
+/app/Homestead.yaml
+
+.DS_Store
+*.zip
