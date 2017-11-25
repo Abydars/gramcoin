@@ -6,7 +6,10 @@
 /app/vendor/
 /.idea
 /wordpress/wp-content/uploads/
-
+/development
+/cgi-bin
+/index.html
+/pull.php
 /app/Homestead.json
 /app/Homestead.yaml
 
