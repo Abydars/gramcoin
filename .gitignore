@@ -12,6 +12,7 @@
 /pull.php
 /.ftpquota
 /app/error.log
+/app/error_log
 /app/Homestead.json
 /app/Homestead.yaml
 
