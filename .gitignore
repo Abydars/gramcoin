@@ -10,6 +10,8 @@
 /cgi-bin
 /index.html
 /pull.php
+/.ftpquota
+/app/error.log
 /app/Homestead.json
 /app/Homestead.yaml
 
