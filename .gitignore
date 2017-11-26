@@ -15,6 +15,6 @@
 /app/error_log
 /app/Homestead.json
 /app/Homestead.yaml
-
+/app/.env
 .DS_Store
 *.zip
