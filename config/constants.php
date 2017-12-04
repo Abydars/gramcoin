@@ -3,7 +3,11 @@
 return [
 	'navigations' => [
 		[ 'label' => 'Main', 'item_type' => 'heading' ],
-		[ 'label' => 'Dashboard', 'action' => 'dashboard', 'icon' => 'icon-speedometer', 'item_type' => 'item' ]
+		[ 'label' => 'Dashboard', 'action' => 'dashboard', 'icon' => 'icon-speedometer', 'item_type' => 'item' ],
+		[ 'label' => 'Purchase Tokens', 'action' => 'token/purchase', 'icon' => 'icon-tag', 'item_type' => 'item' ],
+		[ 'label' => 'Deposit', 'action' => 'user/deposit', 'icon' => 'fa fa-bitcoin', 'item_type' => 'item' ],
+		[ 'label' => 'User', 'item_type' => 'heading' ],
+		[ 'label' => 'Settings', 'action' => 'user/settings', 'icon' => 'icon-settings', 'item_type' => 'item' ],
 	],
 	'countries'   => [
 		'US' => [

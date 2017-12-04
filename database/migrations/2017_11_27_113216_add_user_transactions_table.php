@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserActivationsTable extends Migration
+class AddUserTransactionsTable extends Migration
 {
 	/**
 	 * Run the migrations.
@@ -13,10 +13,13 @@ class CreateUserActivationsTable extends Migration
 	 */
 	public function up()
 	{
-		//
-		Schema::create( 'user_activations', function ( Blueprint $table ) {
+		Schema::create( 'user_transactions', function ( Blueprint $table ) {
+			$table->increments( 'id' );
 			$table->integer( 'user_id' )->unsigned();
-			$table->string( 'token' )->index();
+			$table->decimal( 'amount', 20, 10 )->default( 0 );
+			$table->enum( 'currency', [ 'BTC', 'USD' ] );
+			$table->enum( 'in_out', [ 'IN', 'OUT' ] );
+			$table->longText( 'meta_data' )->nullable();
 			$table->timestamps();
 
 			$table->foreign( 'user_id' )->references( 'id' )->on( 'users' )->onDelete( 'cascade' );
@@ -31,6 +34,6 @@ class CreateUserActivationsTable extends Migration
 	public function down()
 	{
 		Schema::disableForeignKeyConstraints();
-		Schema::dropIfExists( 'user_activations' );
+		Schema::dropIfExists( 'user_transactions' );
 	}
 }

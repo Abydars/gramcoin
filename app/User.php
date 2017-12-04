@@ -25,7 +25,10 @@ class User extends Authenticatable
 		'email',
 		'password',
 		'avatar',
-		'activated'
+		'activated',
+		'btc_balance',
+		'guid',
+		'meta_data'
 	];
 
 	/**
@@ -38,25 +41,28 @@ class User extends Authenticatable
 		'remember_token',
 	];
 
-	public function user_goals()
+	protected $appends = [
+		'token_balance'
+	];
+
+	public function getTokenBalanceAttribute()
 	{
-		return $this->hasMany( 'App\UserGoal', 'user_id' )->orderBy( 'season_start_at' );
+		$tokens = 0;
+
+		$this->tokens->each( function ( $token ) use ( &$tokens ) {
+			$tokens += $token->tokens;
+		} );
+
+		return $tokens;
 	}
 
-	public function user_season_goal()
+	public function getMetaDataAttribute( $value )
 	{
-		$current_season = UtilsFacade::currentSeason();
-		$user_goal      = UserGoal::where( [
-			                                   'season_start_at' => $current_season['start_at'],
-			                                   'user_id'         => $this->id
-		                                   ] )->first();
+		if ( ! empty( $value ) ) {
+			return json_decode( $value, true );
+		}
 
-		return $user_goal;
-	}
-
-	public function getNameAttribute()
-	{
-		return "{$this->firstname} {$this->lastname}";
+		return [];
 	}
 
 	public function setActivatedAttribute( $value )
@@ -77,11 +83,19 @@ class User extends Authenticatable
 		return false;
 	}
 
-	public function isSalesManager()
+	public function setMetaDataAttribute( $value )
 	{
-		$user_roles = Config::get( "constants.users.user_roles" );
+		$this->attributes['meta_data'] = json_encode( $value );
+	}
 
-		return $this->attributes['user_role'] == $user_roles['manager'];
+	public function tokens()
+	{
+		return $this->hasMany( 'App\UserToken', 'user_id', 'id' );
+	}
+
+	public function transactions()
+	{
+		return $this->hasMany( 'App\UserTransaction', 'user_id', 'id' );
 	}
 
 	/**

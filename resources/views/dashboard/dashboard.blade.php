@@ -11,8 +11,22 @@
                         <em class="icon-chart fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
-                        <div class="h2 mt0">$0</div>
-                        <div class="text-uppercase">Lipsum</div>
+                        <div class="h2 mt0">{{ $user->btc_balance }}</div>
+                        <div class="text-uppercase">BTC Deposit</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <!-- START widget-->
+            <div class="panel widget bg-warning-light">
+                <div class="row row-table">
+                    <div class="col-xs-4 text-center bg-warning-dark pv-lg">
+                        <em class="fa fa-bitcoin fa-3x"></em>
+                    </div>
+                    <div class="col-xs-8 pv-lg">
+                        <div class="h2 mt0">${{ $btc_value }}</div>
+                        <div class="text-uppercase">BTC Value</div>
                     </div>
                 </div>
             </div>
@@ -25,22 +39,36 @@
                         <em class="icon-tag fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
-                        <div class="h2 mt0">0</div>
-                        <div class="text-uppercase">Lipsum</div>
+                        <div class="h2 mt0">{{ $user->token_balance }}</div>
+                        <div class="text-uppercase">Tokens</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <!-- START widget-->
+            <div class="panel widget bg-green">
+                <div class="row row-table">
+                    <div class="col-xs-4 text-center bg-green-dark pv-lg">
+                        <em class="fa fa-dollar fa-3x"></em>
+                    </div>
+                    <div class="col-xs-8 pv-lg">
+                        <div class="h2 mt0">${{ $token_rate }}</div>
+                        <div class="text-uppercase">Token Rate</div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-12">
             <!-- START widget-->
-            <div class="panel widget bg-green">
+            <div class="panel widget bg-gray">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-green-dark pv-lg">
+                    <div class="col-xs-4 text-center bg-gray-dark pv-lg">
                         <em class="icon-wallet fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
                         <div class="h2 mt0">0</div>
-                        <div class="text-uppercase">Lipsum</div>
+                        <div class="text-uppercase">Gramcoin Wallet</div>
                     </div>
                 </div>
             </div>
@@ -65,6 +93,24 @@
             </div>
             <!-- END date widget    -->
         </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <!-- START widget-->
+            <div class="panel widget bg-gray">
+                <div class="row row-table">
+                    <div class="col-xs-12 pv-lg">
+                        <div class="text-uppercase">Referral Link</div>
+                        <div class="input-group">
+                            <input type="text" readonly value="{{ url('user/referral/' . $user->guid) }}"
+                                   class="form-control" style="height: 44px;"/>
+                            <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" style="height: 44px;"><em
+                                                class="fa fa-files-o"></em></button>
+                                 </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row">
         <!-- START dashboard main content-->
@@ -73,9 +119,9 @@
                 <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <div class="panel-title">Lipsum</div>
+                            <div class="panel-title">Recent Transactions</div>
                         </div>
-                        <div class="panel-body">
+                        <div data-height="238" data-scrollable="" class="list-group">
 
                         </div>
                     </div>

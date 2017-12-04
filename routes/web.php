@@ -14,7 +14,7 @@
 Auth::routes();
 
 Route::get( '/', function () {
-	return view( 'home' );
+	return response()->redirectToRoute( 'login' );
 } );
 
 //Deactivated Controllers
@@ -27,7 +27,13 @@ Route::get( '/dashboard', 'DashboardController@index' );
 
 // User
 Route::get( 'user/data', 'UserController@data' )->name( 'user.data' );
+Route::get( 'user/deposit', 'UserController@deposit' )->name( 'user.deposit.view' );
+Route::post( 'user/deposit', 'UserController@deposit' )->name( 'user.deposit' );
 Route::resource( 'user', 'UserController' );
+
+// Token
+Route::get( 'token/purchase', 'TokenController@purchase' )->name( 'token.purchase.view' );
+Route::post( 'token/purchase', 'TokenController@purchase' )->name( 'token.purchase' );
 
 // Pusher
 Route::get( 'pusher/auth', 'PusherController@auth' )->name( 'pusher.auth' );

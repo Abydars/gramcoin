@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Log;
 use App\Helpers\DashboardHelper;
 use App\Helpers\ElementHelper;
+use App\Helpers\CurrencyHelper;
 use App;
 
 class LaravelLoggerProxy
@@ -53,6 +54,12 @@ class AppServiceProvider extends ServiceProvider
 
 			return $format;
 		} );
+
+		$this->app->singleton( 'currency', function ( $app ) {
+			$currency = new CurrencyHelper();
+
+			return $currency;
+		} );
 	}
 
 	public function provides()
@@ -61,9 +68,11 @@ class AppServiceProvider extends ServiceProvider
 			'element',
 			'dashboard',
 			'format',
+			'currency',
 			'App\Helpers\ElementHelper',
 			'App\Helpers\DashboardHelper',
-			'App\Helpers\FormatHelper'
+			'App\Helpers\FormatHelper',
+			'App\Helpers\CurrencyHelper',
 		];
 	}
 }

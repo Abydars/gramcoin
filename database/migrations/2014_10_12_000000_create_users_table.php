@@ -21,6 +21,8 @@ class CreateUsersTable extends Migration
 			$table->string( 'password' );
 			$table->string( 'api_token', 60 )->unique()->nullable();
 			$table->string( 'activated' )->default( false );
+			$table->float( 'btc_balance', 20, 10 )->default( 0 );
+			$table->string( 'guid' )->nullable();
 			$table->longText( 'meta_data' )->nullable();
 			$table->rememberToken();
 			$table->timestamps();
