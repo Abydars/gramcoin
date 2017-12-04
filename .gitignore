@@ -3,6 +3,7 @@
 /public/storage/
 /public/photos/
 /public/temp/
+/public/error_log
 /vendor/
 /.idea
 /development
