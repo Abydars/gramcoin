@@ -39,4 +39,12 @@ return [
 		'code' => env( 'BLOCKCHAIN_KEY' )
 	],
 
+	'blocktrail' => [
+		'key'         => env( 'BLOCKTRAIL_KEY' ),
+		'secret'      => env( 'BLOCKTRAIL_SECRET' ),
+		'testnet'     => env( 'ENABLE_TESTNET', true ),
+		'currency'    => env( 'BLOCTRAIL_CURRENCY', 'btc' ),
+		'disable_ssl' => env( 'BLOCKTRAIL_DISABLE_SSL', true )
+	]
+
 ];

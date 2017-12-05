@@ -171,7 +171,8 @@ return [
 		Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
 		Intervention\Image\ImageServiceProvider::class,
 		Vinkla\Pusher\PusherServiceProvider::class,
-		App\Providers\BlockChainServiceProvider::class,
+		//App\Providers\BlockChainServiceProvider::class,
+		App\Providers\BlocktrailServiceProvider::class,
 
 		/*
 		 * Application Service Providers...
@@ -244,7 +245,8 @@ return [
 		'Format'       => App\Facades\FormatFacade::class,
 		'Currency'     => App\Facades\CurrencyFacade::class,
 		'Utils'        => App\Facades\UtilsFacade::class,
-		'Blockchain'   => \Blockchain\Blockchain::class
+		//'Blockchain'   => \Blockchain\Blockchain::class
+		'Blocktrail'   => \Blocktrail\SDK\BlocktrailSDK::class
 	],
 
 ];

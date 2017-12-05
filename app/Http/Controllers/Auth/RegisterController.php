@@ -69,10 +69,6 @@ class RegisterController extends Controller
 	 */
 	protected function create( array $data )
 	{
-		//$this->blockchain->Wallet->credentials( env( 'BLOCKCHAIN_KEY' ), env( 'BLOCKCHAIN_PASS' ) );
-		//var_dump($this->blockchain->Create->create('12345678910', 'test@none.net'));
-		//exit;
-
 		return User::create( [
 			                     'full_name' => $data['full_name'],
 			                     'username'  => $data['username'],
