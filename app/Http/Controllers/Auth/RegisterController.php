@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use Blockchain\Blockchain;
-use Blockchain\Create\WalletResponse;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -30,7 +28,6 @@ class RegisterController extends Controller
 	 * @var string
 	 */
 	protected $redirectTo = '/dashboard';
-	private $blockchain;
 
 	/**
 	 * Create a new controller instance.
@@ -38,9 +35,6 @@ class RegisterController extends Controller
 	public function __construct()
 	{
 		$this->middleware( 'guest' );
-
-		$this->blockchain = new Blockchain( env( 'BLOCKCHAIN_KEY' ) );
-		$this->blockchain->setServiceUrl( 'http://localhost:3000' );
 	}
 
 	/**

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\UserToken;
 use Illuminate\Http\Request;
-use Blockchain;
 use Illuminate\Support\Facades\Auth;
 
 class TokenController extends AdminController
