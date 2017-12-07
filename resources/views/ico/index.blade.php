@@ -14,7 +14,7 @@
                 <div class="modal-body">
                     <p>Please confirm, are you sure you want to buy <span class="h3" data-view-tokens></span> tokens
                         for <span class="h3"
-                                      data-view-bitcoins></span> bitcoin(s).</p>
+                                  data-view-bitcoins></span> bitcoin(s).</p>
                     <p>Tokens are non-refundable.</p>
                 </div>
                 <div class="modal-footer">
@@ -59,7 +59,7 @@
                         <em class="fa fa-dollar fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
-                        <div class="h3 mt0 mb0">$9.05</div>
+                        <div class="h3 mt0 mb0">${{ $token_rate }}</div>
                         <div class="text-uppercase">Token Rate</div>
                     </div>
                 </div>
@@ -80,26 +80,38 @@
             </div>
         </div>
     </div>
-    <div class="panel panel-default">
-        <div class="panel-body">
-            {!! Form::open(['route' => ['token.purchase'], 'id' => 'token-purchase-form', 'method' => 'POST', 'data-parsley-validate' => ' ', 'novalidate' => ' ', 'class' => '']) !!}
-            <fieldset>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">How much Bitcoins?</label>
-                    <div class="col-sm-10">
-                        {!! Form::number('bitcoins', $user->btc_balance, ['id' => 'input-bitcoins','class' => 'form-control', 'placeholder' => 'Number of Bitcoins', 'min' => 0]) !!}
+    <div class="row">
+        <div class="col-lg-6 col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">Buy ICO</div>
+                {!! Form::open(['route' => ['token.purchase'], 'id' => 'token-purchase-form', 'method' => 'POST', 'data-parsley-validate' => ' ', 'novalidate' => ' ', 'class' => '']) !!}
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label">BTC Amount</label>
+                        {!! Form::number('btc', ($user->btc_balance > 0 ? $user->btc_balance : ''), ['id' => 'input-btc','class' => 'form-control', 'placeholder' => 'BTC Amount', 'step' => 'any']) !!}
                         <span class="help-block m-b-none">For which you'll buy the tokens.</span>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label"></label>
-                    <div class="col-sm-10">
-                        <span>You'll get <span class="h3" data-view-tokens>0</span> Tokens for <span class="h3"
-                                                                                                         data-view-bitcoins>0</span> bitcoin(s).</span>
+                    <div class="form-group">
+                        <label class="control-label">GC Amount</label>
+                        {!! Form::number('gc', '', ['id' => 'input-gc','class' => 'form-control', 'placeholder' => '', 'step' => 'any']) !!}
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">USD Amount</label>
+                        {!! Form::number('usd', '', ['id' => 'input-usd','class' => 'form-control', 'placeholder' => '', 'readonly', 'disabled', 'step' => 'any']) !!}
                     </div>
                 </div>
-            </fieldset>
-            {!! Form::close() !!}
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-primary">Buy</button>
+                </div>
+                {!! Form::close() !!}
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                </div>
+            </div>
         </div>
     </div>
 @endsection
@@ -108,14 +120,15 @@
 <script>
     jQuery(function ($) {
         var btc_value = {!! $btc_value !!};
-        var token_rate = {!! $token_rate !!};
+        var gc_value = {!! $token_rate !!};
         var is_confirmed = false;
 
-        var $btc_input = $("#input-bitcoins");
+        var $btc_input = $("#input-btc");
+        var $gc_input = $("#input-gc");
         var $token_purchase_form = $("#token-purchase-form");
 
-        $btc_input.each(onBtcInputChange);
-        $btc_input.on("change", onBtcInputChange);
+        $btc_input.on("keyup", onBtcChange);
+        $gc_input.on("keyup", onGcChange);
 
         $token_purchase_form.on("submit", function () {
 
@@ -136,13 +149,22 @@
             $token_purchase_form.submit();
         });
 
-        function onBtcInputChange() {
-            var btc = $(this).val();
-            var dollars = btc * btc_value;
-            var tokens = dollars / token_rate;
+        function onGcChange() {
+            var gc = $(this).val();
+            var gc_in_dollar = gc * gc_value;
+            var gc_in_btc = gc_in_dollar / btc_value;
 
-            $("span[data-view-tokens]").text(tokens);
-            $("span[data-view-bitcoins]").text(btc);
+            $("#input-usd").val(gc_in_dollar);
+            $("#input-btc").val(gc_in_btc);
+        }
+
+        function onBtcChange() {
+            var btc = $(this).val();
+            var btc_in_dollar = btc * btc_value;
+            var btc_in_gc = btc_in_dollar / gc_value;
+
+            $("#input-gc").val(btc_in_gc);
+            $("#input-usd").val(btc_in_dollar);
         }
     });
 </script>

@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use App\UserToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Blocktrail;
+use Currency;
+use Dashboard;
 
 class TokenController extends AdminController
 {
-	public function __construct()
+	public function __construct( Blocktrail $blocktrail )
 	{
 		parent::__construct();
 
-		$this->title = 'Tokens Management';
+		$this->blocktrail = $blocktrail;
 	}
 
 	public function purchase( Request $request )
@@ -21,11 +24,11 @@ class TokenController extends AdminController
 
 		$success    = false;
 		$error      = false;
-		$btc_value  = 8000;
-		$token_rate = 1;
+		$btc_value  = Currency::getBtcValue();
+		$token_rate = Currency::getGcValue();
 
 		if ( $request->isMethod( 'POST' ) ) {
-			$btc = $request->input( 'bitcoins' );
+			$btc = $request->input( 'btc' );
 
 			if ( $user->btc_balance >= $btc ) {
 				$dollars = $btc * $btc_value;
@@ -48,7 +51,9 @@ class TokenController extends AdminController
 			}
 		}
 
-		return view( 'token.purchase', [
+		Dashboard::setTitle( 'ICO Management' );
+
+		return view( 'ico.index', [
 			'user'       => $user,
 			'btc_value'  => $btc_value,
 			'token_rate' => $token_rate,

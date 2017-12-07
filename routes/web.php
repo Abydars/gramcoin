@@ -32,14 +32,15 @@ Route::post( 'user/deposit', 'UserController@deposit' )->name( 'user.deposit' );
 Route::resource( 'user', 'UserController' );
 
 // Token
-Route::get( 'token/purchase', 'TokenController@purchase' )->name( 'token.purchase.view' );
-Route::post( 'token/purchase', 'TokenController@purchase' )->name( 'token.purchase' );
+Route::get( 'ico', 'TokenController@purchase' )->name( 'token.index' );
+Route::post( 'ico', 'TokenController@purchase' )->name( 'token.purchase' );
 
 // Webhook
 Route::get( 'webhook/{wallet}', 'TokenController@purchase' )->name( 'webhook' );
 
 // Wallet
-Route::post( 'wallet/{wallet}', 'WalletController@updateWallet' );
+Route::get( 'wallet', 'WalletController@index' )->name( 'wallet.index' );
+Route::post( 'wallet/withdraw', 'WalletController@withdraw' )->name( 'wallet.withdraw' );
 
 // Pusher
 Route::get( 'pusher/auth', 'PusherController@auth' )->name( 'pusher.auth' );

@@ -28,7 +28,7 @@ $active_navigation = Dashboard::active_navigation();
 		                        ] ); ?>
     </script>
 </head>
-<body class="aside-collapsed"><!--layout-fixed aside-collapsed-texta aside-hover aside-show-scrollbar-->
+<body class=""><!--aside-collapsed layout-fixed aside-collapsed-texta aside-hover aside-show-scrollbar-->
 <div class="wrapper">
 @include ('layouts.nav')
 <!-- Main section-->
