@@ -40,7 +40,7 @@ class DashboardController extends AdminController
 		$user   = Auth::user();
 		$wallet = $user->wallet;
 
-		var_dump($wallet->getBalance());
+		var_dump($wallet->getNewAddress());
 
 		try {
 			$btc_value = $this->blocktrail->price();
