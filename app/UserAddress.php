@@ -8,6 +8,8 @@ class UserAddress extends Model
 {
 	protected $table = 'addresses';
 
+	public $timestamps = false;
+
 	protected $fillable = [
 		'address',
 		'user_id',
