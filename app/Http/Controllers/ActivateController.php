@@ -23,8 +23,6 @@ class ActivateController extends Controller
 			$this->activationService->sendActivationMail( $user );
 
 			return view( 'activate.index' );
-		} elseif ( empty( $user->user_role ) || $user->user_role == 'Unapproved User' ) {
-			return view( 'activate.index' );
 		}
 
 		return redirect( $this->redirectPath );

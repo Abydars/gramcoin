@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\UserWallet;
+use App\Webhook;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -63,11 +65,35 @@ class RegisterController extends Controller
 	 */
 	protected function create( array $data )
 	{
-		return User::create( [
-			                     'full_name' => $data['full_name'],
-			                     'username'  => $data['username'],
-			                     'email'     => $data['email'],
-			                     'password'  => bcrypt( $data['password'] )
-		                     ] );
+		$wallet = UserWallet::create( [
+			                              'identity' => str_random( 40 ),
+			                              'name'     => $data['username'],
+			                              'pass'     => bcrypt( $data['password'] ),
+		                              ] );
+
+		if ( $wallet->id > 0 ) {
+			$user = User::create( [
+				                      'full_name' => $data['full_name'],
+				                      'username'  => $data['username'],
+				                      'email'     => $data['email'],
+				                      'password'  => bcrypt( $data['password'] ),
+				                      'wallet_id' => $wallet->id
+			                      ] );
+
+			if ( $user->id > 0 ) {
+
+				$url = route( 'webhook', [
+					'identity' => $wallet->identity
+				] );
+
+				Webhook::create( [
+					                 'identifier' => $wallet->identity,
+					                 'url'        => $url,
+					                 'wallet_id'  => $wallet->id
+				                 ] );
+			}
+
+			return $user;
+		}
 	}
 }

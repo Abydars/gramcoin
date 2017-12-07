@@ -24,7 +24,7 @@ class BlocktrailServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
-		$this->app->singleton( BlocktrailSDK::class, function ( $app ) {
+		$this->app->singleton( [ 'Blocktrail' => BlocktrailSDK::class ], function ( $app ) {
 			$serviceConfig = $app['config']['services.blocktrail'];
 			$apiKey        = $serviceConfig['key'];
 			$apiSecret     = $serviceConfig['secret'];

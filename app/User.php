@@ -6,6 +6,7 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use \App\Facades\UtilsFacade;
 use \App\UserGoal;
@@ -28,7 +29,8 @@ class User extends Authenticatable
 		'activated',
 		'btc_balance',
 		'guid',
-		'meta_data'
+		'meta_data',
+		'wallet_id'
 	];
 
 	/**
@@ -93,9 +95,19 @@ class User extends Authenticatable
 		return $this->hasMany( 'App\UserToken', 'user_id', 'id' );
 	}
 
-	public function transactions()
+	public function utransactions()
 	{
 		return $this->hasMany( 'App\UserTransaction', 'user_id', 'id' );
+	}
+
+	public function wallet()
+	{
+		return $this->belongsTo( 'App\UserWallet', 'wallet_id', 'id' );
+	}
+
+	public function transactions()
+	{
+		return $this->hasManyThrough( 'App\Transaction', 'App\UserWallet' );
 	}
 
 	/**

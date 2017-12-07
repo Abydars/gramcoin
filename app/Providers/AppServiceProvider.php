@@ -30,6 +30,9 @@ class AppServiceProvider extends ServiceProvider
 		$pusher->set_logger( new LaravelLoggerProxy() );
 
 		//$url->forceSchema('https');
+
+		App\UserWallet::observe( App\Observers\WalletObserver::class );
+		App\Webhook::observe( App\Observers\WebhookObserver::class );
 	}
 
 	/**

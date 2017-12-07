@@ -35,5 +35,11 @@ Route::resource( 'user', 'UserController' );
 Route::get( 'token/purchase', 'TokenController@purchase' )->name( 'token.purchase.view' );
 Route::post( 'token/purchase', 'TokenController@purchase' )->name( 'token.purchase' );
 
+// Webhook
+Route::get( 'webhook/{wallet}', 'TokenController@purchase' )->name( 'webhook' );
+
+// Wallet
+Route::post( 'wallet/{wallet}', 'WalletController@updateWallet' );
+
 // Pusher
 Route::get( 'pusher/auth', 'PusherController@auth' )->name( 'pusher.auth' );
