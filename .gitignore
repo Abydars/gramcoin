@@ -13,6 +13,6 @@
 /.ftpquota
 /error.log
 /error_log
-/.env
+.env
 .DS_Store
 *.zip
