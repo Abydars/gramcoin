@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\UserAddress;
 use App\UserWallet;
 use App\Webhook;
 use Validator;
@@ -81,6 +82,11 @@ class RegisterController extends Controller
 			                      ] );
 
 			if ( $user->id > 0 ) {
+
+				UserAddress::create( [
+					                     'address' => $wallet->getNewAddress(),
+					                     'user_id' => $user->id
+				                     ] );
 
 				$url = route( 'webhook', [
 					'identity' => $wallet->identity

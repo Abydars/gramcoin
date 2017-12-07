@@ -105,6 +105,11 @@ class User extends Authenticatable
 		return $this->belongsTo( 'App\UserWallet', 'wallet_id', 'id' );
 	}
 
+	public function addresses()
+	{
+		return $this->hasMany( 'App\UserAddresses', 'user_id', 'id' );
+	}
+
 	public function transactions()
 	{
 		return $this->hasManyThrough( 'App\Transaction', 'App\UserWallet' );
