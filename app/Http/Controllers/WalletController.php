@@ -81,7 +81,7 @@ class WalletController extends Controller
 		} catch ( \Exception $e ) {
 			return response()->redirectToRoute( 'wallet.index' )
 			                 ->withErrors( [
-				                               'error' => 'Failed to withdraw, Please try again later'//$e->getMessage()
+				                               'error' => $e->getMessage()
 			                               ] )
 			                 ->withInput();
 		}
