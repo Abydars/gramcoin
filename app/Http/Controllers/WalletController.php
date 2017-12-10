@@ -62,7 +62,7 @@ class WalletController extends Controller
 		}
 
 		try {
-			$amount      = floatval( $request->get( 'amount' ) );
+			$amount      = Currency::convertToSatoshi( $request->get( 'amount' ) );
 			$transaction = $wallet->pay( $request->get( 'address' ), $amount );
 
 			$txData = array(
