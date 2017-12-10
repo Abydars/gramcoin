@@ -85,15 +85,23 @@
                 </div>
                 {!! Form::open(['route' => ['wallet.withdraw'], 'id' => 'withdraw-form', 'method' => 'POST', 'data-parsley-validate' => ' ', 'novalidate' => ' ', 'class' => '']) !!}
                 <div class="panel-body">
+                    @if($errors->has('error'))
+                        <div class="alert alert-danger">
+                            {{ $errors->first('error') }}
+                        </div>
+                    @endif
                     <h4>Withdraw from your wallet balance to your BTC wallet</h4>
                     <div class="form-group">
                         <label>Amount to Withdraw</label>
-                        {!! Form::number('amount', false, ['id' => 'input-amount','class' => 'form-control', 'placeholder' => 'Enter BTC amount']) !!}
+                        {!! Form::number('amount', false, ['id' => 'input-amount','class' => 'form-control', 'placeholder' => 'Enter BTC amount', 'required']) !!}
                     </div>
                     <div class="form-group">
                         <label>BTC Address</label>
-                        {!! Form::text('address', false, ['id' => 'input-address','class' => 'form-control', 'placeholder' => 'Enter your address']) !!}
+                        {!! Form::text('address', false, ['id' => 'input-address','class' => 'form-control', 'placeholder' => 'Enter your address', 'required']) !!}
                     </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-primary">Buy</button>
                 </div>
                 {!! Form::close() !!}
             </div>
