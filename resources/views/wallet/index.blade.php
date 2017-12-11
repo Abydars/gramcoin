@@ -93,7 +93,7 @@
                     <h4>Withdraw from your wallet balance to your BTC wallet</h4>
                     <div class="form-group">
                         <label>Amount to Withdraw</label>
-                        {!! Form::number('amount', false, ['id' => 'input-amount','class' => 'form-control', 'placeholder' => 'Enter BTC amount', 'required']) !!}
+                        {!! Form::number('amount', false, ['id' => 'input-amount','class' => 'form-control', 'placeholder' => 'Enter BTC amount', 'required', 'step' =>'any']) !!}
                     </div>
                     <div class="form-group">
                         <label>BTC Address</label>
