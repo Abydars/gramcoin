@@ -23,7 +23,7 @@ class WalletController extends Controller
 
 	public function index()
 	{
-		$user = Auth::user();
+		$user   = Auth::user();
 		$wallet = $user->wallet;
 
 		$gc_value = Currency::getGcValue();
@@ -41,7 +41,7 @@ class WalletController extends Controller
 
 		return view( 'wallet.index', [
 			'user'        => $user,
-			'btc_balance' => $btc_balance,
+			'btc_balance' => number_format( $btc_balance, 8 ),
 			'token_rate'  => $gc_value,
 			'wallet'      => $user->wallet,
 			'address'     => $address,
