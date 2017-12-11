@@ -10,7 +10,7 @@
                         <em class="fa fa-bitcoin fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
-                        <div class="h3 mt0 mb0">{{ $user->btc_balance }}</div>
+                        <div class="h3 mt0 mb0">{{ $btc_balance }}</div>
                         <div class="text-uppercase">BTC Balance</div>
                     </div>
                 </div>

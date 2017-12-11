@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Transaction;
 use App\UserWallet;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Currency;
@@ -23,21 +24,29 @@ class WalletController extends Controller
 	public function index()
 	{
 		$user = Auth::user();
+		$wallet = $user->wallet;
 
 		$gc_value = Currency::getGcValue();
 		$address  = $user->addresses->where( 'is_used', false )->first();
+
+		try {
+			$btc_balance = Currency::convertToBtc( $wallet->getBalance() );
+		} catch ( Exception $e ) {
+			$btc_balance = 0;
+		}
 
 		if ( $address ) {
 			$address = $address->address;
 		}
 
 		return view( 'wallet.index', [
-			'user'       => $user,
-			'token_rate' => $gc_value,
-			'wallet'     => $user->wallet,
-			'address'    => $address,
-			'bonus'      => 5,
-			'referrals'  => 10
+			'user'        => $user,
+			'btc_balance' => $btc_balance,
+			'token_rate'  => $gc_value,
+			'wallet'      => $user->wallet,
+			'address'     => $address,
+			'bonus'       => 5,
+			'referrals'   => 10
 		] );
 	}
 
