@@ -91,7 +91,7 @@ class RegisterController extends Controller
 					                     'user_id' => $user->id
 				                     ] );
 
-				if ( ! empty( $data['reference_id'] ) ) {
+				if ( ! empty( $data['reference'] ) ) {
 					Referral::assignReference( $user->id, $data['reference'] );
 				}
 
