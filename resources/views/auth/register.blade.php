@@ -12,6 +12,11 @@
             </div>
             <div class="panel-body">
                 <p class="text-center pv">SIGNUP TO GET INSTANT ACCESS.</p>
+                @if(isset($guid) && isset($exists) && ! $exists)
+                    <div class="alert alert-danger">
+                        Reference not found
+                    </div>
+                @endif
                 {!! Form::open(['url'=>['register'], 'role'=>'form', 'method'=>'POST', 'data-parsley-validate'=>' ', 'novalidate'=>' ', 'class'=>'mb-lg']) !!}
                 {{ csrf_field() }}
                 <div class="form-group has-feedback{{ $errors->has('full_name') ? ' has-error' : '' }}">
@@ -67,6 +72,9 @@
                         </label>
                     </div>
                 </div>
+                @if(isset($guid) && isset($exists) && $exists)
+                    {!! Form::hidden('reference', $guid) !!}
+                @endif
                 <button type="submit" class="btn btn-block btn-primary mt-lg">Create account</button>
                 {!! Form::close() !!}
                 <p class="pt-lg text-center">Have an account?</p><a href="{{ url('/login') }}"

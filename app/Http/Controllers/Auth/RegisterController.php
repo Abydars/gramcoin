@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\UserAddress;
+use App\UserReferral;
 use App\UserWallet;
 use App\Webhook;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Referral;
 
 class RegisterController extends Controller
 {
@@ -78,7 +80,8 @@ class RegisterController extends Controller
 				                      'username'  => $data['username'],
 				                      'email'     => $data['email'],
 				                      'password'  => bcrypt( $data['password'] ),
-				                      'wallet_id' => $wallet->id
+				                      'wallet_id' => $wallet->id,
+				                      'guid'      => Referral::generate_guid()
 			                      ] );
 
 			if ( $user->id > 0 ) {
@@ -87,6 +90,10 @@ class RegisterController extends Controller
 					                     'address' => $wallet->getNewAddress(),
 					                     'user_id' => $user->id
 				                     ] );
+
+				if ( ! empty( $data['reference_id'] ) ) {
+					Referral::assignReference( $user->id, $data['reference'] );
+				}
 
 				$url = route( 'webhook', [
 					'identity' => $wallet->identity
@@ -101,5 +108,15 @@ class RegisterController extends Controller
 
 			return $user;
 		}
+	}
+
+	public function referral( $guid )
+	{
+		$reference = User::where( 'guid', $guid );
+
+		return view( 'auth.register', [
+			'guid'   => $guid,
+			'exists' => $reference->exists()
+		] );
 	}
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Facades\FormatFacade;
 use App\UserTransaction;
 use Blocktrail;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -37,12 +38,20 @@ class DashboardController extends AdminController
 	public function index()
 	{
 		$user = Auth::user();
+		$wallet = $user->wallet;
 
 		$btc_value = Currency::getBtcValue();
 		$gc_value  = Currency::getGcValue();
 
+		try {
+			$btc_balance = $wallet->getBalance();
+		} catch (Exception $e) {
+			$btc_balance = 0;
+		}
+
 		return view( 'dashboard.dashboard', [
 			'user'       => $user,
+			'btc_balance' => $btc_balance,
 			'token_rate' => number_format( $gc_value, 2 ),
 			'btc_value'  => number_format( $btc_value, 2 )
 		] );

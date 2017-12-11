@@ -17,6 +17,8 @@ Route::get( '/', function () {
 	return response()->redirectToRoute( 'login' );
 } );
 
+Route::get( 'refer/{guid}', 'Auth\RegisterController@referral' )->name( 'register.referral' );
+
 //Deactivated Controllers
 Route::get( 'activate', 'ActivateController@index' )->name( 'activate.index' );
 Route::get( 'activate/send', 'ActivateController@send' )->name( 'activate.send' );

@@ -241,11 +241,9 @@ return [
 		// App
 		'Element'      => App\Facades\ElementFacade::class,
 		'Dashboard'    => App\Facades\DashboardFacade::class,
-		'Option'       => App\Facades\OptionFacade::class,
 		'Format'       => App\Facades\FormatFacade::class,
 		'Currency'     => App\Facades\CurrencyFacade::class,
-		'Utils'        => App\Facades\UtilsFacade::class,
-		//'Blockchain'   => \Blockchain\Blockchain::class
+		'Referral'     => App\Facades\ReferralFacade::class,
 		'Blocktrail'   => \Blocktrail\SDK\BlocktrailSDK::class
 	],
 

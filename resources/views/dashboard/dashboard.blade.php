@@ -11,7 +11,7 @@
                         <em class="icon-chart fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
-                        <div class="h2 mt0">{{ $user->btc_balance }}</div>
+                        <div class="h2 mt0">{{ $btc_balance }}</div>
                         <div class="text-uppercase">BTC Deposit</div>
                     </div>
                 </div>
@@ -100,7 +100,7 @@
                     <div class="col-xs-12 pv-lg">
                         <div class="text-uppercase">Referral Link</div>
                         <div class="input-group">
-                            <input type="text" readonly value="{{ url('user/referral/' . $user->guid) }}"
+                            <input type="text" readonly value="{{ route('register.referral', $user->guid) }}"
                                    class="form-control" style="height: 44px;"/>
                             <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" style="height: 44px;"><em

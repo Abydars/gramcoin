@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Helpers\FormatHelper;
+use App\Helpers\ReferralHelper;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Log;
@@ -63,6 +64,12 @@ class AppServiceProvider extends ServiceProvider
 
 			return $currency;
 		} );
+
+		$this->app->singleton( 'referral', function ( $app ) {
+			$referral = new ReferralHelper();
+
+			return $referral;
+		} );
 	}
 
 	public function provides()
@@ -76,6 +83,7 @@ class AppServiceProvider extends ServiceProvider
 			'App\Helpers\DashboardHelper',
 			'App\Helpers\FormatHelper',
 			'App\Helpers\CurrencyHelper',
+			'App\Helpers\ReferralHelper',
 		];
 	}
 }
