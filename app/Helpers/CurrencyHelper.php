@@ -13,6 +13,11 @@ class CurrencyHelper
 		return $btc * 100000000;
 	}
 
+	public function convertToBtc( $satoshi )
+	{
+		return $satoshi / 100000000;
+	}
+
 	public function getGcValue( $currency = 'USD' )
 	{
 		$usd = 0.5;

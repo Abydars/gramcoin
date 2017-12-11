@@ -66,6 +66,8 @@ class UserWallet extends Model
 			$this->initLiveWallet();
 		}
 		list( $this->balance, $this->unc_balance ) = $this->liveWallet->getBalance();
+
+		return $this->balance;
 	}
 
 	public function getNewAddress()
