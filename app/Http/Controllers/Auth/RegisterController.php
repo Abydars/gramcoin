@@ -81,7 +81,7 @@ class RegisterController extends Controller
 				                      'email'     => $data['email'],
 				                      'password'  => bcrypt( $data['password'] ),
 				                      'wallet_id' => $wallet->id,
-				                      'guid'      => Referral::generate_guid()
+				                      'guid'      => Referral::generateGuid()
 			                      ] );
 
 			if ( $user->id > 0 ) {
