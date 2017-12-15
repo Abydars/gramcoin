@@ -13,7 +13,6 @@
                     <th style="text-align: left;">Amount</th>
                     <th style="text-align: left;">Confirmations</th>
                     <th style="text-align: left;">Status</th>
-                    <th style="text-align: left;">In/Out</th>
                 </tr>
                 </thead>
             </table>
@@ -66,7 +65,8 @@
                 {
                     name: 'status',
                     data: 'status'
-                },
+                }
+                /*,
                 {
                     name: 'direction',
                     data: function (row) {
@@ -77,6 +77,7 @@
                         }
                     }
                 }
+                */
             ],
             dom: '<"html5buttons"B <"ml pull-right"C>>lTfgitp',
             colVis: {
