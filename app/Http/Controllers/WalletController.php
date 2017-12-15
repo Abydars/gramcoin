@@ -12,7 +12,7 @@ use Currency;
 use Validator;
 use Blocktrail;
 
-class WalletController extends Controller
+class WalletController extends AdminController
 {
 	private $blocktrail;
 

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\Datatables\Datatables;
 use Dashboard;
 
-class TransactionController extends Controller
+class TransactionController extends AdminController
 {
 	public function index()
 	{
@@ -27,10 +27,5 @@ class TransactionController extends Controller
 		$wallet = $user->wallet;
 
 		return Datatables::of( Transaction::where( 'wallet_id', $wallet->id ) )->make( true );
-	}
-
-	public function createTransaction( $id, Request $request )
-	{
-		file_put_contents( public_path() . '/webhook.txt', json_encode( $request->all() ) );
 	}
 }
