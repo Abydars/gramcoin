@@ -19,7 +19,8 @@ class WebhookController extends Controller
 		switch ( $event_type ) {
 			case "address-transactions":
 				$transaction = Transaction::firstOrCreate( [
-					                                           'tx_hash'       => $data['hash'],
+					                                           'tx_hash' => $data['hash'],
+				                                           ], [
 					                                           'recipient'     => $data['outputs'][0]['address'],
 					                                           'direction'     => 'received',
 					                                           'amount'        => Currency::convertToBtc( $data['estimated_value'] ),
