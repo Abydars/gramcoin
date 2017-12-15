@@ -17,38 +17,46 @@ class WebhookController extends Controller
 		$data       = $request->get( 'data' );
 		$wallet     = UserWallet::where( 'identity', $identifier )->first();
 
-		switch ( $event_type ) {
-			case "address-transactions":
+		if ( $wallet ) {
+			$user = $wallet->user;
 
-				$confirmed = $data['confirmations'] > 0;
+			switch ( $event_type ) {
+				case "address-transactions":
 
-				$txData = [
-					'tx_hash'       => $data['hash'],
-					'recipient'     => $data['outputs'][0]['address'],
-					'direction'     => 'received',
-					'amount'        => $data['outputs'][0]['value'],
-					'confirmations' => $data['confirmations'],
-					'status'        => $confirmed ? 'confirmed' : 'unconfirmed',
-					'wallet_id'     => $wallet->id,
-					'tx_time'       => Carbon::now()->toDateTimeString()
-				];
+					$confirmed = $data['confirmations'] > 0;
+					$amount    = $data['outputs'][0]['value'];
 
-				file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( $data ) );
+					$txData = [
+						'tx_hash'       => $data['hash'],
+						'recipient'     => $data['outputs'][0]['address'],
+						'direction'     => 'received',
+						'amount'        => $amount,
+						'confirmations' => $data['confirmations'],
+						'status'        => $confirmed ? 'confirmed' : 'unconfirmed',
+						'wallet_id'     => $wallet->id,
+						'tx_time'       => Carbon::now()->toDateTimeString()
+					];
 
-				$transaction = Transaction::updateOrCreate( [ 'tx_hash' => $data['hash'] ], $txData );
+					//file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( $data ) );
 
-				if ( $transaction->id > 0 ) {
-					return response()->json( [
-						                         'code'    => 200,
-						                         'message' => 'Transaction ID: ' . $transaction->id
-					                         ] );
-				} else {
-					return response()->json( [
-						                         'code'    => 400,
-						                         'message' => 'Failed to create transaction'
-					                         ] );
-				}
-				break;
+					$transaction = Transaction::updateOrCreate( [ 'tx_hash' => $data['hash'] ], $txData );
+
+					if ( $transaction->id > 0 ) {
+						$user->btc_balance += $amount;
+						$user->save();
+
+						return response()->json( [
+							                         'code'    => 200,
+							                         'message' => 'Transaction ID: ' . $transaction->id
+						                         ] );
+					} else {
+						return response()->json( [
+							                         'code'    => 400,
+							                         'message' => 'Failed to create transaction'
+						                         ] );
+					}
+					break;
+			}
 		}
 	}
 }

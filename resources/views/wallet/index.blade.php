@@ -1,5 +1,9 @@
 @extends('layouts.admin')
 
+@section('top')
+    <a href="{{ route('wallet.transactions') }}" class="btn btn-primary">Transactions</a>
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-lg-3 col-sm-6">
@@ -101,7 +105,7 @@
                     </div>
                 </div>
                 <div class="panel-footer">
-                    <button type="submit" class="btn btn-primary">Buy</button>
+                    <button type="submit" class="btn btn-primary">Request Withdrawal</button>
                 </div>
                 {!! Form::close() !!}
             </div>

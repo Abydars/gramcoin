@@ -28,4 +28,17 @@ class TransactionController extends AdminController
 
 		return Datatables::of( Transaction::where( 'wallet_id', $wallet->id ) )->make( true );
 	}
+
+	public function show( $id )
+	{
+		$transaction = Transaction::find( $id );
+
+		if ( $transaction && false == true ) {
+			return view( 'transaction.show', [
+				'transaction' => $transaction
+			] );
+		}
+
+		return response()->redirectToRoute( 'wallet.transactions' );
+	}
 }

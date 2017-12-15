@@ -37,7 +37,7 @@
                     var row = settings.aoData[iPos]._aData;
 
                     if ($(e.target).is('td'))
-                        document.location.href = '{{ url("wallet/transaction/")}}/' + row.id;
+                        document.location.href = '{{ url("wallet/transactions/")}}/' + row.id;
                 });
             },
             columns: [

@@ -8,8 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
-use \App\Facades\UtilsFacade;
-use \App\UserGoal;
+use Currency;
 
 class User extends Authenticatable
 {
@@ -44,8 +43,19 @@ class User extends Authenticatable
 	];
 
 	protected $appends = [
-		'token_balance'
+		'token_balance',
+		'btc_balance_in_btc'
 	];
+
+	public function getBtcBalanceInBtcAttribute()
+	{
+		return Currency::convertToBtc( $this->btc_balance );
+	}
+
+	public function setBtcBalanceInBtcAttribute( $value )
+	{
+		$this->attributes['btc_balance'] = Currency::convertToSatoshi( $value );
+	}
 
 	public function getTokenBalanceAttribute()
 	{

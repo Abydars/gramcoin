@@ -27,7 +27,8 @@ class UserWallet extends Model
 
 	public function user()
 	{
-		return $this->belongsTo( 'App\User' );
+		return $this->hasOne('App\User', 'wallet_id', 'id');
+		//return $this->belongsTo( 'App\User' );
 	}
 
 	public function webhook()

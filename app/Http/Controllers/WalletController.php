@@ -81,12 +81,21 @@ class WalletController extends AdminController
 				'direction'     => "sent",
 				'amount'        => $amount,
 				'confirmations' => 0,
+				'status'        => 'unconfirmed',
 				'wallet_id'     => $wallet->id,
 			);
 
-			Transaction::firstOrCreate( $txData );
+			$transaction = Transaction::firstOrCreate( $txData );
 
-			return response()->redirectToRoute( 'wallet.index' );
+			if ( $transaction->id > 0 ) {
+				return response()->redirectToRoute( 'wallet.transactions.show', [ $transaction->id ] );
+			} else {
+				return response()->redirectToRoute( 'wallet.index' )
+				                 ->withErrors( [
+					                               'error' => 'Failed to create transaction'
+				                               ] )
+				                 ->withInput();
+			}
 		} catch ( \Exception $e ) {
 			return response()->redirectToRoute( 'wallet.index' )
 			                 ->withErrors( [

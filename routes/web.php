@@ -41,6 +41,7 @@ Route::post( 'ico', 'TokenController@purchase' )->name( 'token.purchase' );
 Route::get( 'wallet', 'WalletController@index' )->name( 'wallet.index' );
 Route::get( 'wallet/transactions', 'TransactionController@index' )->name( 'wallet.transactions' );
 Route::get( 'wallet/transactions/data', 'TransactionController@data' )->name( 'wallet.transactions.data' );
+Route::get( 'wallet/transactions/{transaction}', 'TransactionController@show' )->name( 'wallet.transactions.show' );
 Route::post( 'wallet/withdraw', 'WalletController@withdraw' )->name( 'wallet.withdraw' );
 
 // Pusher

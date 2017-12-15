@@ -49,6 +49,8 @@ class DashboardController extends AdminController
 			$btc_balance = 0;
 		}
 
+		$btc_balance = $user->btc_balance_in_btc;
+
 		return view( 'dashboard.dashboard', [
 			'user'        => $user,
 			'btc_balance' => number_format( $btc_balance, 8 ),
