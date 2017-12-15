@@ -12,6 +12,7 @@
                     <th style="text-align: left;">Recipient</th>
                     <th style="text-align: left;">Amount</th>
                     <th style="text-align: left;">Confirmations</th>
+                    <th style="text-align: left;">Status</th>
                     <th style="text-align: left;">In/Out</th>
                 </tr>
                 </thead>
@@ -63,9 +64,13 @@
                     data: 'confirmations'
                 },
                 {
+                    name: 'status',
+                    data: 'status'
+                },
+                {
                     name: 'direction',
-                    data: function(row) {
-                        if(row.direction == 'sent') {
+                    data: function (row) {
+                        if (row.direction == 'sent') {
                             return '<em class="icon icon-arrow-up-circle text-green"></em>';
                         } else {
                             return '<em class="icon icon-arrow-down-circle text-primary"></em>';
