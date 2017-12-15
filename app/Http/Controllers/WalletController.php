@@ -79,7 +79,7 @@ class WalletController extends AdminController
 				'tx_time'       => Carbon::now(),
 				'recipient'     => $request->get( 'address' ),
 				'direction'     => "sent",
-				'amount'        => $amount,
+				'amount'        => $request->get( 'amount' ),
 				'confirmations' => 0,
 				'wallet_id'     => $wallet->id,
 			);
