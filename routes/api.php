@@ -14,4 +14,4 @@ use Illuminate\Http\Request;
 */
 
 // Webhook
-Route::post( 'webhook/{wallet}', 'WebhookController@transactionEvent' );
+Route::post( 'webhook/{wallet}', 'WebhookController@transactionEvent' )->name('webhook.transaction');
