@@ -23,6 +23,10 @@ class WebhookController extends Controller
 			switch ( $event_type ) {
 				case "address-transactions":
 
+					$transaction   = Transaction::where( 'tx_hash', $data['hash'] );
+					$was_confirmed = $transaction->status == 'confirmed';
+					$is_received   = true;
+
 					$confirmed = $data['confirmations'] > 0;
 					$amount    = $data['outputs'][0]['value'];
 
@@ -43,7 +47,7 @@ class WebhookController extends Controller
 
 					if ( $transaction->id > 0 ) {
 
-						if($confirmed) {
+						if ( $is_received && $confirmed && ! $was_confirmed ) {
 							$user->btc_balance += $amount;
 							$user->save();
 						}
