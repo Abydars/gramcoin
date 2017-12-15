@@ -20,14 +20,13 @@ class WebhookController extends Controller
 		switch ( $event_type ) {
 			case "address-transactions":
 
-				$confirmed    = $data['inputs'][0]['output_confirmed'];
-				$output_index = $data['inputs'][0]['output_index'];
+				$confirmed = $data['confirmations'] > 0;
 
 				$txData = [
 					'tx_hash'       => $data['hash'],
-					'recipient'     => $data['outputs'][ $output_index ]['address'],
+					'recipient'     => $data['outputs'][0]['address'],
 					'direction'     => 'received',
-					'amount'        => $data['outputs'][ $output_index ]['value'],
+					'amount'        => $data['outputs'][0]['value'],
 					'confirmations' => $data['confirmations'],
 					'status'        => $confirmed ? 'confirmed' : 'unconfirmed',
 					'wallet_id'     => $wallet->id,
