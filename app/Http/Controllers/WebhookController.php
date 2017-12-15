@@ -21,6 +21,7 @@ class WebhookController extends Controller
 			case "address-transactions":
 
 				$txData = [
+					'tx_hash'       => $data['hash'],
 					'recipient'     => $data['outputs'][0]['address'],
 					'direction'     => 'received',
 					'amount'        => $data['estimated_value'],
@@ -31,7 +32,7 @@ class WebhookController extends Controller
 
 				//file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( $txData ) );
 
-				$transaction = Transaction::firstOrCreate( [ 'tx_hash' => $data['hash'] ], $txData );
+				$transaction = Transaction::firstOrCreate( $txData, [ 'tx_hash' => $data['hash'] ] );
 
 				if ( $transaction->id > 0 ) {
 					return response()->json( [
