@@ -20,12 +20,16 @@ class WebhookController extends Controller
 		switch ( $event_type ) {
 			case "address-transactions":
 
+				$confirmed    = $data['inputs'][0]['output_confirmed'];
+				$output_index = $data['inputs'][0]['output_index'];
+
 				$txData = [
 					'tx_hash'       => $data['hash'],
-					'recipient'     => $data['outputs'][0]['address'],
+					'recipient'     => $data['outputs'][ $output_index ]['address'],
 					'direction'     => 'received',
-					'amount'        => $data['outputs'][0]['value'],
+					'amount'        => $data['outputs'][ $output_index ]['value'],
 					'confirmations' => $data['confirmations'],
+					'status'        => $confirmed ? 'confirmed' : 'unconfirmed',
 					'wallet_id'     => $wallet->id,
 					'tx_time'       => Carbon::now()->toDateTimeString()
 				];

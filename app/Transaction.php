@@ -17,6 +17,7 @@ class Transaction extends Model
 		'confirmations',
 		'wallet_id',
 		'tx_time',
+		'status'
 	];
 
 	protected $appends = [
