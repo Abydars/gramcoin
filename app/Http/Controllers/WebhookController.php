@@ -24,7 +24,7 @@ class WebhookController extends Controller
 					'tx_hash'       => $data['hash'],
 					'recipient'     => $data['outputs'][0]['address'],
 					'direction'     => 'received',
-					'amount'        => $data['estimated_value'],
+					'amount'        => $data['outputs'][0]['value'],
 					'confirmations' => $data['confirmations'],
 					'wallet_id'     => $wallet->id,
 					'tx_time'       => Carbon::now()->toDateTimeString()
