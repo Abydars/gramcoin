@@ -32,7 +32,7 @@ class WebhookController extends Controller
 
 				//file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( $txData ) );
 
-				$transaction = Transaction::firstOrCreate( $txData, [ 'tx_hash' => $data['hash'] ] );
+				$transaction = Transaction::updateOrCreate( [ 'tx_hash' => $data['hash'] ], $txData );
 
 				if ( $transaction->id > 0 ) {
 					return response()->json( [
