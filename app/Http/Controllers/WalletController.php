@@ -102,7 +102,7 @@ class WalletController extends AdminController
 			} catch ( Exception $e ) {
 				return $response->redirectToRoute( 'wallet.index' )
 				                ->withErrors( [
-					                              'error' => 'Failed to request withdrawal, Please try again later'
+					                              'error' => 'Failed to request withdrawal (' . $e->getMessage() . '), Please try again later'
 				                              ] )
 				                ->withInput();
 			}
