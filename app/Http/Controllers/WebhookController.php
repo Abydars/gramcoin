@@ -17,6 +17,8 @@ class WebhookController extends Controller
 		$data       = $request->get( 'data' );
 		$wallet     = UserWallet::where( 'identifier', $identifier );
 
+		file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( $data ) );
+
 		if ( $wallet->exists() ) {
 			$wallet = $wallet->first();
 		}
@@ -32,8 +34,6 @@ class WebhookController extends Controller
 					'wallet_id'     => $wallet->id,
 					'tx_time'       => Carbon::now()
 				];
-
-				file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '-' . $data['confirmations'] . '.txt', json_encode( $txData ) );
 
 				$transaction = Transaction::firstOrCreate( [ 'tx_hash' => $data['hash'] ], $txData );
 
