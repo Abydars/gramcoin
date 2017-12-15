@@ -21,8 +21,7 @@ class TokenController extends AdminController
 
 	public function purchase( Request $request )
 	{
-		$user   = Auth::user();
-		$wallet = $user->wallet;
+		$user = Auth::user();
 
 		$success    = false;
 		$error      = false;
@@ -32,17 +31,13 @@ class TokenController extends AdminController
 		if ( $request->isMethod( 'POST' ) ) {
 			$btc = $request->input( 'btc' );
 
-			if ( $user->btc_balance >= $btc ) {
+			$btc_in_satoshi = Currency::convertToSatoshi( $btc );
+
+			if ( $user->btc_balance >= $btc_in_satoshi ) {
 				$dollars = $btc * $btc_value;
-				$amount  = Currency::convertToSatoshi( $btc );
 				$tokens  = round( $dollars / $token_rate );
 
-				$transaction = $wallet->pay( Option::getAdminWalletAddress(), $amount );
-				$transaction = $this->blocktrail->transaction( $transaction );
-				var_dump( $transaction );
-				exit;
-
-				$user->btc_balance -= $btc;
+				$user->btc_balance -= $btc_in_satoshi;
 				$created           = UserToken::create( [
 					                                        'user_id'       => $user->id,
 					                                        'tokens'        => $tokens,

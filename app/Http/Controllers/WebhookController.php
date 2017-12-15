@@ -24,7 +24,7 @@ class WebhookController extends Controller
 				case "address-transactions":
 
 					$transaction   = Transaction::where( 'tx_hash', $data['hash'] );
-					$was_confirmed = $transaction->status == 'confirmed';
+					$was_confirmed = $transaction->exists() && $transaction->first()->status == 'confirmed';
 					$is_received   = true;
 
 					$confirmed = $data['confirmations'] > 0;
