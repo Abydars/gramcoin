@@ -37,9 +37,6 @@ Route::resource( 'user', 'UserController' );
 Route::get( 'ico', 'TokenController@purchase' )->name( 'token.index' );
 Route::post( 'ico', 'TokenController@purchase' )->name( 'token.purchase' );
 
-// Webhook
-Route::post( 'webhook/{wallet}', 'WebhookController@transactionEvent' )->name( 'webhook.transaction' );
-
 // Wallet
 Route::get( 'wallet', 'WalletController@index' )->name( 'wallet.index' );
 Route::get( 'wallet/transactions', 'TransactionController@index' )->name( 'wallet.transactions' );
