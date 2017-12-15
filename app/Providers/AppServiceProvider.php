@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use App\Helpers\DashboardHelper;
 use App\Helpers\ElementHelper;
 use App\Helpers\CurrencyHelper;
+use App\Helpers\OptionsHelper;
 use App;
 
 class LaravelLoggerProxy
@@ -70,6 +71,12 @@ class AppServiceProvider extends ServiceProvider
 
 			return $referral;
 		} );
+
+		$this->app->singleton( 'option', function ( $app ) {
+			$options = new OptionsHelper();
+
+			return $options;
+		} );
 	}
 
 	public function provides()
@@ -84,6 +91,7 @@ class AppServiceProvider extends ServiceProvider
 			'App\Helpers\FormatHelper',
 			'App\Helpers\CurrencyHelper',
 			'App\Helpers\ReferralHelper',
+			'App\Helpers\OptionHelper',
 		];
 	}
 }

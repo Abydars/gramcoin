@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Blocktrail;
 use Currency;
 use Dashboard;
+use Option;
 
 class TokenController extends AdminController
 {
@@ -20,7 +21,8 @@ class TokenController extends AdminController
 
 	public function purchase( Request $request )
 	{
-		$user = Auth::user();
+		$user   = Auth::user();
+		$wallet = $user->wallet;
 
 		$success    = false;
 		$error      = false;
@@ -32,7 +34,13 @@ class TokenController extends AdminController
 
 			if ( $user->btc_balance >= $btc ) {
 				$dollars = $btc * $btc_value;
+				$amount  = Currency::convertToSatoshi( $btc );
 				$tokens  = round( $dollars / $token_rate );
+
+				$transaction = $wallet->pay( Option::getAdminWalletAddress(), $amount );
+				$transaction = $this->blocktrail->transaction( $transaction );
+				var_dump( $transaction );
+				exit;
 
 				$user->btc_balance -= $btc;
 				$created           = UserToken::create( [

@@ -244,7 +244,8 @@ return [
 		'Format'       => App\Facades\FormatFacade::class,
 		'Currency'     => App\Facades\CurrencyFacade::class,
 		'Referral'     => App\Facades\ReferralFacade::class,
-		'Blocktrail'   => \Blocktrail\SDK\BlocktrailSDK::class
+		'Blocktrail'   => \Blocktrail\SDK\BlocktrailSDK::class,
+		'Option'       => App\Facades\OptionsFacade::class
 	],
 
 ];
