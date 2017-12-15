@@ -95,8 +95,8 @@ class RegisterController extends Controller
 					Referral::assignReference( $user->id, $data['reference'] );
 				}
 
-				$url = route( 'webhook', [
-					'identity' => $wallet->identity
+				$url = route( 'webhook.transaction.notification', [
+					'wallet' => $wallet->identity
 				] );
 
 				Webhook::create( [

@@ -38,10 +38,12 @@ Route::get( 'ico', 'TokenController@purchase' )->name( 'token.index' );
 Route::post( 'ico', 'TokenController@purchase' )->name( 'token.purchase' );
 
 // Webhook
-Route::get( 'webhook/{wallet}', 'TokenController@purchase' )->name( 'webhook' );
+Route::post( 'webhook/{wallet}', 'TransactionController@createTransaction' )->name( 'webhook.transaction.notification' );
 
 // Wallet
 Route::get( 'wallet', 'WalletController@index' )->name( 'wallet.index' );
+Route::get( 'wallet/transactions', 'TransactionController@index' )->name( 'wallet.transactions' );
+Route::get( 'wallet/transactions/data', 'TransactionController@data' )->name( 'wallet.transactions.data' );
 Route::post( 'wallet/withdraw', 'WalletController@withdraw' )->name( 'wallet.withdraw' );
 
 // Pusher
