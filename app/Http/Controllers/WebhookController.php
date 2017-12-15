@@ -30,7 +30,7 @@ class WebhookController extends Controller
 					'tx_time'       => Carbon::now()->toDateTimeString()
 				];
 
-				//file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( $txData ) );
+				file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( $data ) );
 
 				$transaction = Transaction::updateOrCreate( [ 'tx_hash' => $data['hash'] ], $txData );
 
