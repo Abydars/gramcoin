@@ -42,8 +42,11 @@ class WebhookController extends Controller
 					$transaction = Transaction::updateOrCreate( [ 'tx_hash' => $data['hash'] ], $txData );
 
 					if ( $transaction->id > 0 ) {
-						$user->btc_balance += $amount;
-						$user->save();
+
+						if($confirmed) {
+							$user->btc_balance += $amount;
+							$user->save();
+						}
 
 						return response()->json( [
 							                         'code'    => 200,
