@@ -17,12 +17,27 @@ class WebhookController extends Controller
 		$data       = $request->get( 'data' );
 		$wallet     = UserWallet::where( 'identifier', $identifier );
 
-		file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( $data ) );
-
 		if ( $wallet->exists() ) {
 			$wallet = $wallet->first();
+		} else {
+			$wallet = false;
 		}
 
+		$txData = [
+			'recipient'     => $data['outputs'][0]['address'],
+			'direction'     => 'received',
+			'amount'        => $data['estimated_value'],
+			'confirmations' => $data['confirmations'],
+			'wallet_id'     => $wallet->id,
+			'tx_time'       => Carbon::now()
+		];
+
+		file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( [
+			                                                                                      $data,
+			                                                                                      $txData,
+			                                                                                      $wallet
+		                                                                                      ] ) );
+		return;
 		switch ( $event_type ) {
 			case "address-transactions":
 
