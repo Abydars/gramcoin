@@ -23,16 +23,20 @@ class WebhookController extends Controller
 
 		switch ( $event_type ) {
 			case "address-transactions":
-				$transaction = Transaction::firstOrCreate( [
-					                                           'tx_hash' => $data['hash'],
-				                                           ], [
-					                                           'recipient'     => $data['outputs'][0]['address'],
-					                                           'direction'     => 'received',
-					                                           'amount'        => $data['estimated_value'],
-					                                           'confirmations' => $data['confirmations'],
-					                                           'wallet_id'     => $wallet->id,
-					                                           'tx_time'       => Carbon::now()
-				                                           ] );
+
+				$txData = [
+					'recipient'     => $data['outputs'][0]['address'],
+					'direction'     => 'received',
+					'amount'        => $data['estimated_value'],
+					'confirmations' => $data['confirmations'],
+					'wallet_id'     => $wallet->id,
+					'tx_time'       => Carbon::now()
+				];
+
+				file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '-' . $data['confirmations'] . '.txt', json_encode( $txData ) );
+
+				$transaction = Transaction::firstOrCreate( [ 'tx_hash' => $data['hash'] ], $txData );
+
 				if ( $transaction->id > 0 ) {
 					return response()->json( [
 						                         'code'    => 200,
