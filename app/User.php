@@ -29,7 +29,8 @@ class User extends Authenticatable
 		'btc_balance',
 		'guid',
 		'meta_data',
-		'wallet_id'
+		'wallet_id',
+		'role'
 	];
 
 	/**

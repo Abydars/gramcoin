@@ -11,8 +11,8 @@
                     <th style="text-align: left;">TX #</th>
                     <th style="text-align: left;">Recipient</th>
                     <th style="text-align: left;">Amount</th>
-                    <th style="text-align: left;">Confirmations</th>
                     <th style="text-align: left;">Status</th>
+                    <th style="text-align: left;">In/Out</th>
                 </tr>
                 </thead>
             </table>
@@ -42,32 +42,33 @@
             },
             columns: [
                 {
+                    bSortable: false,
                     name: 'tx_hash',
                     data: function (row) {
                         return row.tx_hash;
                     }
                 },
                 {
+                    bSortable: false,
                     name: 'recipient',
                     data: 'recipient'
                 },
                 {
-                    name: 'amount',
+                    name: 'amount_in_btc',
                     data: function (row) {
-                        return '$' + Math.round(row.amount);
+                        return row.amount_in_btc + ' BTC';
                     },
                     className: 'text-right',
                 },
                 {
-                    name: 'confirmations',
-                    data: 'confirmations'
+                    bSortable: false,
+                    name: 'status',
+                    data: function(row) {
+                        return row.status;
+                    }
                 },
                 {
-                    name: 'status',
-                    data: 'status'
-                }
-                /*,
-                {
+                    bSortable: false,
                     name: 'direction',
                     data: function (row) {
                         if (row.direction == 'sent') {
@@ -77,7 +78,6 @@
                         }
                     }
                 }
-                */
             ],
             dom: '<"html5buttons"B <"ml pull-right"C>>lTfgitp',
             colVis: {

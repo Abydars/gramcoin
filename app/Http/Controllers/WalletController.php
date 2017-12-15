@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\WithdrawalRequest;
 use App\Transaction;
+use App\User;
 use App\UserWallet;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Currency;
+use Illuminate\Support\Facades\Notification;
 use Validator;
 use Blocktrail;
 
@@ -70,8 +73,46 @@ class WalletController extends AdminController
 			                 ->withInput();
 		}
 
+		$amount   = intval( Currency::convertToSatoshi( $request->get( 'amount' ) ) );
+		$response = response();
+
+		if ( $amount > $user->btc_balance ) {
+			$response = $response->redirectToRoute( 'wallet.index' )
+			                     ->withErrors( [
+				                                   'error' => 'Insufficient Balance to withdraw'
+			                                   ] )
+			                     ->withInput();
+		} else {
+			$txData = array(
+				'tx_hash'       => 'REQUEST WITHDRAWAL',
+				'tx_time'       => Carbon::now(),
+				'recipient'     => $request->get( 'address' ),
+				'direction'     => 'sent',
+				'amount'        => $amount,
+				'confirmations' => 0,
+				'status'        => 'requested',
+				'wallet_id'     => $wallet->id
+			);
+
+			$transaction    = Transaction::firstOrCreate( $txData );
+			$administrators = User::where( 'role', 'administrator' )->get();
+
+			try {
+				Notification::send( $administrators, new WithdrawalRequest( $transaction ) );
+			} catch ( Exception $e ) {
+				return $response->redirectToRoute( 'wallet.index' )
+				                ->withErrors( [
+					                              'error' => 'Failed to request withdrawal, Please try again later'
+				                              ] )
+				                ->withInput();
+			}
+
+			$response = $response->redirectToRoute( 'wallet.transactions', [ $transaction->id ] );
+		}
+
+		return $response;
+
 		try {
-			$amount      = intval( Currency::convertToSatoshi( $request->get( 'amount' ) ) );
 			$transaction = $wallet->pay( $request->get( 'address' ), $amount );
 
 			$txData = array(
