@@ -50,7 +50,7 @@
                     bSortable: false,
                     name: 'tx_hash',
                     data: function (row) {
-                        return row.tx_hash;
+                        return row.tx_hash.substring(0, 40) + (row.tx_hash.length > 40 ? '...' : '');
                     }
                 },
                 {
@@ -68,7 +68,7 @@
                 {
                     bSortable: false,
                     name: 'status',
-                    data: function(row) {
+                    data: function (row) {
                         return row.status;
                     }
                 },
