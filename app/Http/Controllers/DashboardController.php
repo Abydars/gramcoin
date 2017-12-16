@@ -60,7 +60,7 @@ class DashboardController extends PanelController
 			'btc_balance' => number_format( $btc_balance, 8 ),
 			'token_rate'  => number_format( $gc_value, 2 ),
 			'btc_value'   => number_format( $btc_value, 2 ),
-			'unc_balance' => number_format( $unc_balance, 2 )
+			'unc_balance' => number_format( $unc_balance, 8 )
 		] );
 	}
 }
