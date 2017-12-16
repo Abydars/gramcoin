@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Facades\FormatFacade;
+use App\Notifications\WithdrawalRequest;
+use App\Transaction;
+use App\User;
 use App\UserTransaction;
 use Blocktrail;
 use Exception;
@@ -45,7 +48,7 @@ class DashboardController extends AdminController
 
 		try {
 			$wallet->getBalance();
-			$unc_balance = $wallet->unc_balance;
+			$unc_balance = Currency::convertToBtc( $wallet->unc_balance );
 		} catch ( Exception $e ) {
 			$unc_balance = 0;
 		}
