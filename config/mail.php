@@ -56,7 +56,7 @@ return [
 	*/
 
 	'from' => [
-		'address' => 'no-reply@gramcoin.net',
+		'address' => env( 'MAIL_USERNAME' ),
 		'name'    => env( 'APP_NAME' ),
 	],
 
