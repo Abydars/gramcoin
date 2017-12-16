@@ -44,6 +44,11 @@ class WebhookController extends Controller
 					//file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( $data ) );
 
 					$transaction = Transaction::updateOrCreate( [ 'tx_hash' => $data['hash'] ], $txData );
+					file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( [
+						                                                                                      $is_received,
+						                                                                                      $confirmed,
+						                                                                                      $was_confirmed
+					                                                                                      ] ) );
 
 					if ( $transaction->id > 0 ) {
 
