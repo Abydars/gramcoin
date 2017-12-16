@@ -8,6 +8,7 @@
                    id="transactions-table">
                 <thead>
                 <tr>
+                    <th style="text-align: left;">Date/Time</th>
                     <th style="text-align: left;">TX #</th>
                     <th style="text-align: left;">Recipient</th>
                     <th style="text-align: left;">Amount</th>
