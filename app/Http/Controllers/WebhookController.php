@@ -24,24 +24,41 @@ class WebhookController extends Controller
 			switch ( $event_type ) {
 				case "address-transactions":
 
-					file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( $request->all() ) );
-
+					//file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( $request->all() ) );
 					//return;
 
-					$transaction   = Transaction::where( 'tx_hash', $data['hash'] );
-					$was_confirmed = $transaction->exists() && $transaction->first()->status == 'confirmed';
+					$transaction = Transaction::where( 'tx_hash', $data['hash'] )
+					                          ->where( 'wallet_id', $wallet->id );
 
 					$confirmed        = $data['confirmations'] > 0;
-					$amount           = $data['outputs'][0]['value'];
-					$address          = $data['outputs'][0]['address'];
+					$was_confirmed    = $transaction->exists() && $transaction->first()->status == 'confirmed';
 					$wallet_addresses = $response_wallet['addresses'];
+					$address          = false;
+					$amount           = false;
+					$is_sender        = false;
+					$has_output       = false;
 
-					$is_receiver = in_array( $address, $wallet_addresses );
+					foreach ( $data['inputs'] as $input ) {
+						$is_sender = in_array( $input['address'], $wallet_addresses );
+
+						$output_index = $input['output_index'];
+						$amount       = $data['outputs'][ $output_index ]['value'];
+						$address      = $data['outputs'][ $output_index ]['address'];
+						$has_output   = in_array( $address, $wallet_addresses );
+
+						if ( $has_output ) {
+							break;
+						}
+					}
+
+					if ( ! $has_output ) {
+						return;
+					}
 
 					$txData = [
 						'tx_hash'       => $data['hash'],
 						'recipient'     => $address,
-						'direction'     => $is_receiver ? 'received' : 'sent',
+						'direction'     => $is_sender ? 'sent' : 'receiver',
 						'amount'        => $amount,
 						'confirmations' => $data['confirmations'],
 						'status'        => $confirmed ? 'confirmed' : 'unconfirmed',
@@ -49,23 +66,19 @@ class WebhookController extends Controller
 						'tx_time'       => Carbon::now()->toDateTimeString()
 					];
 
-					//file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( $data ) );
-
 					$transaction = Transaction::updateOrCreate( [
 						                                            'tx_hash'   => $data['hash'],
 						                                            'wallet_id' => $wallet->id
 					                                            ], $txData );
 
-					//file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( [ $is_received,$confirmed,$was_confirmed] ) );
-
 					if ( $transaction->id > 0 ) {
 
 						if ( $confirmed && ! $was_confirmed ) {
 
-							if ( $is_receiver ) {
-								$user->btc_balance += $amount;
-							} else {
+							if ( $is_sender ) {
 								$user->btc_balance -= $amount;
+							} else {
+								$user->btc_balance += $amount;
 							}
 
 							$user->save();
