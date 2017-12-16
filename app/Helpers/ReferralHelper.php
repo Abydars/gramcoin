@@ -46,6 +46,15 @@ class ReferralHelper
 
 	public function assignReference( $user_id, $guid )
 	{
+		$referred_by = User::where( 'guid', $guid );
 
+		if ( $referred_by->exists() ) {
+			$referred_by = $referred_by->first();
+
+			App\UserReferral::create( [
+				                          'user_id'     => $user_id,
+				                          'referred_by' => $referred_by->id
+			                          ] );
+		}
 	}
 }
