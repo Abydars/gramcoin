@@ -51,7 +51,7 @@ class WebhookController extends Controller
 						}
 					}
 
-					if ( ! $has_output ) {
+					if ( ! $is_sender && ! $has_output ) {
 						return;
 					}
 
