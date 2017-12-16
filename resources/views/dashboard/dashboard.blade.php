@@ -11,7 +11,8 @@
                         <em class="icon-chart fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
-                        <div class="h2 mt0">{{ $btc_balance }}</div>
+                        <div class="h3 mt0 mb0">{{ $btc_balance }}</div>
+                        <div class="h6 mt0 mb-sm text-danger">${{ $unc_balance }}</div>
                         <div class="text-uppercase">BTC Deposit</div>
                     </div>
                 </div>
@@ -67,8 +68,8 @@
                         <em class="icon-wallet fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
-                        <div class="h2 mt0">{{ $unc_balance }}</div>
-                        <div class="text-uppercase">UNC</div>
+                        <div class="h2 mt0">0.00</div>
+                        <div class="text-uppercase">Gram Coin</div>
                     </div>
                 </div>
             </div>
