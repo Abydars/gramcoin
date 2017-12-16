@@ -12,7 +12,7 @@
                     </div>
                     <div class="col-xs-8 pv-lg">
                         <div class="h3 mt0 mb0">{{ $btc_balance }}</div>
-                        <div class="h6 mt0 mb-sm text-danger">${{ $unc_balance }}</div>
+                        <div class="h6 mt0 mb-sm text-dark text-bold">{{ $unc_balance }}</div>
                         <div class="text-uppercase">BTC Deposit</div>
                     </div>
                 </div>

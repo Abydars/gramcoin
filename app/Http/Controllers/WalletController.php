@@ -33,10 +33,13 @@ class WalletController extends PanelController
 		$address  = $user->addresses->where( 'is_used', false )->first();
 
 		try {
-			$btc_balance = Currency::convertToBtc( $wallet->getBalance() );
+			$wallet->getBalance();
+			$unc_balance = Currency::convertToBtc( $wallet->unc_balance );
 		} catch ( Exception $e ) {
-			$btc_balance = 0;
+			$unc_balance = 0;
 		}
+
+		$btc_balance = $user->btc_balance_in_btc;
 
 		if ( $address ) {
 			$address = $address->address;
@@ -45,6 +48,7 @@ class WalletController extends PanelController
 		return view( 'wallet.index', [
 			'user'        => $user,
 			'btc_balance' => number_format( $btc_balance, 8 ),
+			'unc_balance' => number_format( $unc_balance, 8 ),
 			'token_rate'  => $gc_value,
 			'wallet'      => $user->wallet,
 			'address'     => $address,
