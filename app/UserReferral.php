@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserReferral extends Model
 {
+	protected $table = 'referrals';
+	
 	/**
 	 * The attributes that are mass assignable.
 	 *
