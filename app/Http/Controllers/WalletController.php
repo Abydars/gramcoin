@@ -89,7 +89,7 @@ class WalletController extends PanelController
 
 		}
 
-		//$balance -= $unc_balance;
+		$balance += $unc_balance;
 		$amount  = intval( Currency::convertToSatoshi( $request->get( 'amount' ) ) );
 
 		if ( $amount > $balance ) {

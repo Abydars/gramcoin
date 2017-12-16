@@ -44,7 +44,7 @@ class TokenController extends PanelController
 				$error       = "Failed to get balance, Please try again later";
 			}
 
-			$balance -= $unc_balance;
+			$balance += $unc_balance;
 
 			if ( ! $error ) {
 				if ( $balance >= $btc_in_satoshi ) {
