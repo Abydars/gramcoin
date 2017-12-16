@@ -13,9 +13,10 @@ class WebhookController extends Controller
 {
 	public function transactionEvent( $identifier, Request $request )
 	{
-		$event_type = $request->get( 'event_type' );
-		$data       = $request->get( 'data' );
-		$wallet     = UserWallet::where( 'identity', $identifier )->first();
+		$event_type      = $request->get( 'event_type' );
+		$data            = $request->get( 'data' );
+		$wallet          = UserWallet::where( 'identity', $identifier )->first();
+		$response_wallet = $request->get( 'wallet' );
 
 		if ( $wallet ) {
 			$user = $wallet->user;
@@ -23,21 +24,25 @@ class WebhookController extends Controller
 			switch ( $event_type ) {
 				case "address-transactions":
 
-					file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( $request->all() ) );
+					//file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( $request->all() ) );
 
-					return;
+					//return;
 
 					$transaction   = Transaction::where( 'tx_hash', $data['hash'] );
 					$was_confirmed = $transaction->exists() && $transaction->first()->status == 'confirmed';
 					$is_received   = true;
 
-					$confirmed = $data['confirmations'] > 0;
-					$amount    = $data['outputs'][0]['value'];
+					$confirmed        = $data['confirmations'] > 0;
+					$amount           = $data['outputs'][0]['value'];
+					$address          = $data['outputs'][0]['address'];
+					$wallet_addresses = $response_wallet['addresses'];
+
+					$is_receiver = in_array( $address, $wallet_addresses );
 
 					$txData = [
 						'tx_hash'       => $data['hash'],
-						'recipient'     => $data['outputs'][0]['address'],
-						'direction'     => 'received',
+						'recipient'     => $address,
+						'direction'     => $is_receiver ? 'received' : 'sent',
 						'amount'        => $amount,
 						'confirmations' => $data['confirmations'],
 						'status'        => $confirmed ? 'confirmed' : 'unconfirmed',
@@ -45,9 +50,13 @@ class WebhookController extends Controller
 						'tx_time'       => Carbon::now()->toDateTimeString()
 					];
 
-					file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( $data ) );
+					//file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( $data ) );
 
-					$transaction = Transaction::updateOrCreate( [ 'tx_hash' => $data['hash'] ], $txData );
+					$transaction = Transaction::updateOrCreate( [
+						                                            'tx_hash'   => $data['hash'],
+						                                            'wallet_id' => $wallet->id
+					                                            ], $txData );
+
 					//file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( [ $is_received,$confirmed,$was_confirmed] ) );
 
 					if ( $transaction->id > 0 ) {
