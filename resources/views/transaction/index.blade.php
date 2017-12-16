@@ -41,6 +41,7 @@
                         document.location.href = '{{ url("wallet/transactions/")}}/' + row.id;
                 });
             },
+            order: [0, 'desc'],
             columns: [
                 {
                     name: 'created_at_human',
