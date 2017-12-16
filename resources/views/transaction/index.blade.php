@@ -42,6 +42,10 @@
             },
             columns: [
                 {
+                    name: 'created_at_human',
+                    data: 'created_at_human'
+                },
+                {
                     bSortable: false,
                     name: 'tx_hash',
                     data: function (row) {

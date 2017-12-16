@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Currency;
 
@@ -21,7 +22,8 @@ class Transaction extends Model
 	];
 
 	protected $appends = [
-		'amount_in_btc'
+		'amount_in_btc',
+		'created_at_human'
 	];
 
 	public function wallet()
@@ -37,5 +39,10 @@ class Transaction extends Model
 	public function setAmountInBtcAttribute( $value )
 	{
 		$this->attributes['amount'] = Currency::convertToSatoshi( $value );
+	}
+
+	public function getCreatedAtHumanAttribute()
+	{
+		return Carbon::parse( $this->tx_time )->toDateTimeString();
 	}
 }
