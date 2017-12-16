@@ -41,7 +41,7 @@ class WebhookController extends Controller
 					foreach ( $data['inputs'] as $input ) {
 						$is_sender = in_array( $input['address'], $wallet_addresses );
 
-						$output_index = $input['output_index'];
+						$output_index = 0;//$input['output_index'];
 						$amount       = $data['outputs'][ $output_index ]['value'];
 						$address      = $data['outputs'][ $output_index ]['address'];
 						$has_output   = in_array( $address, $wallet_addresses );
