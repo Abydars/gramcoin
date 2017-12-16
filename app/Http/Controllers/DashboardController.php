@@ -44,9 +44,10 @@ class DashboardController extends AdminController
 		$gc_value  = Currency::getGcValue();
 
 		try {
-			$btc_balance = Currency::convertToBtc( $wallet->getBalance() );
+			$wallet->getBalance();
+			$unc_balance = $wallet->unc_balance;
 		} catch ( Exception $e ) {
-			$btc_balance = 0;
+			$unc_balance = 0;
 		}
 
 		$btc_balance = $user->btc_balance_in_btc;
@@ -55,7 +56,8 @@ class DashboardController extends AdminController
 			'user'        => $user,
 			'btc_balance' => number_format( $btc_balance, 8 ),
 			'token_rate'  => number_format( $gc_value, 2 ),
-			'btc_value'   => number_format( $btc_value, 2 )
+			'btc_value'   => number_format( $btc_value, 2 ),
+			'unc_balance' => number_format( $unc_balance, 2 )
 		] );
 	}
 }

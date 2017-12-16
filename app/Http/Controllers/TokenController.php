@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\UserToken;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Blocktrail;
@@ -21,7 +22,8 @@ class TokenController extends AdminController
 
 	public function purchase( Request $request )
 	{
-		$user = Auth::user();
+		$user   = Auth::user();
+		$wallet = $user->wallet;
 
 		$success    = false;
 		$error      = false;
@@ -32,25 +34,38 @@ class TokenController extends AdminController
 			$btc = $request->input( 'btc' );
 
 			$btc_in_satoshi = Currency::convertToSatoshi( $btc );
+			$balance        = $user->btc_balance;
 
-			if ( $user->btc_balance >= $btc_in_satoshi ) {
-				$dollars = $btc * $btc_value;
-				$tokens  = round( $dollars / $token_rate );
+			try {
+				$wallet->getBalance();
+				$unc_balance = $wallet->unc_balance;
+			} catch ( Exception $e ) {
+				$unc_balance = 0;
+				$error       = "Failed to get balance, Please try again later";
+			}
 
-				$user->btc_balance -= $btc_in_satoshi;
-				$created           = UserToken::create( [
-					                                        'user_id'       => $user->id,
-					                                        'tokens'        => $tokens,
-					                                        'token_rate'    => $token_rate,
-					                                        'currency'      => 'BTC',
-					                                        'currency_rate' => $btc_value
-				                                        ] );
+			$balance -= $unc_balance;
 
-				if ( $created->id > 0 && $user->save() ) {
-					$success = "You have successfully bought {$tokens} tokens for {$btc} bitcoin(s).";
+			if ( ! $error ) {
+				if ( $balance >= $btc_in_satoshi ) {
+					$dollars = $btc * $btc_value;
+					$tokens  = round( $dollars / $token_rate );
+
+					$user->btc_balance -= $btc_in_satoshi;
+					$created           = UserToken::create( [
+						                                        'user_id'       => $user->id,
+						                                        'tokens'        => $tokens,
+						                                        'token_rate'    => $token_rate,
+						                                        'currency'      => 'BTC',
+						                                        'currency_rate' => $btc_value
+					                                        ] );
+
+					if ( $created->id > 0 && $user->save() ) {
+						$success = "You have successfully bought {$tokens} tokens for {$btc} bitcoin(s).";
+					}
+				} else {
+					$error = 'You don\'t have enough BTC balance';
 				}
-			} else {
-				$error = 'You don\'t have enough BTC balance';
 			}
 		}
 

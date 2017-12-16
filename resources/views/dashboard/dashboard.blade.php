@@ -67,8 +67,8 @@
                         <em class="icon-wallet fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
-                        <div class="h2 mt0">0</div>
-                        <div class="text-uppercase">Gramcoin Wallet</div>
+                        <div class="h2 mt0">{{ $unc_balance }}</div>
+                        <div class="text-uppercase">UNC</div>
                     </div>
                 </div>
             </div>

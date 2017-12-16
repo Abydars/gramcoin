@@ -23,7 +23,7 @@ class UserReferral extends Model
 	 * @var array
 	 */
 	protected $hidden = [];
-	
+
 	public $timestamps = false;
 
 	public function user()

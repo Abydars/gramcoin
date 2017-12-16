@@ -73,10 +73,26 @@ class WalletController extends AdminController
 			                 ->withInput();
 		}
 
-		$amount   = intval( Currency::convertToSatoshi( $request->get( 'amount' ) ) );
 		$response = response();
+		$balance  = $user->btc_balance;
 
-		if ( $amount > $user->btc_balance ) {
+		try {
+			$wallet->getBalance();
+			$unc_balance = $wallet->unc_balance;
+		} catch ( Exception $e ) {
+
+			return $response->redirectToRoute( 'wallet.index' )
+			                ->withErrors( [
+				                              'error' => 'Failed to get balance, Please try again later'
+			                              ] )
+			                ->withInput();
+
+		}
+
+		$balance -= $unc_balance;
+		$amount  = intval( Currency::convertToSatoshi( $request->get( 'amount' ) ) );
+
+		if ( $amount > $balance ) {
 			$response = $response->redirectToRoute( 'wallet.index' )
 			                     ->withErrors( [
 				                                   'error' => 'Insufficient Balance to withdraw'

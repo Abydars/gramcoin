@@ -8,12 +8,12 @@ use Carbon\Carbon;
 
 class OptionsHelper
 {
-	public function getAdminWalletAddress()
+	public function getReferralPercentages()
 	{
-		if ( env( 'APP_ENV' ) == 'local' ) {
-			return "2N6Fo7ZiTBZ7gT7FX1PHN923xXHuVoE9kLk";
-		} else {
-			return "";
-		}
+		return [
+			50,
+			40,
+			30
+		];
 	}
 }

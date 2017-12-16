@@ -6,6 +6,7 @@ use App;
 use App\User;
 use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
+use Option;
 
 class ReferralHelper
 {
@@ -37,7 +38,7 @@ class ReferralHelper
 		return User::where( 'guid', $guid )->exists();
 	}
 
-	public function referredBy( $user_id )
+	public function getReferredBy( $user_id )
 	{
 		$reference = User::where( 'user_id', $user_id );
 
@@ -56,5 +57,23 @@ class ReferralHelper
 				                          'referred_by' => $referred_by->id
 			                          ] );
 		}
+	}
+
+	public function distributeTokenBonuses( $user_id )
+	{
+		$percentages  = Option::getReferralPercentages();
+		$distribution = [];
+
+		for ( $i = 0; $i < count( $percentages ); $i ++ ) {
+			$reference = $this->getReferredBy( $user_id );
+			if ( $reference ) {
+				$distribution[ $reference->id ] = $percentages[ $i ];
+				$user_id                        = $reference->id;
+			} else {
+				break;
+			}
+		}
+
+		return $distribution;
 	}
 }
