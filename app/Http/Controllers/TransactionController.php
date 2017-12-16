@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\Datatables\Datatables;
 use Dashboard;
 
-class TransactionController extends AdminController
+class TransactionController extends PanelController
 {
 	public function index()
 	{

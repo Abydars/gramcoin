@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Config;
 use App\Notifications\UserRoleSetNotification;
 use Validator;
 
-class UserController extends AdminController
+class UserController extends PanelController
 {
 	public function index()
 	{

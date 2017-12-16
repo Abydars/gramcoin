@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cache;
 use Currency;
 
-class DashboardController extends AdminController
+class DashboardController extends PanelController
 {
 	private $blocktrail;
 

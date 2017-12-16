@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use SebastianBergmann\RecursionContext\Context;
 use Vinkla\Pusher\Facades\Pusher;
 
-class PusherController extends AdminController
+class PusherController extends PanelController
 {
     public function auth(Request $request)
     {

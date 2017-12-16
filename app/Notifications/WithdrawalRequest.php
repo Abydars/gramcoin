@@ -48,8 +48,8 @@ class WithdrawalRequest extends Notification
 		return ( new MailMessage )
 			->subject( 'New Withdrawal Request' )
 			->line( 'Withdrawal Request from ' . ucwords( $this->transaction->wallet->user->full_name ) )
-			->line( '<strong>' . $this->transaction->amount_in_btc . ' BTC</strong>' )
-			->action( 'Login here to Accept this request', url('/') );
+			->line( number_format( $this->transaction->amount_in_btc, 10 ) . ' BTC' )
+			->action( 'Accept Request', route( 'wallet.transactions.show_request', [ $this->transaction->id ] ) );
 	}
 
 	/**

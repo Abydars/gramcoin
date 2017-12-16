@@ -11,7 +11,7 @@ use Currency;
 use Dashboard;
 use Option;
 
-class TokenController extends AdminController
+class TokenController extends PanelController
 {
 	public function __construct( Blocktrail $blocktrail )
 	{

@@ -25,7 +25,7 @@ Route::get( 'activate/send', 'ActivateController@send' )->name( 'activate.send' 
 Route::get( 'activate/{token}', 'ActivateController@activation' )->name( 'activate.activation' );
 
 // Dashboard
-Route::get( '/dashboard', 'DashboardController@index' );
+Route::get( '/dashboard', 'DashboardController@index' )->name('dashboard');
 
 // User
 Route::get( 'user/data', 'UserController@data' )->name( 'user.data' );
@@ -42,6 +42,8 @@ Route::get( 'wallet', 'WalletController@index' )->name( 'wallet.index' );
 Route::get( 'wallet/transactions', 'TransactionController@index' )->name( 'wallet.transactions' );
 Route::get( 'wallet/transactions/data', 'TransactionController@data' )->name( 'wallet.transactions.data' );
 Route::get( 'wallet/transactions/{transaction}', 'TransactionController@show' )->name( 'wallet.transactions.show' );
+Route::get( 'wallet/transactions/request/{transaction}', 'AdminController@show_transaction_request' )->name( 'wallet.transactions.show_request' );
+Route::post( 'wallet/transactions/response/{transaction}', 'AdminController@response_transaction_request' )->name( 'wallet.transactions.request_response' );
 Route::post( 'wallet/withdraw', 'WalletController@withdraw' )->name( 'wallet.withdraw' );
 
 // Pusher

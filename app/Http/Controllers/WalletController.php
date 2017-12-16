@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Notification;
 use Validator;
 use Blocktrail;
 
-class WalletController extends AdminController
+class WalletController extends PanelController
 {
 	private $blocktrail;
 
@@ -129,38 +129,5 @@ class WalletController extends AdminController
 		}
 
 		return $response;
-
-		try {
-			$transaction = $wallet->pay( $request->get( 'address' ), $amount );
-
-			$txData = array(
-				'tx_hash'       => $transaction,
-				'tx_time'       => Carbon::now(),
-				'recipient'     => $request->get( 'address' ),
-				'direction'     => "sent",
-				'amount'        => $amount,
-				'confirmations' => 0,
-				'status'        => 'unconfirmed',
-				'wallet_id'     => $wallet->id,
-			);
-
-			$transaction = Transaction::firstOrCreate( $txData );
-
-			if ( $transaction->id > 0 ) {
-				return response()->redirectToRoute( 'wallet.transactions.show', [ $transaction->id ] );
-			} else {
-				return response()->redirectToRoute( 'wallet.index' )
-				                 ->withErrors( [
-					                               'error' => 'Failed to create transaction'
-				                               ] )
-				                 ->withInput();
-			}
-		} catch ( \Exception $e ) {
-			return response()->redirectToRoute( 'wallet.index' )
-			                 ->withErrors( [
-				                               'error' => $e->getMessage()
-			                               ] )
-			                 ->withInput();
-		}
 	}
 }
