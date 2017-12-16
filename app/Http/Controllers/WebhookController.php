@@ -30,7 +30,6 @@ class WebhookController extends Controller
 
 					$transaction   = Transaction::where( 'tx_hash', $data['hash'] );
 					$was_confirmed = $transaction->exists() && $transaction->first()->status == 'confirmed';
-					$is_received   = true;
 
 					$confirmed        = $data['confirmations'] > 0;
 					$amount           = $data['outputs'][0]['value'];
@@ -61,8 +60,14 @@ class WebhookController extends Controller
 
 					if ( $transaction->id > 0 ) {
 
-						if ( $is_received && $confirmed && ! $was_confirmed ) {
-							$user->btc_balance += $amount;
+						if ( $confirmed && ! $was_confirmed ) {
+
+							if ( $is_receiver ) {
+								$user->btc_balance += $amount;
+							} else {
+								$user->btc_balance -= $amount;
+							}
+
 							$user->save();
 						}
 
