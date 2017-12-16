@@ -24,7 +24,7 @@ class WebhookController extends Controller
 			switch ( $event_type ) {
 				case "address-transactions":
 
-					//file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( $request->all() ) );
+					file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', json_encode( $request->all() ) );
 
 					//return;
 

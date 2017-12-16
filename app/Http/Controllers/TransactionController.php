@@ -26,7 +26,7 @@ class TransactionController extends PanelController
 		$user   = Auth::user();
 		$wallet = $user->wallet;
 
-		return Datatables::of( Transaction::where( 'wallet_id', $wallet->id )->orderBy( 'created_at', 'desc' ) )->make( true );
+		return Datatables::of( Transaction::where( 'wallet_id', $wallet->id ) )->make( true );
 	}
 
 	public function show( $id )
