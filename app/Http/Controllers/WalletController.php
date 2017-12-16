@@ -100,6 +100,8 @@ class WalletController extends AdminController
 			try {
 				Notification::send( $administrators, new WithdrawalRequest( $transaction ) );
 			} catch ( Exception $e ) {
+				$transaction->delete();
+
 				return $response->redirectToRoute( 'wallet.index' )
 				                ->withErrors( [
 					                              'error' => 'Failed to request withdrawal (' . $e->getMessage() . '), Please try again later'
