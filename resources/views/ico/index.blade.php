@@ -30,7 +30,7 @@
         <div class="alert alert-warning bg-warning-light">{{ $error }}</div>
     @elseif($user->btc_balance <= 0)
         <div class="alert alert-warning bg-warning-light">You don't have enough BTC balance to purchase tokens&nbsp;&nbsp;<a
-                    href="{{ url('/user/deposit') }}" class="btn bg-primary-dark">Deposit Now</a></div>
+                    href="{{ route('wallet.index') }}" class="btn bg-primary-dark">Deposit Now</a></div>
     @endif
     @if($success)
         <div class="alert alert-success bg-success-light">{{ $success }}</div>
