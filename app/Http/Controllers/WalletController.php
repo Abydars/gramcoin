@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Notifications\WithdrawalRequest;
 use App\Transaction;
 use App\User;
+use App\UserToken;
 use App\UserWallet;
 use Carbon\Carbon;
 use Exception;
@@ -14,6 +15,7 @@ use Currency;
 use Illuminate\Support\Facades\Notification;
 use Validator;
 use Blocktrail;
+use Referral;
 
 class WalletController extends PanelController
 {
@@ -52,8 +54,8 @@ class WalletController extends PanelController
 			'token_rate'  => $gc_value,
 			'wallet'      => $user->wallet,
 			'address'     => $address,
-			'bonus'       => 5,
-			'referrals'   => 10
+			'bonus'       => $user->getReferralBonuses(),
+			'referrals'   => Referral::referralCount( $user->id )
 		] );
 	}
 

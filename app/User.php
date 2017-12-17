@@ -126,6 +126,23 @@ class User extends Authenticatable
 		return $this->hasManyThrough( 'App\Transaction', 'App\UserWallet' );
 	}
 
+	public function getReferralBonuses()
+	{
+		$tokens  = UserToken::where( 'user_id', $this->id )->get();
+		$bonuses = 0;
+
+		$tokens->each( function ( $token ) use ( &$bonuses ) {
+			if ( $token->meta_data ) {
+				$meta_data = json_decode( $token->meta_data, true );
+				if ( isset( $meta_data['is_referral_bonus'] ) && $meta_data['is_referral_bonus'] == true ) {
+					$bonuses += $token->tokens;
+				}
+			}
+		} );
+
+		return $bonuses;
+	}
+
 	/**
 	 * The channels the user receives notification broadcasts on.
 	 *
