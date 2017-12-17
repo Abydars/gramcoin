@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
 use Option;
+use Currency;
 
 class ReferralHelper
 {
@@ -59,16 +60,32 @@ class ReferralHelper
 		}
 	}
 
-	public function distributeTokenBonuses( $user_id )
+	public function distributeTokenBonuses( $user_id, $amount )
 	{
+		$token_rate   = Currency::getGcValue();
 		$percentages  = Option::getReferralPercentages();
 		$distribution = [];
 
 		for ( $i = 0; $i < count( $percentages ); $i ++ ) {
 			$reference = $this->getReferredBy( $user_id );
 			if ( $reference ) {
-				$distribution[ $reference->id ] = $percentages[ $i ];
-				$user_id                        = $reference->id;
+				$percent                        = $percentages[ $i ];
+				$distribution[ $reference->id ] = $percent;
+				$amount                         = $amount * ( $percent / 100 );
+
+				$tokens = round( $amount * $token_rate );
+
+				App\UserToken::create( [
+					                       'user_id'    => $reference->id,
+					                       'tokens'     => $tokens,
+					                       'token_rate' => $token_rate,
+					                       'currency'   => 'USD',
+					                       'meta_data'  => json_encode( [
+						                                                    'is_referral_bonus' => true
+					                                                    ] )
+				                       ] );
+
+				$user_id = $reference->id;
 			} else {
 				break;
 			}

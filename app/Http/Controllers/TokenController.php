@@ -10,6 +10,7 @@ use Blocktrail;
 use Currency;
 use Dashboard;
 use Option;
+use Referral;
 
 class TokenController extends PanelController
 {
@@ -48,8 +49,11 @@ class TokenController extends PanelController
 
 			if ( ! $error ) {
 				if ( $balance >= $btc_in_satoshi ) {
-					$dollars = $btc * $btc_value;
-					$tokens  = round( $dollars / $token_rate );
+					$dollars       = $btc * $btc_value;
+					$tokens        = round( $dollars / $token_rate );
+					$tokens_in_usd = $tokens * $token_rate;
+
+					Referral::distributeTokenBonuses( $user->id, $tokens_in_usd );
 
 					$user->btc_balance -= $btc_in_satoshi;
 					$created           = UserToken::create( [
