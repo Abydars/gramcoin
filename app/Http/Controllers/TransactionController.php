@@ -33,7 +33,9 @@ class TransactionController extends PanelController
 	{
 		$transaction = Transaction::find( $id );
 
-		if ( $transaction && false == true ) {
+		Dashboard::setTitle( 'Transactions Details' );
+
+		if ( $transaction ) {
 			return view( 'transaction.show', [
 				'transaction' => $transaction
 			] );

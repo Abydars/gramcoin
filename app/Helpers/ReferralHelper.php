@@ -69,9 +69,9 @@ class ReferralHelper
 		for ( $i = 0; $i < count( $percentages ); $i ++ ) {
 			$reference = $this->getReferredBy( $user_id );
 			if ( $reference ) {
-				$percent                        = $percentages[ $i ];
-				$amount                         = $amount * ( $percent / 100 );
-				$tokens                         = round( $amount * $token_rate );
+				$percent                    = $percentages[ $i ];
+				$amount                     = $amount * ( $percent / 100 );
+				$tokens                     = round( $amount * $token_rate );
 				$distribution[ $reference ] = [ 'percent' => $percent, 'tokens' => $tokens ];
 
 				App\UserToken::create( [
