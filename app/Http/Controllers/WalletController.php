@@ -23,6 +23,8 @@ class WalletController extends PanelController
 
 	public function __construct( Blocktrail $blocktrail )
 	{
+		parent::__construct();
+		
 		$this->blocktrail = $blocktrail;
 	}
 
