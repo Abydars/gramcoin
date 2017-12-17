@@ -72,10 +72,10 @@ class ReferralHelper
 				$percent                        = $percentages[ $i ];
 				$amount                         = $amount * ( $percent / 100 );
 				$tokens                         = round( $amount * $token_rate );
-				$distribution[ $reference->id ] = [ 'percent' => $percent, 'tokens' => $tokens ];
+				$distribution[ $reference ] = [ 'percent' => $percent, 'tokens' => $tokens ];
 
 				App\UserToken::create( [
-					                       'user_id'    => $reference->id,
+					                       'user_id'    => $reference,
 					                       'tokens'     => $tokens,
 					                       'token_rate' => $token_rate,
 					                       'currency'   => 'USD',
@@ -84,7 +84,7 @@ class ReferralHelper
 					                                                    ] )
 				                       ] );
 
-				$user_id = $reference->id;
+				$user_id = $reference;
 			} else {
 				break;
 			}
