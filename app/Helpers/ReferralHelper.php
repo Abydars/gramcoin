@@ -41,7 +41,7 @@ class ReferralHelper
 
 	public function getReferredBy( $user_id )
 	{
-		$reference = User::where( 'user_id', $user_id );
+		$reference = App\UserReferral::where( 'user_id', $user_id );
 
 		return ( $reference->exists() ? $reference->first()->referred_by : false );
 	}
