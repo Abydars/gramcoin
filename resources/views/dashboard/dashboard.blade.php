@@ -127,7 +127,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div data-height="300" data-scrollable="" class="list-group">
-                                    @if(!empty($transactions))
+                                    @if(!empty($transactions) && count($transactions) > 0)
                                         @foreach($transactions as $transaction)
                                             <div class="row row-table" style="height: auto;">
                                                 <div class="col-md-7"><p>{{ substr($transaction->tx_hash, 0, 20) }}</p>
@@ -136,7 +136,9 @@
                                             </div>
                                         @endforeach
                                     @else
-                                        <h4>No Transactions</h4>
+                                        <div class="col-md-12">
+                                            <h5>No Transactions</h5>
+                                        </div>
                                     @endif
                                 </div>
                             </div>
