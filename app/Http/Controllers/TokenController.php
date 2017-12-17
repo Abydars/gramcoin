@@ -26,10 +26,11 @@ class TokenController extends PanelController
 		$user   = Auth::user();
 		$wallet = $user->wallet;
 
-		$success    = false;
-		$error      = false;
-		$btc_value  = Currency::getBtcValue();
-		$token_rate = Currency::getGcValue();
+		$success     = false;
+		$error       = false;
+		$btc_value   = Currency::getBtcValue();
+		$token_rate  = Currency::getGcValue();
+		$btc_balance = $user->btc_balance_in_btc;
 
 		if ( $request->isMethod( 'POST' ) ) {
 			$btc = $request->input( 'btc' );
@@ -76,11 +77,12 @@ class TokenController extends PanelController
 		Dashboard::setTitle( 'ICO Management' );
 
 		return view( 'ico.index', [
-			'user'       => $user,
-			'btc_value'  => $btc_value,
-			'token_rate' => $token_rate,
-			'error'      => $error,
-			'success'    => $success
+			'user'        => $user,
+			'btc_balance' => $btc_balance,
+			'btc_value'   => $btc_value,
+			'token_rate'  => $token_rate,
+			'error'       => $error,
+			'success'     => $success
 		] );
 	}
 }

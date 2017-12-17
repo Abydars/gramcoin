@@ -101,10 +101,12 @@
                     <div class="col-xs-12 pv-lg">
                         <div class="text-uppercase">Referral Link</div>
                         <div class="input-group">
-                            <input type="text" readonly value="{{ route('register.referral', $user->guid) }}"
+                            <input id="address-input" type="text" readonly
+                                   value="{{ route('register.referral', $user->guid) }}"
                                    class="form-control" style="height: 44px;"/>
                             <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" style="height: 44px;"><em
+                                    <button type="button" data-copy-text="#address-input" class="btn btn-default"
+                                            style="height: 44px;"><em
                                                 class="fa fa-files-o"></em></button>
                                  </span>
                         </div>
@@ -122,41 +124,17 @@
                         <div class="panel-heading">
                             <div class="panel-title">Recent Transactions</div>
                         </div>
-                        <div data-height="238" data-scrollable="" class="list-group">
-
+                        <div data-height="300" data-scrollable="" class="list-group">
+                            @if(!empty($transactions))
+                                @foreach($transactions as $transaction)
+                                    <div class="row row-table" style="height: auto;">
+                                        <div class="col-md-7"><p>{{ substr($transaction->tx_hash, 0, 20) }}</p></div>
+                                        <div class="col-md-5"><p>{{ $transaction->status }}</p></div>
+                                    </div>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <div class="panel-title">Lipsum</div>
-                        </div>
-                        <!-- START list group-->
-                        <div data-height="238" data-scrollable="" class="list-group">
-
-                        </div>
-                        <!-- END list group-->
-                        <!-- START panel footer-->
-                        <div class="panel-footer clearfix">
-
-                        </div>
-                        <!-- END panel-footer-->
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <!-- START messages and activity-->
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <div class="panel-title">Lipsum</div>
-                        </div>
-                        <!-- START list group-->
-                        <div data-height="280" data-scrollable="" class="list-group">
-
-                        </div>
-                        <!-- END list group-->
-                    </div>
-                    <!-- END messages and activity-->
                 </div>
             </div>
         </div>

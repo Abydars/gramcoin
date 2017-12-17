@@ -10,13 +10,13 @@
  */
 
 
-(function(window, document, $, undefined) {
+(function (window, document, $, undefined) {
 
     if (typeof $ === 'undefined') {
         throw new Error('This application\'s JavaScript requires jQuery');
     }
 
-    $(function() {
+    $(function () {
 
         // Restore body classes
         // -----------------------------------
@@ -35,8 +35,20 @@
         $('.offsidebar.hide').removeClass('hide');
 
         // Disable warning "Synchronous XMLHttpRequest on the main thread is deprecated.."
-        $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+        $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
             options.async = true;
+        });
+
+        // Copy button task
+        $('button[data-copy-text]').on('click', function (e) {
+            $target = $($(this).data('copy-text'));
+            $target.select();
+
+            try {
+                document.execCommand('copy');
+            } catch (e) {
+                console.log('failed to copy');
+            }
         });
 
     }); // doc ready

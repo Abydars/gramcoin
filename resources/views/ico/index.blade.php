@@ -45,7 +45,7 @@
                         <em class="fa fa-bitcoin fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
-                        <div class="h3 mt0 mb0">{{ $user->btc_balance }}</div>
+                        <div class="h3 mt0 mb0">{{ $btc_balance }}</div>
                         <div class="text-uppercase">BTC Deposit</div>
                     </div>
                 </div>
@@ -88,11 +88,11 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <label class="control-label">BTC Amount</label>
-                        {!! Form::number('btc', ($user->btc_balance > 0 ? $user->btc_balance : ''), ['id' => 'input-btc','class' => 'form-control', 'placeholder' => 'BTC Amount', 'step' => 'any']) !!}
+                        {!! Form::number('btc', ($btc_balance > 0 ? $btc_balance : ''), ['id' => 'input-btc','class' => 'form-control', 'placeholder' => 'BTC Amount', 'step' => 'any']) !!}
                         <span class="help-block m-b-none">For which you'll buy the tokens.</span>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">GC Amount</label>
+                        <label class="control-label">GC Token Amount</label>
                         {!! Form::number('gc', '', ['id' => 'input-gc','class' => 'form-control', 'placeholder' => '', 'step' => 'any']) !!}
                     </div>
                     <div class="form-group">
@@ -108,8 +108,16 @@
         </div>
         <div class="col-lg-6 col-sm-6">
             <div class="panel panel-default">
+                <div class="panel-heading">Rates</div>
                 <div class="panel-body">
-
+                    <div class="form-group">
+                        <label class="control-label">BTC Value</label>
+                        <input type="text" readonly value="${{ $btc_value }}" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">GC Token Value</label>
+                        <input type="text" readonly value="${{ $token_rate }}" class="form-control"/>
+                    </div>
                 </div>
             </div>
         </div>
@@ -126,6 +134,8 @@
         var $btc_input = $("#input-btc");
         var $gc_input = $("#input-gc");
         var $token_purchase_form = $("#token-purchase-form");
+
+        $btc_input.each(onBtcChange);
 
         $btc_input.on("keyup", onBtcChange);
         $gc_input.on("keyup", onGcChange);

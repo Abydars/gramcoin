@@ -70,14 +70,17 @@
                     <div class="panel-title"><h2><em class="icon-wallet fa"></em>&nbsp;Bitcoin Wallet</h2></div>
                 </div>
                 <div class="panel-body">
-                    <h4>Get address to accept Bitcoin payments</h4>
-                    <div class="input-group">
-                        <input type="text" readonly value="{{ $address }}"
-                               class="form-control" style="height: 44px;"/>
-                        <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" style="height: 44px;"><em
+                    <div data-scrollable="" data-height="200">
+                        <h4>Get address to accept Bitcoin payments</h4>
+                        <div class="input-group">
+                            <input id="address-input" type="text" readonly value="{{ $address }}"
+                                   class="form-control" style="height: 44px;"/>
+                            <span class="input-group-btn">
+                                    <button type="button" data-copy-text="#address-input" class="btn btn-default"
+                                            style="height: 44px;"><em
                                                 class="fa fa-files-o"></em></button>
                                  </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -89,19 +92,21 @@
                 </div>
                 {!! Form::open(['route' => ['wallet.withdraw'], 'id' => 'withdraw-form', 'method' => 'POST', 'data-parsley-validate' => ' ', 'novalidate' => ' ', 'class' => '']) !!}
                 <div class="panel-body">
-                    @if($errors->has('error'))
-                        <div class="alert alert-danger">
-                            {{ $errors->first('error') }}
+                    <div data-scrollable="" data-height="200">
+                        @if($errors->has('error'))
+                            <div class="alert alert-danger">
+                                {{ $errors->first('error') }}
+                            </div>
+                        @endif
+                        <h4>Withdraw from your wallet balance to your BTC wallet</h4>
+                        <div class="form-group">
+                            <label>Amount to Withdraw</label>
+                            {!! Form::number('amount', false, ['id' => 'input-amount','class' => 'form-control', 'placeholder' => 'Enter BTC amount', 'required', 'step' =>'any']) !!}
                         </div>
-                    @endif
-                    <h4>Withdraw from your wallet balance to your BTC wallet</h4>
-                    <div class="form-group">
-                        <label>Amount to Withdraw</label>
-                        {!! Form::number('amount', false, ['id' => 'input-amount','class' => 'form-control', 'placeholder' => 'Enter BTC amount', 'required', 'step' =>'any']) !!}
-                    </div>
-                    <div class="form-group">
-                        <label>BTC Address</label>
-                        {!! Form::text('address', false, ['id' => 'input-address','class' => 'form-control', 'placeholder' => 'Enter your address', 'required']) !!}
+                        <div class="form-group">
+                            <label>BTC Address</label>
+                            {!! Form::text('address', false, ['id' => 'input-address','class' => 'form-control', 'placeholder' => 'Enter your address', 'required']) !!}
+                        </div>
                     </div>
                 </div>
                 <div class="panel-footer">
