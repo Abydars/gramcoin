@@ -124,15 +124,22 @@
                         <div class="panel-heading">
                             <div class="panel-title">Recent Transactions</div>
                         </div>
-                        <div data-height="300" data-scrollable="" class="list-group">
-                            @if(!empty($transactions))
-                                @foreach($transactions as $transaction)
-                                    <div class="row row-table" style="height: auto;">
-                                        <div class="col-md-7"><p>{{ substr($transaction->tx_hash, 0, 20) }}</p></div>
-                                        <div class="col-md-5"><p>{{ $transaction->status }}</p></div>
-                                    </div>
-                                @endforeach
-                            @endif
+                        <div class="panel-body">
+                            <div class="row">
+                                <div data-height="300" data-scrollable="" class="list-group">
+                                    @if(!empty($transactions))
+                                        @foreach($transactions as $transaction)
+                                            <div class="row row-table" style="height: auto;">
+                                                <div class="col-md-7"><p>{{ substr($transaction->tx_hash, 0, 20) }}</p>
+                                                </div>
+                                                <div class="col-md-5"><p>{{ $transaction->status }}</p></div>
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <h4>No Transactions</h4>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
