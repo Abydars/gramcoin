@@ -1,15 +1,70 @@
 <?php
 
 return [
-	'navigations' => [
-		[ 'label' => 'Main', 'item_type' => 'heading' ],
-		[ 'label' => 'Dashboard', 'action' => 'dashboard', 'icon' => 'icon-speedometer', 'item_type' => 'item' ],
-		[ 'label' => 'ICO', 'action' => 'ico', 'icon' => 'icon-tag', 'item_type' => 'item' ],
-		[ 'label' => 'Wallet', 'action' => 'wallet', 'icon' => 'icon-wallet', 'item_type' => 'item' ],
-		[ 'label' => 'User', 'item_type' => 'heading' ],
-		[ 'label' => 'Settings', 'action' => 'user/settings', 'icon' => 'icon-settings', 'item_type' => 'item' ],
+	'navigations'     => [
+		[ 'label' => 'Main', 'item_type' => 'heading', 'roles' => [ 'administrator', 'subscriber' ] ],
+		[
+			'label'     => 'Dashboard',
+			'action'    => 'dashboard',
+			'icon'      => 'icon-speedometer',
+			'item_type' => 'item',
+			'roles'     => [ 'subscriber' ]
+		],
+		[
+			'label'     => 'ICO',
+			'action'    => 'ico',
+			'icon'      => 'icon-tag',
+			'item_type' => 'item',
+			'roles'     => [ 'subscriber' ]
+		],
+		[
+			'label'     => 'Wallet',
+			'action'    => 'wallet',
+			'icon'      => 'icon-wallet',
+			'item_type' => 'item',
+			'roles'     => [ 'subscriber' ]
+		],
+		[
+			'label'     => 'Referrals',
+			'action'    => 'referral',
+			'icon'      => 'fa fa-dollar',
+			'item_type' => 'item',
+			'roles'     => [ 'subscriber' ]
+		],
+		[ 'label' => 'User', 'item_type' => 'heading', 'roles' => [ 'subscriber' ] ],
+		[
+			'label'     => 'Settings',
+			'action'    => 'user/settings',
+			'icon'      => 'icon-settings',
+			'item_type' => 'item',
+			'roles'     => [ 'subscriber' ]
+		],
+		/*
+		 * Admin Items
+		 */
+		[
+			'label'     => 'Manage Phases',
+			'action'    => 'phases',
+			'icon'      => 'icon-speedometer',
+			'item_type' => 'group',
+			'roles'     => [ 'administrator' ],
+			'children'  => [
+				[
+					'label'     => 'All Phases',
+					'action'    => 'phases',
+					'item_type' => 'item',
+					'roles'     => [ 'administrator' ]
+				],
+				[
+					'label'     => 'Add New',
+					'action'    => 'phases/add',
+					'item_type' => 'item',
+					'roles'     => [ 'administrator' ]
+				]
+			]
+		]
 	],
-	'countries'   => [
+	'countries'       => [
 		'US' => [
 			'AL' => 'Alabama',
 			'AK' => 'Alaska',
@@ -72,7 +127,7 @@ return [
 			'WY' => 'Wyoming',
 		],
 	],
-	'currencies'  => array(
+	'currencies'      => array(
 		'USD' => array(
 			'symbol'         => '$',
 			'name'           => 'US Dollar',
@@ -1136,13 +1191,13 @@ return [
 			'name_plural'    => 'Zambian kwachas',
 		),
 	),
-	'profile'     => [
+	'profile'         => [
 		'default' => [
 			'avatar'     => '/img/avatar.svg',
 			'background' => '/img/signup-bg.jpg',
 		],
 	],
-	'settings'    => [
+	'settings'        => [
 		'default' => [
 			'signin_bg' => '/img/signin-bg.jpg',
 			'signup_bg' => '/img/signup-bg.jpg',

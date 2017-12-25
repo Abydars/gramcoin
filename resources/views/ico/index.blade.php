@@ -69,55 +69,116 @@
             <!-- START widget-->
             <div class="panel widget bg-white">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-danger-dark pv-lg">
-                        <em class="icon-basket-loaded fa-3x"></em>
+                    <div class="col-xs-4 text-center bg-warning-dark pv-lg">
+                        <em class="fa fa-bitcoin fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
-                        <div class="h3 mt0 mb0">5,000</div>
-                        <div class="text-uppercase">Tokens Purchase Limit</div>
+                        <div class="h3 mt0 mb0">${{ $btc_value }}</div>
+                        <div class="text-uppercase">BTC Value</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-6 col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">Buy ICO</div>
-                {!! Form::open(['route' => ['token.purchase'], 'id' => 'token-purchase-form', 'method' => 'POST', 'data-parsley-validate' => ' ', 'novalidate' => ' ', 'class' => '']) !!}
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label class="control-label">BTC Amount</label>
-                        {!! Form::number('btc', ($btc_balance > 0 ? $btc_balance : ''), ['id' => 'input-btc','class' => 'form-control', 'placeholder' => 'BTC Amount', 'step' => 'any']) !!}
-                        <span class="help-block m-b-none">For which you'll buy the tokens.</span>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">GC Token Amount</label>
-                        {!! Form::number('gc', '', ['id' => 'input-gc','class' => 'form-control', 'placeholder' => '', 'step' => 'any']) !!}
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">USD Amount</label>
-                        {!! Form::number('usd', '', ['id' => 'input-usd','class' => 'form-control', 'placeholder' => '', 'readonly', 'disabled', 'step' => 'any']) !!}
+        @if($active_phase)
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row mb-lg">
+                            <div class="row row-table">
+                                <div class="col-xs-5 text-md">Buying Limit:</div>
+                                <div class="col-xs-7 text-md text-danger">{{ $active_phase->user_limit }} GRM
+                                </div>
+                            </div>
+                            <div class="row row-table">
+                                <div class="col-xs-5 text-md">Bought:</div>
+                                <div class="col-xs-7 text-md text-primary">{{ $user_bought }} GRM</div>
+                            </div>
+                        </div>
+                        @if($active_phase->is_open == false)
+                            <div class="row p0 mt0 mb0">
+                                <div class="row row-table text-center bg-info pt-lg mb-lg" id="countdown"
+                                     data-date="{{ $active_phase->launch_time }}">
+                                    <div class="col-xs-3">
+                                        <h1 class="m0" data-countdown-days>00</h1>
+                                        <p>Days</p>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <h1 class="m0" data-countdown-hours>00</h1>
+                                        <p>Hours</p>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <h1 class="m0" data-countdown-minutes>00</h1>
+                                        <p>Minutes</p>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <h1 class="m0" data-countdown-seconds>00</h1>
+                                        <p>Seconds</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                        @include('layouts.purchase_token', ['enabled' => $active_phase->is_open])
                     </div>
                 </div>
-                <div class="panel-footer">
-                    <button type="submit" class="btn btn-primary">Buy</button>
-                </div>
-                {!! Form::close() !!}
             </div>
-        </div>
-        <div class="col-lg-6 col-sm-6">
+        @endif
+        <div class="col-lg-6">
             <div class="panel panel-default">
-                <div class="panel-heading">Rates</div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label class="control-label">BTC Value</label>
-                        <input type="text" readonly value="${{ $btc_value }}" class="form-control"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">GC Token Value</label>
-                        <input type="text" readonly value="${{ $token_rate }}" class="form-control"/>
-                    </div>
+                <div class="panel-body pt0 pb0">
+                    @foreach($past_phases as $phase)
+                        <div class="row bg-gray">
+                            <div class="col-lg-6">
+                                <h3 class="text-muted">{{ $phase->title }}</h3>
+                                <p class="text-muted"><span>{{ $phase->tokens }} GRM</span></p>
+                            </div>
+                            <div class="col-lg-6 h4 text-right text-muted">
+                                        <span>{{ \Carbon\Carbon::parse($phase->launch_time)->toFormattedDateString() }}
+                                            at {{ \Carbon\Carbon::parse($phase->launch_time)->toTimeString() }}</span>
+                                <br/>
+                                <span>Token Price: ${{ number_format($phase->token_rate, 2) }}</span>
+                            </div>
+                        </div>
+                    @endforeach
+                    @if($active_phase)
+                        <div class="row bg-info text-white">
+                            <div class="clearfix">
+                                <div class="col-lg-6">
+                                    <h3>{{ $active_phase->title }}</h3>
+                                    <p>Bought: <span>{{ $active_phase->bought }}
+                                            /{{ $active_phase->tokens }} GRM</span></p>
+                                </div>
+                                <div class="col-lg-6 text-right text-bold">
+                                    <div class="h2">Token Price:
+                                        ${{ number_format($active_phase->token_rate, 2) }}</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="progress progress-striped progress-xs">
+                                    <div class="progress-bar progress-bar-danger" role="progressbar"
+                                         aria-valuenow="{{ (($active_phase->bought * 100) / $active_phase->tokens) }}"
+                                         aria-valuemin="0" aria-valuemax="100"
+                                         style="width: {{ (($active_phase->bought * 100) / $active_phase->tokens) }}%">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @foreach($inactive_phases as $phase)
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h3 class="text-muted">{{ $phase->title }}</h3>
+                                <p class="text-muted"><span>{{ $phase->tokens }} GRM</span></p>
+                            </div>
+                            <div class="col-lg-6 h4 text-right text-muted">
+                                        <span>{{ \Carbon\Carbon::parse($phase->launch_time)->toFormattedDateString() }}
+                                            at {{ \Carbon\Carbon::parse($phase->launch_time)->toTimeString() }}</span>
+                                <br/>
+                                <span>Token Price: ${{ number_format($phase->token_rate, 2) }}</span>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -133,12 +194,15 @@
 
         var $btc_input = $("#input-btc");
         var $gc_input = $("#input-gc");
+        var $countdown = $("#countdown");
         var $token_purchase_form = $("#token-purchase-form");
 
         $btc_input.each(onBtcChange);
 
         $btc_input.on("keyup", onBtcChange);
         $gc_input.on("keyup", onGcChange);
+
+        var countdown_interval = setInterval(updateCountdown, 1000);
 
         $token_purchase_form.on("submit", function () {
 
@@ -173,8 +237,30 @@
             var btc_in_dollar = btc * btc_value;
             var btc_in_gc = btc_in_dollar / gc_value;
 
-            $("#input-gc").val(btc_in_gc);
+            $("#input-gc").val(Math.round(btc_in_gc));
             $("#input-usd").val(btc_in_dollar);
+        }
+
+        function updateCountdown() {
+            var date = new Date(Date.parse($countdown.data('date')));
+            var now = new Date();
+
+            now = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+
+            console.log(now);
+            var diff = window.grm.daysBetween(now, date);
+
+            if (diff.days <= 0 && diff.hours <= 0 && diff.minutes <= 0 && diff.seconds <= 0) {
+                $countdown.fadeOut();
+                clearInterval(countdown_interval);
+
+                window.location.href = window.location.href;
+            }
+
+            $countdown.find('[data-countdown-days]').text((diff.days > 9 ? diff.days : "0" + diff.days));
+            $countdown.find('[data-countdown-hours]').text(diff.hours > 9 ? diff.hours : "0" + diff.hours);
+            $countdown.find('[data-countdown-minutes]').text(diff.minutes > 9 ? diff.minutes : "0" + diff.minutes);
+            $countdown.find('[data-countdown-seconds]').text(diff.seconds > 9 ? diff.seconds : "0" + diff.seconds);
         }
     });
 </script>

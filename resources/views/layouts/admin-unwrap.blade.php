@@ -20,7 +20,7 @@
    <link rel="stylesheet" href="{{ asset('/css/app.css') }}" id="maincss">
    <link id="autoloaded-stylesheet" rel="stylesheet" href="{{ asset('/css/'. $user_setting->theme.'.css') }}">
    <script>
-       window.byuapp =
+       window.grm =
        <?php echo json_encode([
            'csrfToken' => csrf_token(),
            'url' => asset('/'),

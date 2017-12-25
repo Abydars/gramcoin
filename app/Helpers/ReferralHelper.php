@@ -6,6 +6,8 @@ use App;
 use App\User;
 use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\View;
 use Option;
 use Currency;
 
@@ -60,7 +62,61 @@ class ReferralHelper
 		}
 	}
 
-	public function distributeTokenBonuses( $user_id, $amount )
+	public function getReferrals( $user_id )
+	{
+		$referrals = [];
+
+		App\UserReferral::with( [ 'user' ] )->where( 'referred_by', $user_id )->each( function ( $referral ) use ( &$referrals ) {
+			$referral    = $referral->toArray();
+			$referrals[] = $referral['user'];
+		} );
+
+		return $referrals;
+	}
+
+	public function getReferralToLevel( $user_id, $level = false )
+	{
+		$referrals   = [];
+		$percentages = Option::getReferralPercentages();
+		$total_level = count( $percentages );
+
+		if ( ! $level ) {
+			$level = $total_level;
+		}
+
+		$rs = $this->getReferrals( $user_id );
+
+		if ( $level > 0 ) {
+			foreach ( $rs as $r ) {
+
+				$token_ids = array_map( function ( $token ) {
+					return $token['id'];
+				}, App\UserToken::where( 'user_id', $r['id'] )->get()->toArray() );
+
+				$r['ico'] = $this->getUserBonuses( $user_id, $token_ids );
+				$r['referrals'] = $this->getReferralToLevel( $r, $level - 1 );
+				$r['level']     = ( $total_level + 1 ) - $level;
+
+				$referrals[] = $r;
+			}
+
+			return $referrals;
+		}
+	}
+
+	public function getUserBonuses( $user_id, $token_ids = [] )
+	{
+		$bonuses = App\Bonus::where( 'awarded_to', $user_id )
+		                    ->groupBy( 'awarded_to' );
+
+		if ( $token_ids ) {
+			$bonuses = $bonuses->whereIn( 'purchase_id', $token_ids );
+		}
+
+		return $bonuses->sum( 'amount' );
+	}
+
+	public function distributeTokenBonuses( $user_id, $amount, $token_id )
 	{
 		$token_rate   = Currency::getGcValue();
 		$percentages  = Option::getReferralPercentages();
@@ -78,11 +134,15 @@ class ReferralHelper
 					                       'user_id'    => $reference,
 					                       'tokens'     => $tokens,
 					                       'token_rate' => $token_rate,
-					                       'currency'   => 'USD',
-					                       'meta_data'  => json_encode( [
-						                                                    'is_referral_bonus' => true
-					                                                    ] )
+					                       'currency'   => 'USD'
 				                       ] );
+
+				App\Bonus::create( [
+					                   'awarded_to'  => $reference,
+					                   'purchase_id' => $token_id,
+					                   'amount'      => $tokens,
+					                   'rate'        => $token_rate
+				                   ] );
 
 				$user_id = $reference;
 			} else {
@@ -91,5 +151,12 @@ class ReferralHelper
 		}
 
 		return $distribution;
+	}
+
+	public function renderReferralList( $list, $child_id = false )
+	{
+		$view = View::make( 'layouts.referral_table', [ 'list' => $list, 'id' => $child_id ] )->render();
+
+		return $view;
 	}
 }

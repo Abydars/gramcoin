@@ -11,3 +11,38 @@
 .pay_button {
   margin-right: 6px;
 }
+
+.g-recaptcha > div {
+  margin: 0 auto;
+}
+
+/*
+  Referral Table Styles
+ */
+.referral-table .referral-table {
+  display: none;
+}
+
+.referral-table .referral-table table {
+  background: none;
+}
+
+.referral-table table td {
+  cursor: pointer;
+}
+
+.referral-table .referral-table table td {
+  border-top: none;
+}
+
+.referral-table table tr.ref td .fa.arrow::before {
+  content: "\f107";
+}
+
+.referral-table table tr.ref.open td .fa.arrow::before {
+  content: "\f106";
+}
+
+.referral-table.parent > .tbody > .row {
+  cursor: pointer;
+}

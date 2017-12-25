@@ -4,7 +4,7 @@
 @endsection
 
 @section('content')
-    <div class="block-center wd-xl">
+    <div class="block-center wd-xxl">
         <!-- START panel-->
         <div class="panel panel-dark panel-flat">
             <div class="panel-heading text-center">
@@ -64,10 +64,16 @@
                     {!! Form::password('password_confirmation', ['id'=>'signup_password_confirm', 'placeholder'=>'Retype Password', 'autocomplete'=>'off', 'required', 'data-parsley-equalto'=>'#signup_password', 'class'=>'form-control']) !!}
                     <span class="fa fa-lock form-control-feedback text-muted"></span>
                 </div>
-                <div class="clearfix">
+                {!! Recaptcha::render() !!}
+                @if ($errors->has('g-recaptcha-response'))
+                    <ul class="parsley-errors-list filled">
+                        <li class="parsley-required">{{ $errors->first('g-recaptcha-response') }}</li>
+                    </ul>
+                @endif
+                <div class="clearfix hide">
                     <div class="checkbox c-checkbox pull-left mt0">
                         <label>
-                            <input type="checkbox" value="" required name="agreed">
+                            <input type="checkbox" value="" name="agreed">
                             <span class="fa fa-check"></span>I agree with the <a href="#">terms</a>
                         </label>
                     </div>

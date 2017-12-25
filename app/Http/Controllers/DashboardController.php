@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Facades\FormatFacade;
 use App\Notifications\WithdrawalRequest;
+use App\Phase;
 use App\Transaction;
 use App\User;
+use App\UserToken;
 use App\UserTransaction;
 use Blocktrail;
 use Exception;
@@ -43,9 +45,19 @@ class DashboardController extends PanelController
 		$user   = Auth::user();
 		$wallet = $user->wallet;
 
-		$btc_value    = Currency::getBtcValue();
-		$gc_value     = Currency::getGcValue();
-		$transactions = Transaction::where( 'wallet_id', $user->wallet->id )->orderBy('tx_time', 'desc')->get();
+		$btc_value  = Currency::getBtcValue();
+		$token_rate = Currency::getTokenValue();
+
+		$inactive_phases = Phase::getInactivePhases();
+		$active_phase    = Phase::getActivePhase();
+		$past_phases     = Phase::getPastPhases();
+		$user_bought     = 0;
+
+		if ( $active_phase ) {
+			$user_bought = UserToken::getUserTokensByPhase( $user->id, $active_phase->id );
+		}
+
+		$transactions = Transaction::where( 'wallet_id', $user->wallet->id )->orderBy( 'tx_time', 'desc' )->get();
 
 		try {
 			$wallet->getBalance();
@@ -57,12 +69,16 @@ class DashboardController extends PanelController
 		$btc_balance = $user->btc_balance_in_btc;
 
 		return view( 'dashboard.dashboard', [
-			'user'         => $user,
-			'transactions' => $transactions,
-			'btc_balance'  => number_format( $btc_balance, 8 ),
-			'token_rate'   => number_format( $gc_value, 2 ),
-			'btc_value'    => number_format( $btc_value, 2 ),
-			'unc_balance'  => number_format( $unc_balance, 8 )
+			'user'            => $user,
+			'transactions'    => $transactions,
+			'active_phase'    => $active_phase,
+			'inactive_phases' => $inactive_phases,
+			'past_phases'     => $past_phases,
+			'btc_balance'     => number_format( $btc_balance, 8 ),
+			'token_rate'      => $token_rate,
+			'btc_value'       => $btc_value,
+			'unc_balance'     => number_format( $unc_balance, 8 ),
+			'user_bought'     => $user_bought
 		] );
 	}
 }

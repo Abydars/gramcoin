@@ -173,6 +173,7 @@ return [
 		Vinkla\Pusher\PusherServiceProvider::class,
 		//App\Providers\BlockChainServiceProvider::class,
 		App\Providers\BlocktrailServiceProvider::class,
+		Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
 
 		/*
 		 * Application Service Providers...
@@ -237,6 +238,8 @@ return [
 		'Form'         => Collective\Html\FormFacade::class,
 		'Html'         => Collective\Html\HtmlFacade::class,
 		'Image'        => Intervention\Image\Facades\Image::class,
+		'Recaptcha'    => Greggilbert\Recaptcha\Facades\Recaptcha::class,
+		'Google2FA'    => PragmaRX\Google2FA\Google2FA::class,
 
 		// App
 		'Element'      => App\Facades\ElementFacade::class,

@@ -20,11 +20,10 @@ $active_navigation = Dashboard::active_navigation();
     <link rel="stylesheet" href="{{ asset('/css/app.css') }}" id="maincss">
     <link id="autoloaded-stylesheet" rel="stylesheet" href="{{ asset('/css/theme-a.css') }}">
     <script>
-        window.byuapp =
+        window.grm =
 		<?php echo json_encode( [
 			                        'csrfToken' => csrf_token(),
-			                        'url'       => asset( '/' ),
-			                        'currency'  => Config::get( 'constants.currencies.USD' )
+			                        'url'       => asset( '/' )
 		                        ] ); ?>
     </script>
 </head>
@@ -65,7 +64,7 @@ $active_navigation = Dashboard::active_navigation();
     var channel = pusher.subscribe('user.' + userid);
 
     channel.bind("notification.created", function (data) {
-        window.byuapp.addNotification(data);
+        window.grm.addNotification(data);
     });
 
     $("body").on("click", function (e) {

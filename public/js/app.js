@@ -51,7 +51,21 @@
             }
         });
 
-    }); // doc ready
+        $('.datetimepicker').datetimepicker({
+            icons: {
+                time: 'fa fa-clock-o',
+                date: 'fa fa-calendar',
+                up: 'fa fa-chevron-up',
+                down: 'fa fa-chevron-down',
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-crosshairs',
+                clear: 'fa fa-trash'
+            },
+            format: "YYYY-MM-DD H:m"
+        });
+    })
+    ; // doc ready
 
 })(window, document, window.jQuery);
 // Start Bootstrap JS
@@ -3308,26 +3322,26 @@ String.prototype.hashCode = function() {
     $html.addClass($.support.touch ? "touch" : "no-touch");
 
 }(jQuery, window, document));
-(function(window, document, $, undefined) {
-    $(function() {
+(function (window, document, $, undefined) {
+    $(function () {
 
-        if(typeof window.byuapp != "undefined") {
-            window.byuapp.formatMoneyWithCurrency = function (n, c) {
+        if (typeof window.grm != "undefined") {
+            window.grm.formatMoneyWithCurrency = function (n, c) {
                 try {
                     n = parseFloat(n);
-                    return c + n.toFixed(2).replace(/./g, function(c, i, a) {
-                        return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
-                    });
+                    return c + n.toFixed(2).replace(/./g, function (c, i, a) {
+                            return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
+                        });
                 } catch (e) {
                     console.log(e);
-                    return c+'0';
+                    return c + '0';
                 }
             };
 
-            window.byuapp.formatMoneyWithoutCurrency = function (n) {
+            window.grm.formatMoneyWithoutCurrency = function (n) {
                 try {
                     n = parseFloat(n);
-                    return n.toFixed(2).replace(/./g, function(c, i, a) {
+                    return n.toFixed(2).replace(/./g, function (c, i, a) {
                         return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
                     });
                 } catch (e) {
@@ -3336,7 +3350,7 @@ String.prototype.hashCode = function() {
                 }
             };
 
-            window.byuapp.formatMoney = function (n) {
+            window.grm.formatMoney = function (n) {
                 var currency = this.currency;
                 /*
                  var money = new Number(money);
@@ -3345,6 +3359,34 @@ String.prototype.hashCode = function() {
                  */
                 return this.formatMoneyWithCurrency(n, currency.symbol);
             };
+
+            window.grm.daysBetween = function (date1, date2) {
+                //Get 1 day in milliseconds
+                var one_day = 1000 * 60 * 60 * 24;
+
+                // Convert both dates to milliseconds
+                var date1_ms = date1.getTime();
+                var date2_ms = date2.getTime();
+
+                // Calculate the difference in milliseconds
+                var difference_ms = date2_ms - date1_ms;
+                //take out milliseconds
+                difference_ms = difference_ms / 1000;
+                var seconds = Math.floor(difference_ms % 60);
+                difference_ms = difference_ms / 60;
+                var minutes = Math.floor(difference_ms % 60);
+                difference_ms = difference_ms / 60;
+                var hours = Math.floor(difference_ms % 24);
+                var days = Math.floor(difference_ms / 24);
+
+                return {
+                    days: days,
+                    hours: hours,
+                    minutes: minutes,
+                    seconds: seconds
+                };
+                //return days + ' days, ' + hours + ' hours, ' + minutes + ' minutes, and ' + seconds + ' seconds';
+            }
         }
     });
 })(window, document, window.jQuery);
@@ -3355,9 +3397,9 @@ String.prototype.hashCode = function() {
     $(function() {
         $.ajaxPrefilter(function(options, originalOptions, xhr) { // this will run before each request
             NProgress.start();
-            var token = window.byuapp.csrfToken;
-            if (window.byuapp && window.byuapp.csrfToken) {
-                return xhr.setRequestHeader('X-CSRF-TOKEN', window.byuapp.csrfToken); // adds directly to the XmlHttpRequest Object
+            var token = window.grm.csrfToken;
+            if (window.grm && window.grm.csrfToken) {
+                return xhr.setRequestHeader('X-CSRF-TOKEN', window.grm.csrfToken); // adds directly to the XmlHttpRequest Object
             }
         });
 
@@ -4420,6 +4462,14 @@ function SetUrl(url) {
     });
 }(jQuery, window, document));
 
+jQuery(function ($) {
+
+    $('.referral-table > table > tbody > tr.ref > td').on('click', function () {
+        $(this).parent().next().children('td').children('.referral-table').slideToggle();
+        $(this).parent().toggleClass('open');
+    });
+
+});
 // User Settings
 // -----------------------------------
 
@@ -4432,7 +4482,7 @@ function SetUrl(url) {
         $("#app-settings input[name='theme']").on('change', function() {
             var $this = $(this);
             $.ajax({
-                url: window.byuapp.url + 'dashboard/user_setting',
+                url: window.grm.url + 'dashboard/user_setting',
                 type: 'POST',
                 data: {
                     'theme': $this.val()
@@ -4445,7 +4495,7 @@ function SetUrl(url) {
             var data = {};
             data[$this.attr('name')] = $this.prop('checked') ? 1 : 0;
             $.ajax({
-                url: window.byuapp.url + 'profile/setting',
+                url: window.grm.url + 'profile/setting',
                 type: 'POST',
                 data: data
             });

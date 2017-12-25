@@ -18,6 +18,19 @@ class CurrencyHelper
 		return $satoshi / 100000000;
 	}
 
+	public function getTokenValue()
+	{
+		$phase = App\Phase::where( 'status', 'completed' )
+		                  ->whereDate( 'launch_time', '<=', Carbon::now()->toDateString() )
+		                  ->orderBy( 'launch_time', 'desc' );
+
+		if ( $phase->exists() ) {
+			return $phase->first()->token_rate;
+		}
+
+		return 0.1;
+	}
+
 	public function getGcValue( $currency = 'USD' )
 	{
 		$usd = 0.5;

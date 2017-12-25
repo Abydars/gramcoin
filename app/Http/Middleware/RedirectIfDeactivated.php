@@ -23,6 +23,13 @@ class RedirectIfDeactivated
 			return redirect( 'activate' );
 		}
 
-		return $next( $request );
+		$verified        = ( $user->google2fa_secret && $request->session()->has( '2fa:validation' ) );
+		$on_verification = $request->route()->getUri() == '2fa';
+
+		if ( $verified || $on_verification || $user->google2fa_secret == null ) {
+			return $next( $request );
+		} else {
+			return redirect( '/2fa' );
+		}
 	}
 }

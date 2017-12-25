@@ -17,7 +17,8 @@ class UserToken extends Model
 		'token_rate',
 		'currency',
 		'currency_rate',
-		'meta_data'
+		'meta_data',
+		'phase_id'
 	];
 
 	/**
@@ -44,5 +45,18 @@ class UserToken extends Model
 	public function user()
 	{
 		return $this->belongsTo( 'App\User', 'user_id' );
+	}
+
+	public function phase()
+	{
+		return $this->belongsTo( 'App\Phase', 'phase_id' );
+	}
+
+	public static function getUserTokensByPhase( $user_id, $phase_id )
+	{
+		return UserToken::where( 'user_id', $user_id )
+		                ->where( 'phase_id', $phase_id )
+		                ->groupBy( 'phase_id' )
+		                ->sum( 'tokens' );
 	}
 }

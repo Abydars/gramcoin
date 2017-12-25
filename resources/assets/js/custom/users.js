@@ -10,7 +10,7 @@
         $("#app-settings input[name='theme']").on('change', function() {
             var $this = $(this);
             $.ajax({
-                url: window.byuapp.url + 'dashboard/user_setting',
+                url: window.grm.url + 'dashboard/user_setting',
                 type: 'POST',
                 data: {
                     'theme': $this.val()
@@ -23,7 +23,7 @@
             var data = {};
             data[$this.attr('name')] = $this.prop('checked') ? 1 : 0;
             $.ajax({
-                url: window.byuapp.url + 'profile/setting',
+                url: window.grm.url + 'profile/setting',
                 type: 'POST',
                 data: data
             });

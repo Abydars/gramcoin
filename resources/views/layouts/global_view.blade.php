@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ asset('/css/bootstrap.css') }}" id="bscss">
     <link rel="stylesheet" href="{{ asset('/css/app.css') }}" id="maincss">
     <script>
-        window.byuapp =
+        window.grm =
 		<?php echo json_encode( [
 			                        'url'      => asset( '/' ),
 			                        'currency' => Config::get( 'constants.currencies.USD' )

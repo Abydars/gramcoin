@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Currency;
+use Referral;
 
 class User extends Authenticatable
 {
@@ -30,7 +31,8 @@ class User extends Authenticatable
 		'guid',
 		'meta_data',
 		'wallet_id',
-		'role'
+		'role',
+		'google2fa_secret'
 	];
 
 	/**
@@ -128,19 +130,7 @@ class User extends Authenticatable
 
 	public function getReferralBonuses()
 	{
-		$tokens  = UserToken::where( 'user_id', $this->id )->get();
-		$bonuses = 0;
-
-		$tokens->each( function ( $token ) use ( &$bonuses ) {
-			if ( $token->meta_data ) {
-				$meta_data = json_decode( $token->meta_data, true );
-				if ( isset( $meta_data['is_referral_bonus'] ) && $meta_data['is_referral_bonus'] == true ) {
-					$bonuses += $token->tokens;
-				}
-			}
-		} );
-
-		return $bonuses;
+		return Referral::getUserBonuses( $this->id );
 	}
 
 	/**

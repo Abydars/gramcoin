@@ -5,9 +5,9 @@
     $(function() {
         $.ajaxPrefilter(function(options, originalOptions, xhr) { // this will run before each request
             NProgress.start();
-            var token = window.byuapp.csrfToken;
-            if (window.byuapp && window.byuapp.csrfToken) {
-                return xhr.setRequestHeader('X-CSRF-TOKEN', window.byuapp.csrfToken); // adds directly to the XmlHttpRequest Object
+            var token = window.grm.csrfToken;
+            if (window.grm && window.grm.csrfToken) {
+                return xhr.setRequestHeader('X-CSRF-TOKEN', window.grm.csrfToken); // adds directly to the XmlHttpRequest Object
             }
         });
 

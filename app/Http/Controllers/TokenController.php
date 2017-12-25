@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Phase;
 use App\UserToken;
 use Exception;
 use Illuminate\Http\Request;
@@ -26,17 +27,34 @@ class TokenController extends PanelController
 		$user   = Auth::user();
 		$wallet = $user->wallet;
 
-		$success     = false;
-		$error       = false;
-		$btc_value   = Currency::getBtcValue();
-		$token_rate  = Currency::getGcValue();
+		$success         = false;
+		$error           = false;
+		$user_limit      = 0;
+		$btc_value       = Currency::getBtcValue();
+		$token_rate      = Currency::getTokenValue();
+		$inactive_phases = Phase::getInactivePhases();
+		$active_phase    = Phase::getActivePhase();
+		$past_phases     = Phase::getPastPhases();
+		$user_bought     = 0;
+
+		if ( $active_phase ) {
+			$user_bought = UserToken::getUserTokensByPhase( $user->id, $active_phase->id );
+		} else {
+			$error = 'No active phase';
+		}
+
 		$btc_balance = $user->btc_balance_in_btc;
 
-		if ( $request->isMethod( 'POST' ) ) {
+		if ( $active_phase ) {
+			$user_limit = $active_phase->user_limit;
+		}
+
+		if ( $request->isMethod( 'POST' ) && $active_phase ) {
 			$btc = $request->input( 'btc' );
 
 			$btc_in_satoshi = Currency::convertToSatoshi( $btc );
 			$balance        = $user->btc_balance;
+			$user_tokens    = UserToken::getUserTokensByPhase( $user->id, $active_phase->id );
 
 			try {
 				$wallet->getBalance();
@@ -54,19 +72,25 @@ class TokenController extends PanelController
 					$tokens        = round( $dollars / $token_rate );
 					$tokens_in_usd = $tokens * $token_rate;
 
-					Referral::distributeTokenBonuses( $user->id, $tokens_in_usd );
+					if ( $user_limit > $user_tokens ) {
+						$error = "Sorry, you don't have enough limit to purchase {$tokens} GRM tokens";
+					} else {
 
-					$user->btc_balance -= $btc_in_satoshi;
-					$created           = UserToken::create( [
-						                                        'user_id'       => $user->id,
-						                                        'tokens'        => $tokens,
-						                                        'token_rate'    => $token_rate,
-						                                        'currency'      => 'BTC',
-						                                        'currency_rate' => $btc_value
-					                                        ] );
+						$user->btc_balance -= $btc_in_satoshi;
+						$created           = UserToken::create( [
+							                                        'user_id'       => $user->id,
+							                                        'tokens'        => $tokens,
+							                                        'token_rate'    => $token_rate,
+							                                        'currency'      => 'BTC',
+							                                        'currency_rate' => $btc_value
+						                                        ] );
 
-					if ( $created->id > 0 && $user->save() ) {
-						$success = "You have successfully bought {$tokens} tokens for {$btc} bitcoin(s).";
+						if ( $created->id > 0 && $user->save() ) {
+
+							Referral::distributeTokenBonuses( $user->id, $tokens_in_usd, $created->id );
+
+							$success = "You have successfully bought {$tokens} tokens for {$btc} bitcoin(s).";
+						}
 					}
 				} else {
 					$error = 'You don\'t have enough BTC balance';
@@ -77,12 +101,16 @@ class TokenController extends PanelController
 		Dashboard::setTitle( 'ICO Management' );
 
 		return view( 'ico.index', [
-			'user'        => $user,
-			'btc_balance' => $btc_balance,
-			'btc_value'   => $btc_value,
-			'token_rate'  => $token_rate,
-			'error'       => $error,
-			'success'     => $success
+			'user'            => $user,
+			'active_phase'    => $active_phase,
+			'inactive_phases' => $inactive_phases,
+			'past_phases'     => $past_phases,
+			'btc_balance'     => $btc_balance,
+			'btc_value'       => $btc_value,
+			'token_rate'      => $token_rate,
+			'user_bought'     => $user_bought,
+			'error'           => $error,
+			'success'         => $success
 		] );
 	}
 }
