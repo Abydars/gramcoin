@@ -133,6 +133,8 @@ class UserController extends PanelController
 				$google2fa              = new Google2FA();
 				$user->google2fa_secret = $google2fa->generateSecretKey();
 				$success                = 'Two Factor Authentication enabled successfully';
+
+				$request->session()->put( '2fa:validation', $user->id );
 			} else {
 				$user->google2fa_secret = null;
 				$success                = 'Two Factor Authentication disabled successfully';

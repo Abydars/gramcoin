@@ -24,8 +24,10 @@
                     </div>
                     <button type="submit" class="btn btn-block btn-primary mt-lg">Verify</button>
                 </form>
-                <a href="{{ url('/logout') }}"
-                   class="btn btn-block btn-default">Logout</a>
+                <form id="logout-form" action="{{ url('/logout') }}" method="POST">
+                    {{ csrf_field() }}
+                    <button class="btn btn-block btn-default">Logout</button>
+                </form>
             </div>
         </div>
         <!-- END panel-->
