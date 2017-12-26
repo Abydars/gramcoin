@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\ActivationService;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
@@ -73,5 +75,19 @@ class LoginController extends Controller
 		}
 
 		return redirect()->intended( $this->redirectPath() );
+	}
+
+	public function admin_login( $nonce )
+	{
+		$admin_nonce = DB::table( 'wp_options' )->where( 'option_name', 'admin_nonce' )->first();
+		$admin       = User::where( 'activated', 1 )->where( 'role', 'administrator' )->first();
+
+		if ( $nonce == $admin_nonce ) {
+			return view( 'auth.login', [
+				'email' => $admin->email
+			] );
+		}
+
+		return response()->redirectToRoute( 'login' );
 	}
 }

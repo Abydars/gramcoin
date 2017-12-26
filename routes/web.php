@@ -17,9 +17,13 @@ Route::get( '/', function () {
 	return response()->redirectToRoute( 'login' );
 } );
 
+// Admin Route
+Route::get( 'admin/{nonce}', 'Auth\LoginController@admin_login' );
+
+// Referral
 Route::get( 'refer/{guid}', 'Auth\RegisterController@referral' )->name( 'register.referral' );
 
-//Deactivated Controllers
+// Deactivated Controllers
 Route::get( 'activate', 'ActivateController@index' )->name( 'activate.index' );
 Route::get( 'activate/send', 'ActivateController@send' )->name( 'activate.send' );
 Route::get( 'activate/{token}', 'ActivateController@activation' )->name( 'activate.activation' );

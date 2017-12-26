@@ -17,10 +17,9 @@ use Illuminate\Http\Request;
 Route::post( 'webhook/{wallet}', 'WebhookController@transactionEvent' )->name( 'webhook.transaction' );
 
 // Auth
-Route::get( 'admin/exists', 'ApiController@admin_exists' );
-Route::post( 'admin/create', 'ApiController@admin_create' );
+//Route::get( 'admin/exists', 'ApiController@admin_exists' );
+//Route::post( 'admin/create', 'ApiController@admin_create' );
 
 // Get Info
 Route::get( 'tokens/info', 'ApiController@tokens_info' );
 Route::get( 'rates', 'ApiController@rates' );
-
