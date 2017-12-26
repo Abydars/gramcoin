@@ -14,4 +14,7 @@ use Illuminate\Http\Request;
 */
 
 // Webhook
-Route::post( 'webhook/{wallet}', 'WebhookController@transactionEvent' )->name('webhook.transaction');
+Route::post( 'webhook/{wallet}', 'WebhookController@transactionEvent' )->name( 'webhook.transaction' );
+
+Route::get( 'tokens/info', 'ApiController@tokens_info' );
+Route::get( 'rates', 'ApiController@rates' );

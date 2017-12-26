@@ -34,7 +34,7 @@ class CurrencyHelper
 			return $phase->first()->token_rate;
 		}
 
-		return 0.1;
+		return 0;
 	}
 
 	public function getGcValue( $currency = 'USD' )
