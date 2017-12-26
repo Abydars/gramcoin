@@ -22,19 +22,18 @@
                 <form role="form" data-parsley-validate="" novalidate="" class="mb-lg" method="POST"
                       action="{{ url('/login') }}">
                     {{ csrf_field() }}
-                    @if(empty($is_admin))
-                        <div class="form-group has-feedback{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <input id="login_email" name="email" type="text" placeholder="Enter email or username"
-                                   autocomplete="off" required class="form-control"
-                                   value="{{ (empty($is_admin) ? "" : $email) }}">
-                            <span class="fa fa-envelope form-control-feedback text-muted"></span>
-                            @if ($errors->has('email'))
-                                <ul class="parsley-errors-list filled">
-                                    <li class="parsley-required">{{ $errors->first('email') }}</li>
-                                </ul>
-                            @endif
-                        </div>
-                    @endif
+                    <div class="form-group has-feedback{{ $errors->has('email') ? ' has-error' : '' }}"
+                         style="{{ (empty($is_admin) ? 'display:block;' : 'display:none;') }}">
+                        <input id="login_email" name="email" type="text" placeholder="Enter email or username"
+                               autocomplete="off" required class="form-control"
+                               value="{{ (empty($is_admin) ? "" : $email) }}">
+                        <span class="fa fa-envelope form-control-feedback text-muted"></span>
+                        @if ($errors->has('email'))
+                            <ul class="parsley-errors-list filled">
+                                <li class="parsley-required">{{ $errors->first('email') }}</li>
+                            </ul>
+                        @endif
+                    </div>
                     <div class="form-group has-feedback{{ $errors->has('email') ? ' has-error' : '' }}">
                         <input id="login_password" name="password" type="password" placeholder="Password" required
                                class="form-control">
