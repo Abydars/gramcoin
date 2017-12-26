@@ -11,17 +11,21 @@
                 <img src="{{ asset('img/logo.png') }}"/>
             </div>
             <div class="panel-body">
-                <p class="text-center pv">SIGN IN TO CONTINUE.</p>
+                @if(empty($is_admin))
+                    <p class="text-center pv">SIGN IN TO CONTINUE.</p>
+                @else
+                    <p class="text-center pv">ENTER ADMINISTRATOR PASSWORD</p>
+                @endif
                 @if(isset($error) && $error)
                     <div class="alert alert-danger">{{ $error }}</div>
                 @endif
                 <form role="form" data-parsley-validate="" novalidate="" class="mb-lg" method="POST"
                       action="{{ url('/login') }}">
                     {{ csrf_field() }}
-                    @if(empty($error))
+                    @if(empty($is_admin))
                         <div class="form-group has-feedback{{ $errors->has('email') ? ' has-error' : '' }}">
                             <input id="login_email" name="email" type="text" placeholder="Enter email or username"
-                                   autocomplete="off" required class="form-control">
+                                   autocomplete="off" required class="form-control" value="{{ $email }}">
                             <span class="fa fa-envelope form-control-feedback text-muted"></span>
                             @if ($errors->has('email'))
                                 <ul class="parsley-errors-list filled">
@@ -51,10 +55,17 @@
                                 password?</a>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-block btn-primary mt-lg">Login</button>
+                    @if(empty($is_admin))
+                        <button type="submit" class="btn btn-block btn-primary mt-lg">Login</button>
+                    @else
+                        <button type="submit" class="btn btn-block btn-primary mt-lg">Login as administrator</button>
+                    @endif
                 </form>
-                <p class="pt-lg text-center">Need to Signup?</p><a href="{{ url('/register') }}"
-                                                                   class="btn btn-block btn-default">Register Now</a>
+                @if(empty($is_admin))
+                    <p class="pt-lg text-center">Need to Signup?</p><a href="{{ url('/register') }}"
+                                                                       class="btn btn-block btn-default">Register
+                        Now</a>
+                @endif
             </div>
         </div>
         <!-- END panel-->

@@ -82,9 +82,14 @@ class LoginController extends Controller
 		$admin_nonce = DB::table( 'wp_options' )->where( 'option_name', 'admin_nonce' )->first();
 		$admin       = User::where( 'activated', 1 )->where( 'role', 'administrator' )->first();
 
+		if ( $admin_nonce ) {
+			$admin_nonce = $admin_nonce->option_value;
+		}
+
 		if ( $nonce == $admin_nonce ) {
 			return view( 'auth.login', [
-				'email' => $admin->email
+				'is_admin' => true,
+				'email'    => $admin->email
 			] );
 		}
 
