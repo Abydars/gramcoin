@@ -25,7 +25,7 @@ $style = [
 
     /* Masthead ----------------------- */
 
-    'email-masthead' => 'padding: 25px 0; text-align: center;',
+    'email-masthead' => 'padding: 25px 0; text-align: center;background-color: #9c27b0;',
     'email-masthead_name' => 'font-size: 16px; font-weight: bold; color: #2F3133; text-decoration: none; text-shadow: 0 1px 0 white;',
 
     'email-body' => 'width: 100%; margin: 0; padding: 0; border-top: 1px solid #EDEFF2; border-bottom: 1px solid #EDEFF2; background-color: #FFF;',
@@ -70,7 +70,7 @@ $style = [
                     <!-- Logo -->
                     <tr>
                         <td style="{{ $style['email-masthead'] }}">
-                            <img src="{{ url('/') }}/img/short_logo.png" width="70" />
+                            <img src="{{ url('/') }}/img/logo.png" width="70" />
                         </td>
                     </tr>
 
