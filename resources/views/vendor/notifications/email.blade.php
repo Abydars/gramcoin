@@ -54,9 +54,9 @@ $style = [
                  background-color: #3869D4; border-radius: 3px; color: #ffffff; font-size: 15px; line-height: 25px;
                  text-align: center; text-decoration: none; -webkit-text-size-adjust: none;',
 
-    'button--green' => 'background-color: #22BC66;',
-    'button--red' => 'background-color: #dc4d2f;',
-    'button--blue' => 'background-color: #3869D4;',
+    'button--green' => 'background-color: #ff9900;',
+    'button--red' => 'background-color: #db4437;',
+    'button--blue' => 'background-color: #9c27b0;',
 ];
 ?>
 
