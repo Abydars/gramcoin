@@ -6,14 +6,14 @@
         <div class="col-md-3">
             <div class="panel widget">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-primary-light pv-lg">
+                    <div class="col-xs-4 text-center bg-white pv-lg">
                         <em class="fa fa-bitcoin fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
                         <h4 class="m0 text-uppercase">Amount</h4>
                     </div>
                 </div>
-                <div class="panel-body bg-primary">
+                <div class="panel-body bg-purple-custom text-white">
                     <h4 class="m0">{{ number_format($transaction->amount_in_btc, 10) }} BTC</h4>
                 </div>
             </div>
@@ -21,14 +21,14 @@
         <div class="col-md-3">
             <div class="panel widget">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-warning-light pv-lg">
+                    <div class="col-xs-4 text-center pv-lg">
                         <em class="fa fa-calendar fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
                         <h4 class="m0 text-uppercase">Date/Time</h4>
                     </div>
                 </div>
-                <div class="panel-body bg-warning">
+                <div class="panel-body bg-orange-custom text-white">
                     <h4 class="m0">{{ $transaction->created_at }}</h4>
                 </div>
             </div>
@@ -36,14 +36,14 @@
         <div class="col-md-3">
             <div class="panel widget">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-gray-light pv-lg">
+                    <div class="col-xs-4 text-center pv-lg">
                         <em class="fa fa-clock-o fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
                         <h4 class="m0 text-uppercase">Status</h4>
                     </div>
                 </div>
-                <div class="panel-body bg-success">
+                <div class="panel-body bg-pink-custom text-white">
                     <h4 class="m0">{{ $transaction->status }}</h4>
                 </div>
             </div>
@@ -51,14 +51,14 @@
         <div class="col-md-3">
             <div class="panel widget">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-gray-light pv-lg">
+                    <div class="col-xs-4 text-center pv-lg">
                         <em class="fa fa-sticky-note fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
                         <h4 class="m0 text-uppercase">Confirmations</h4>
                     </div>
                 </div>
-                <div class="panel-body bg-green-dark">
+                <div class="panel-body bg-red-custom text-white">
                     <h4 class="m0">{{ $transaction->confirmations }}</h4>
                 </div>
             </div>

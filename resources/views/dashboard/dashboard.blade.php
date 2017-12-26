@@ -63,7 +63,7 @@
             <div class="panel widget bg-red-custom text-white">
                 <div class="row row-table">
                     <div class="col-xs-4 text-center pv-lg">
-                        <img src="{{ asset('/img/currency-light.png') }}" />
+                        <img src="{{ asset('/img/currency-light.png') }}"/>
                     </div>
                     <div class="col-xs-8 pv-lg">
                         <div class="h2 mt0">{{ $user->token_balance }}</div>
@@ -162,7 +162,8 @@
                                 </div>
                                 @if($active_phase->is_open == false)
                                     <div class="row p0 mt0 mb0">
-                                        <div class="row row-table text-center bg-purple-custom text-white pt-lg mb-lg" id="countdown"
+                                        <div class="row row-table text-center bg-purple-custom text-white pt-lg mb-lg"
+                                             id="countdown"
                                              data-date="{{ $active_phase->launch_time }}">
                                             <div class="col-xs-3">
                                                 <h1 class="m0" data-countdown-days>00</h1>
@@ -248,29 +249,25 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="panel-title">Recent Transactions</div>
                         </div>
                         <div class="panel-body">
-                            <div class="row">
-                                <div data-height="300" data-scrollable="" class="list-group">
-                                    @if(!empty($transactions) && count($transactions) > 0)
-                                        @foreach($transactions as $transaction)
-                                            <div class="row row-table" style="height: auto;">
-                                                <div class="col-md-7"><p>{{ substr($transaction->tx_hash, 0, 20) }}</p>
-                                                </div>
-                                                <div class="col-md-5"><p>{{ $transaction->status }}</p></div>
-                                            </div>
-                                        @endforeach
-                                    @else
-                                        <div class="col-md-12">
-                                            <h5>No Transactions</h5>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
+                            <table class="table table table-striped table-hover table-bordered table-bordered-force"
+                                   id="transactions-table">
+                                <thead>
+                                <tr>
+                                    <th style="text-align: left;">Date/Time</th>
+                                    <th style="text-align: left;">TX #</th>
+                                    <th style="text-align: left;">Recipient</th>
+                                    <th style="text-align: left;">Amount</th>
+                                    <th style="text-align: left;">Status</th>
+                                    <th style="text-align: left;">In/Out</th>
+                                </tr>
+                                </thead>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -319,6 +316,86 @@
             is_confirmed = true;
 
             $token_purchase_form.submit();
+        });
+
+        var $transactions_table = $('#transactions-table').DataTable({
+            responsive: true,
+            errMode: 'throw',
+            ajax: '{{ route("wallet.transactions.data", [ 10 ]) }}',
+            fnInitComplete: function (settings) {
+                var $tbl = this;
+
+                $tbl.addClass("linkedrows");
+                $($tbl.fnGetNodes()).click(function (e) {
+                    var iPos = $tbl.fnGetPosition(this);
+                    var row = settings.aoData[iPos]._aData;
+
+                    if ($(e.target).is('td'))
+                        document.location.href = '{{ url("wallet/transactions/")}}/' + row.id;
+                });
+            },
+            order: [0, 'desc'],
+            columns: [
+                {
+                    name: 'created_at_human',
+                    data: 'created_at_human'
+                },
+                {
+                    bSortable: false,
+                    name: 'tx_hash',
+                    data: function (row) {
+                        return row.tx_hash.substring(0, 40) + (row.tx_hash.length > 40 ? '...' : '');
+                    }
+                },
+                {
+                    bSortable: false,
+                    name: 'recipient',
+                    data: 'recipient'
+                },
+                {
+                    name: 'amount_in_btc',
+                    data: function (row) {
+                        return row.amount_in_btc + ' BTC';
+                    },
+                    className: 'text-right',
+                },
+                {
+                    bSortable: false,
+                    name: 'status',
+                    data: function (row) {
+                        return row.status;
+                    }
+                },
+                {
+                    bSortable: false,
+                    name: 'direction',
+                    data: function (row) {
+                        if (row.direction == 'sent') {
+                            return '<em class="icon icon-arrow-up-circle text-green"></em>';
+                        } else {
+                            return '<em class="icon icon-arrow-down-circle text-primary"></em>';
+                        }
+                    }
+                }
+            ],
+            dom: '<"html5buttons"B <"ml pull-right"C>>lTfgitp',
+            colVis: {
+                buttonText: "Column Visibility",
+                activate: "click",
+                sButtonClass: 'btn btn-primary'
+            },
+            buttons: [
+                {
+                    extend: 'pdf',
+                    text: 'PDF',
+                }, {
+                    extend: 'csv',
+                    text: 'CSV'
+                }, {
+                    extend: 'print',
+                    text: 'Print'
+                }
+            ]
         });
 
         function onGcChange() {

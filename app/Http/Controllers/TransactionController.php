@@ -21,12 +21,18 @@ class TransactionController extends PanelController
 		] );
 	}
 
-	public function data()
+	public function data( $limit = false )
 	{
 		$user   = Auth::user();
 		$wallet = $user->wallet;
 
-		return Datatables::of( Transaction::where( 'wallet_id', $wallet->id ) )->make( true );
+		$transactions = Transaction::where( 'wallet_id', $wallet->id );
+
+		if ( $limit != false ) {
+			$transactions->limit( $limit );
+		}
+
+		return Datatables::of( $transactions )->make( true );
 	}
 
 	public function show( $id )
