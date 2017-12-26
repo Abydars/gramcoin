@@ -23,12 +23,13 @@
         }
 
         body {
+            background: url({{ asset('img/background.png') }}) no-repeat center fixed;
             background-size: cover;
         }
     </style>
     @yield('style')
 </head>
-<body style="background: url({{ asset('img/background.png') }}) no-repeat center; background-size: cover;">
+<body class="single-block">
 <div class="wrapper">
     <div class="middle-block">
         @yield('content')

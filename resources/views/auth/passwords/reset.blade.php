@@ -4,11 +4,11 @@
 @endsection
 
 @section('content')
-<div class="block-center wd-xl">
+<div class="block-center wd-xxl mv-lg">
     <!-- START panel-->
     <div class="panel panel-dark panel-flat">
         <div class="bg-purple-custom text-center text-white p-lg">
-            <h3 class="m0">{{ config('app.name') }}</h3>
+            <img src="{{ asset('img/logo.png') }}"/>
         </div>
 
         <div class="panel-body">

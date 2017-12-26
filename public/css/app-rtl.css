@@ -8007,11 +8007,6 @@ body.mailbox-trash ul.nav a[href='#mailbox-trash'] {
   #inputRateModal .form-group > div > label span[data-adjusted-total] {
     color: green; }
 
-.hppFrame {
-  width: 100%;
-  border: none;
-  height: 342px; }
-
 .payment-dialog {
   min-width: 710px; }
 
