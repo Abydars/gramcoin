@@ -21,7 +21,7 @@ class ActivateController extends Controller
 	public function index()
 	{
 		$user = Auth::user();
-		
+
 		if ( ! $user->activated ) {
 			$this->activationService->sendActivationMail( $user );
 
