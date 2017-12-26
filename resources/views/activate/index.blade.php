@@ -15,7 +15,7 @@
             <div class="panel-title">Activate User</div>
         </div>
         <div class="panel-body">
-            {{ link_to_route('activate.index','Resend Verification', [], ['class'=>'btn btn-primary']) }}
+            {{ link_to_route('activate.send','Resend Verification', [], ['class'=>'btn btn-primary']) }}
         </div>
     </div>
 

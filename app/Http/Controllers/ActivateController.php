@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Notifications\WithdrawalRequest;
 use App\Services\ActivationService;
-use App\Transaction;
 use Illuminate\Support\Facades\Auth;
 
 class ActivateController extends Controller
@@ -21,7 +19,6 @@ class ActivateController extends Controller
 	public function index()
 	{
 		$user = Auth::user();
-
 		if ( ! $user->activated ) {
 			$this->activationService->sendActivationMail( $user );
 
