@@ -50,7 +50,7 @@ Route::post( 'ico', 'TokenController@purchase' )->name( 'token.purchase' );
 Route::get( 'wallet', 'WalletController@index' )->name( 'wallet.index' );
 Route::get( 'wallet/transactions', 'TransactionController@index' )->name( 'wallet.transactions' );
 Route::get( 'wallet/transactions/data/', 'TransactionController@data' )->name( 'wallet.transactions.data' );
-Route::get( 'wallet/transactions/data/{limit}', 'TransactionController@data' )->name( 'wallet.transactions.data' );
+Route::get( 'wallet/transactions/data/{limit}', 'TransactionController@data' )->name( 'wallet.transactions.limited_data' );
 Route::get( 'wallet/transactions/{transaction}', 'TransactionController@show' )->name( 'wallet.transactions.show' );
 Route::get( 'wallet/transactions/request/{transaction}', 'AdminController@show_transaction_request' )->name( 'wallet.transactions.show_request' );
 Route::post( 'wallet/transactions/response/{transaction}', 'AdminController@response_transaction_request' )->name( 'wallet.transactions.request_response' );

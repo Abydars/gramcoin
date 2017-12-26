@@ -321,7 +321,7 @@
         var $transactions_table = $('#transactions-table').DataTable({
             responsive: true,
             errMode: 'throw',
-            ajax: '{{ route("wallet.transactions.data", [ 10 ]) }}',
+            ajax: '{{ route("wallet.transactions.limited_data", [ 10 ]) }}',
             fnInitComplete: function (settings) {
                 var $tbl = this;
 
