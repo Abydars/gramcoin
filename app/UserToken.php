@@ -59,4 +59,9 @@ class UserToken extends Model
 		                ->groupBy( 'phase_id' )
 		                ->sum( 'tokens' );
 	}
+
+	public static function getTotalSoldTokens()
+	{
+		return UserToken::sum( 'tokens' );
+	}
 }

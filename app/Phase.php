@@ -86,4 +86,9 @@ class Phase extends Model
 
 		return $phases->exists() ? $phases->get() : [];
 	}
+
+	public static function getTotalTokens()
+	{
+		return Phase::sum( 'tokens' );
+	}
 }

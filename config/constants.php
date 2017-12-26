@@ -8,7 +8,7 @@ return [
 			'action'    => 'dashboard',
 			'icon'      => 'icon-speedometer',
 			'item_type' => 'item',
-			'roles'     => [ 'subscriber' ]
+			'roles'     => [ 'subscriber', 'administrator' ]
 		],
 		[
 			'label'     => 'ICO',
@@ -45,7 +45,7 @@ return [
 		[
 			'label'     => 'Manage Phases',
 			'action'    => 'phases',
-			'icon'      => 'icon-speedometer',
+			'icon'      => 'icon-clock',
 			'item_type' => 'group',
 			'roles'     => [ 'administrator' ],
 			'children'  => [

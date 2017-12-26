@@ -20,6 +20,12 @@ class CurrencyHelper
 
 	public function getTokenValue()
 	{
+		$active_phase = App\Phase::getActivePhase();
+
+		if ( $active_phase ) {
+			return $active_phase->token_rate;
+		}
+
 		$phase = App\Phase::where( 'status', 'completed' )
 		                  ->whereDate( 'launch_time', '<=', Carbon::now()->toDateString() )
 		                  ->orderBy( 'launch_time', 'desc' );

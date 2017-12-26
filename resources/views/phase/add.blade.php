@@ -22,7 +22,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Title</label>
                     <div class="col-sm-10">
-                        {!! Form::text('title', false, ['id' => 'input-title','class' => 'form-control', 'required']) !!}
+                        {!! Form::text('title', '', ['id' => 'input-title','class' => 'form-control', 'required']) !!}
                     </div>
                 </div>
             </fieldset>
@@ -31,7 +31,7 @@
                     <label class="col-sm-2 control-label">Launch Date/Time</label>
                     <div class="col-sm-4">
                         <div class="datetimepicker input-group date mb-lg">
-                            {!! Form::text('launch_time', false, ['id' => 'input-launch-time','class' => 'form-control', 'required']) !!}
+                            {!! Form::text('launch_time', '', ['id' => 'input-launch-time','class' => 'form-control', 'required']) !!}
                             <span class="input-group-addon">
                                     <span class="fa fa-calendar"></span>
                                  </span>
@@ -43,7 +43,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Number of Tokens</label>
                     <div class="col-sm-10">
-                        {!! Form::number('tokens', false, ['id' => 'input-tokens','class' => 'form-control', 'required']) !!}
+                        {!! Form::number('tokens', '', ['id' => 'input-tokens','class' => 'form-control', 'required']) !!}
                     </div>
                 </div>
             </fieldset>
@@ -51,7 +51,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Per User Limit</label>
                     <div class="col-sm-10">
-                        {!! Form::number('user_limit', false, ['id' => 'input-user-limit','class' => 'form-control', 'required']) !!}
+                        {!! Form::number('user_limit', '', ['id' => 'input-user-limit','class' => 'form-control', 'required']) !!}
                     </div>
                 </div>
             </fieldset>

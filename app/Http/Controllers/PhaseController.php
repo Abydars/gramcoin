@@ -31,7 +31,7 @@ class PhaseController extends AdminController
 		Dashboard::setTitle( 'Add New Phase' );
 
 		if ( $request->isMethod( 'POST' ) ) {
-			list( $error, $success ) = $this->store( $request );
+			return $this->store( $request );
 		}
 
 		return view( 'phase.add', [
@@ -53,25 +53,31 @@ class PhaseController extends AdminController
 
 		if ( $validator->fails() ) {
 			$error = $validator->errors()->first();
-		}
-
-		$launch_time = Carbon::parse( $request->input( 'launch_time' ) );
-
-		$phase = Phase::create( [
-			                        'title'       => $request->input( 'title' ),
-			                        'tokens'      => $request->input( 'tokens' ),
-			                        'token_rate'  => $request->input( 'token_rate' ),
-			                        'status'      => $request->has( 'status' ),
-			                        'launch_time' => $launch_time->toDateTimeString()
-		                        ] );
-
-		if ( $phase->id > 0 ) {
-			$success = 'Phase added successfully';
 		} else {
-			$error = 'Failed to add new phase';
+
+			$launch_time = Carbon::parse( $request->input( 'launch_time' ) );
+
+			$phase = Phase::create( [
+				                        'title'       => $request->input( 'title' ),
+				                        'tokens'      => $request->input( 'tokens' ),
+				                        'token_rate'  => $request->input( 'token_rate' ),
+				                        'status'      => $request->input( 'status' ),
+				                        'launch_time' => $launch_time->toDateTimeString()
+			                        ] );
+
+			if ( $phase->id > 0 ) {
+
+				return response()->redirectToRoute( 'phase.index' );
+
+			} else {
+				$error = 'Failed to add new phase';
+			}
 		}
 
-		return [ $error, $success ];
+		return view( 'phase.add', [
+			'error'   => $error,
+			'success' => $success
+		] );
 	}
 
 	public function edit( $id, Request $request )
