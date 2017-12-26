@@ -70,7 +70,7 @@ $style = [
                     <!-- Logo -->
                     <tr>
                         <td style="{{ $style['email-masthead'] }}">
-                            <img src="{{ url('/') }}/img/logo.png" width="70" />
+                            <img src="{{ url('/') }}/img/logo.png" width="200" />
                         </td>
                     </tr>
 
