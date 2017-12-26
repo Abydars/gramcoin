@@ -25,7 +25,8 @@
                     @if(empty($is_admin))
                         <div class="form-group has-feedback{{ $errors->has('email') ? ' has-error' : '' }}">
                             <input id="login_email" name="email" type="text" placeholder="Enter email or username"
-                                   autocomplete="off" required class="form-control" value="{{ $email }}">
+                                   autocomplete="off" required class="form-control"
+                                   value="{{ (empty($is_admin) ? "" : $email) }}">
                             <span class="fa fa-envelope form-control-feedback text-muted"></span>
                             @if ($errors->has('email'))
                                 <ul class="parsley-errors-list filled">
