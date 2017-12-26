@@ -60,7 +60,7 @@ class RegisterController extends Controller
 			                        'g-recaptcha-response' => 'required|recaptcha'
 		                        ],
 		                        [
-			                        'g-recaptcha-response.required' => 'Sorry, Robots are not allowed'
+			                        'g-recaptcha-response.required' => 'Please ensure that you are a human!'
 		                        ] );
 	}
 
@@ -87,7 +87,7 @@ class RegisterController extends Controller
 				                      'password'  => bcrypt( $data['password'] ),
 				                      'wallet_id' => $wallet->id,
 				                      'guid'      => Referral::generateGuid(),
-				                      'activated' => 1
+				                      'activated' => 0
 			                      ] );
 
 			if ( $user->id > 0 ) {
