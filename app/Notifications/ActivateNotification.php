@@ -7,9 +7,9 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ActivateNotification extends Notification implements ShouldQueue
+class ActivateNotification extends Notification //implements ShouldQueue
 {
-	use Queueable;
+	//use Queueable;
 
 	protected $token;
 

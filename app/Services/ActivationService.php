@@ -64,6 +64,7 @@ class ActivationService
     private function shouldSend($user)
     {
         $activation = $this->activationRepo->getActivation($user);
+        return true;
 
         return $activation === null || strtotime($activation->created_at) + 60 * 60 * $this->resendAfter < time();
     }
