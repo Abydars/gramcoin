@@ -7,7 +7,7 @@
     <div class="block-center wd-xxl">
         <!-- START panel-->
         <div class="panel panel-dark panel-flat">
-            <div class="panel-heading text-center">
+            <div class="bg-purple-custom text-center text-white p-lg">
                 <h3 class="m0">{{ config('app.name') }}</h3>
             </div>
             <div class="panel-body">

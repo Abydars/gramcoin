@@ -5,8 +5,8 @@
         <!-- START navbar header-->
         <div class="navbar-header">
             <a href="{{ url('/')}}" class="navbar-brand">
-                <div class="brand-logo">
-                    {{ config('app.name') }}
+                <div class="brand-logo" style="padding: 5px;">
+                    <img src="{{ asset('/img/logo.png') }}" style="max-height: 45px;" />
                 </div>
             </a>
         </div>

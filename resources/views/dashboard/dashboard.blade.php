@@ -31,9 +31,9 @@
     <div class="row">
         <div class="col-lg-3 col-sm-6">
             <!-- START widget-->
-            <div class="panel widget bg-primary">
+            <div class="panel widget bg-purple-custom text-white">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-primary-dark pv-lg">
+                    <div class="col-xs-4 text-center pv-lg">
                         <em class="icon-chart fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
@@ -46,9 +46,9 @@
         </div>
         <div class="col-lg-3 col-sm-6">
             <!-- START widget-->
-            <div class="panel widget bg-warning-light">
+            <div class="panel widget bg-pink-custom text-white">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-warning-dark pv-lg">
+                    <div class="col-xs-4 text-center pv-lg">
                         <em class="fa fa-bitcoin fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
@@ -60,10 +60,10 @@
         </div>
         <div class="col-lg-3 col-sm-6">
             <!-- START widget-->
-            <div class="panel widget bg-purple">
+            <div class="panel widget bg-red-custom text-white">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-purple-dark pv-lg">
-                        <em class="icon-tag fa-3x"></em>
+                    <div class="col-xs-4 text-center pv-lg">
+                        <img src="{{ asset('/img/currency-light.png') }}" />
                     </div>
                     <div class="col-xs-8 pv-lg">
                         <div class="h2 mt0">{{ $user->token_balance }}</div>
@@ -74,9 +74,9 @@
         </div>
         <div class="col-lg-3 col-sm-6">
             <!-- START widget-->
-            <div class="panel widget bg-green">
+            <div class="panel widget bg-orange-custom text-white">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-green-dark pv-lg">
+                    <div class="col-xs-4 text-center pv-lg">
                         <em class="fa fa-dollar fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
@@ -162,7 +162,7 @@
                                 </div>
                                 @if($active_phase->is_open == false)
                                     <div class="row p0 mt0 mb0">
-                                        <div class="row row-table text-center bg-info pt-lg mb-lg" id="countdown"
+                                        <div class="row row-table text-center bg-purple-custom text-white pt-lg mb-lg" id="countdown"
                                              data-date="{{ $active_phase->launch_time }}">
                                             <div class="col-xs-3">
                                                 <h1 class="m0" data-countdown-days>00</h1>
@@ -206,7 +206,7 @@
                                 </div>
                             @endforeach
                             @if($active_phase)
-                                <div class="row bg-info text-white">
+                                <div class="row bg-purple-custom text-white">
                                     <div class="clearfix">
                                         <div class="col-lg-6">
                                             <h3>{{ $active_phase->title }}</h3>

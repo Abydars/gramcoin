@@ -10,7 +10,7 @@
             <!-- START widget-->
             <div class="panel widget bg-white">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-warning-dark pv-lg">
+                    <div class="col-xs-4 text-center bg-purple-custom text-white pv-lg">
                         <em class="fa fa-bitcoin fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
@@ -24,7 +24,7 @@
             <!-- START widget-->
             <div class="panel widget bg-white">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-primary-dark pv-lg">
+                    <div class="col-xs-4 text-center bg-orange-custom text-white pv-lg">
                         <em class="fa fa-dollar fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
@@ -38,7 +38,7 @@
             <!-- START widget-->
             <div class="panel widget bg-white">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-green-dark pv-lg">
+                    <div class="col-xs-4 text-center bg-red-custom text-white pv-lg">
                         <em class="icon-basket-loaded fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
@@ -52,8 +52,8 @@
             <!-- START widget-->
             <div class="panel widget bg-white">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-green-dark pv-lg">
-                        <em class="icon-basket-loaded fa-3x"></em>
+                    <div class="col-xs-4 text-center bg-pink-custom text-white pv-lg">
+                        <em class="fa fa-share fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
                         <div class="h3 mt0 mb0">{{ $referrals }}</div>

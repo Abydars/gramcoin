@@ -12,13 +12,14 @@ $active_navigation = Dashboard::active_navigation();
     <meta name="keywords" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name') }}</title>
+    <link rel="icon" href="{{ asset('/img/favicon.png') }}" sizes="30x30" type="image/png">
 
     <!-- =============== STYLES ===============-->
     <link rel="stylesheet" href="{{ asset('/css/vendor.css') }}">
 
     <link rel="stylesheet" href="{{ asset('/css/bootstrap.css') }}" id="bscss">
     <link rel="stylesheet" href="{{ asset('/css/app.css') }}" id="maincss">
-    <link id="autoloaded-stylesheet" rel="stylesheet" href="{{ asset('/css/theme-a.css') }}">
+    <link id="autoloaded-stylesheet" rel="stylesheet" href="{{ asset('/css/grm.css') }}">
     <script>
         window.grm =
 		<?php echo json_encode( [

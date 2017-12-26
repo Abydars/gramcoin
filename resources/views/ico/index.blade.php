@@ -5,7 +5,7 @@
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-primary">
+                <div class="modal-header bg-purple-custom text-white">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -41,7 +41,7 @@
             <!-- START widget-->
             <div class="panel widget bg-white">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-warning-dark pv-lg">
+                    <div class="col-xs-4 text-center bg-purple-custom text-white pv-lg">
                         <em class="fa fa-bitcoin fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
@@ -55,7 +55,7 @@
             <!-- START widget-->
             <div class="panel widget bg-white">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-primary-dark pv-lg">
+                    <div class="col-xs-4 text-center bg-orange-custom text-white pv-lg">
                         <em class="fa fa-dollar fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
@@ -69,7 +69,7 @@
             <!-- START widget-->
             <div class="panel widget bg-white">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-warning-dark pv-lg">
+                    <div class="col-xs-4 text-center bg-red-custom text-white pv-lg">
                         <em class="fa fa-bitcoin fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
@@ -98,7 +98,7 @@
                         </div>
                         @if($active_phase->is_open == false)
                             <div class="row p0 mt0 mb0">
-                                <div class="row row-table text-center bg-info pt-lg mb-lg" id="countdown"
+                                <div class="row row-table text-center bg-purple-custom text-white pt-lg mb-lg" id="countdown"
                                      data-date="{{ $active_phase->launch_time }}">
                                     <div class="col-xs-3">
                                         <h1 class="m0" data-countdown-days>00</h1>
@@ -142,7 +142,7 @@
                         </div>
                     @endforeach
                     @if($active_phase)
-                        <div class="row bg-info text-white">
+                        <div class="row bg-purple-custom text-white">
                             <div class="clearfix">
                                 <div class="col-lg-6">
                                     <h3>{{ $active_phase->title }}</h3>

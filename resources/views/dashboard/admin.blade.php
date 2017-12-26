@@ -8,9 +8,9 @@
     <div class="row">
         <div class="col-lg-3 col-sm-6">
             <!-- START widget-->
-            <div class="panel widget bg-primary">
+            <div class="panel widget bg-purple-custom text-white">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-primary-dark pv-lg">
+                    <div class="col-xs-4 text-center pv-lg">
                         <em class="icon-user fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
@@ -22,9 +22,9 @@
         </div>
         <div class="col-lg-3 col-sm-6">
             <!-- START widget-->
-            <div class="panel widget bg-warning-light">
+            <div class="panel widget bg-pink-custom text-white">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-warning-dark pv-lg">
+                    <div class="col-xs-4 text-center pv-lg">
                         <em class="fa fa-user fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
@@ -36,9 +36,9 @@
         </div>
         <div class="col-lg-3 col-sm-6">
             <!-- START widget-->
-            <div class="panel widget bg-purple">
+            <div class="panel widget bg-red-custom text-white">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-purple-dark pv-lg">
+                    <div class="col-xs-4 text-center pv-lg">
                         <em class="icon-tag fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
@@ -51,9 +51,9 @@
         </div>
         <div class="col-lg-3 col-sm-6">
             <!-- START widget-->
-            <div class="panel widget bg-green">
+            <div class="panel widget bg-orange-custom text-white">
                 <div class="row row-table">
-                    <div class="col-xs-4 text-center bg-green-dark pv-lg">
+                    <div class="col-xs-4 text-center pv-lg">
                         <em class="fa fa-dollar fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
@@ -86,7 +86,7 @@
                                 </div>
                             @endforeach
                             @if($active_phase)
-                                <div class="row bg-info text-white">
+                                <div class="row bg-purple-custom text-white">
                                     <div class="clearfix">
                                         <div class="col-lg-6">
                                             <h3>{{ $active_phase->title }}</h3>

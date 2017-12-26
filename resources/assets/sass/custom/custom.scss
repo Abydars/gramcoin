@@ -46,3 +46,21 @@
 .referral-table.parent > .tbody > .row {
   cursor: pointer;
 }
+
+/*
+  Custom Styles
+ */
+.bootstrap-datetimepicker-widget table td.active, .bootstrap-datetimepicker-widget table td.active:hover {
+  background: #6c2aa4;
+  border-color: #6c2aa4;
+}
+
+.wrapper > footer {
+  background: #161d27;
+  color: #b7b7b7;
+}
+
+.pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus, .pagination > .active > span, .pagination > .active > span:hover, .pagination > .active > span:focus {
+  background: #6c2aa4;
+  border-color: #6c2aa4;
+}

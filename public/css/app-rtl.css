@@ -90,6 +90,7 @@
      Component: bootstrap-reset
  ========================================================================== */
 @import url(//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,400italic);
+@import url("https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i");
 *:focus {
   outline: 0 !important; }
 
@@ -292,7 +293,8 @@ fieldset {
      Component: typo
  ========================================================================== */
 body {
-  font-family: "Source Sans Pro", sans-serif;
+  /*font-family: "Source Sans Pro", sans-serif;*/
+  font-family: "PT Sans", sans-serif;
   color: #656565; }
 
 h1, h2, h3, h4 {
@@ -8042,3 +8044,18 @@ body.mailbox-trash ul.nav a[href='#mailbox-trash'] {
 
 .referral-table.parent > .tbody > .row {
   cursor: pointer; }
+
+/*
+  Custom Styles
+ */
+.bootstrap-datetimepicker-widget table td.active, .bootstrap-datetimepicker-widget table td.active:hover {
+  background: #6c2aa4;
+  border-color: #6c2aa4; }
+
+.wrapper > footer {
+  background: #161d27;
+  color: #b7b7b7; }
+
+.pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus, .pagination > .active > span, .pagination > .active > span:hover, .pagination > .active > span:focus {
+  background: #6c2aa4;
+  border-color: #6c2aa4; }
