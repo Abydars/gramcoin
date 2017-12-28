@@ -28,7 +28,7 @@
                         <em class="fa fa-user fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
-                        <div class="h2 mt0">{{ $top_user->full_name }}</div>
+                        <div class="h2 mt0">{{ $top_user }}</div>
                         <div class="text-uppercase">Top User</div>
                     </div>
                 </div>

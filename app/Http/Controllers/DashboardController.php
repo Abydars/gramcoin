@@ -85,9 +85,15 @@ class DashboardController extends PanelController
 		} else if ( $user->role == 'administrator' ) {
 
 			$active_users = User::where( 'activated', '1' )->count();
-			$top_user     = UserToken::with( [ 'user' ] )->groupBy( 'user_id' )->orderBy( 'tokens', 'desc' )->first()->user;
+			$top_user     = UserToken::with( [ 'user' ] )->groupBy( 'user_id' )->orderBy( 'tokens', 'desc' )->first();
 			$sold_tokens  = UserToken::getTotalSoldTokens();
 			$tokens       = Phase::getTotalTokens();
+
+			if ( $top_user ) {
+				$top_user = $top_user->user->full_name;
+			} else {
+				$top_user = 'None';
+			}
 
 
 			return view( 'dashboard.admin', [
