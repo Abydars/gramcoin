@@ -38,7 +38,7 @@ class UserController extends AdminController
 		$error  = false;
 
 		try {
-			$wallet_balance = $wallet->getBalance();
+			$wallet_balance = Currency::convertToBtc( $wallet->getBalance() );
 		} catch ( \Exception $e ) {
 			$wallet_balance = 0;
 		}
