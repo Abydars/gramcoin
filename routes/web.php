@@ -36,11 +36,13 @@ Route::post( '2fa', 'Google2faController@index' );
 Route::get( '/dashboard', 'DashboardController@index' )->name( 'dashboard' );
 
 // User
+Route::get( 'user', 'UserController@index' )->name( 'user.index' );
 Route::get( 'user/data', 'UserController@data' )->name( 'user.data' );
-Route::get( 'user/settings', 'UserController@settings' )->name( 'user.settings.view' );
-Route::post( 'user/settings', 'UserController@settings' )->name( 'user.settings' );
-Route::post( 'user/settings/google2fa', 'UserController@google2fa' )->name( 'user.settings.google2fa' );
-Route::resource( 'user', 'UserController' );
+Route::get( 'user/settings', 'PanelUserController@settings' )->name( 'user.settings.view' );
+Route::get( 'user/{user_id}', 'UserController@show' )->name( 'user.show' );
+Route::post( 'user/{user_id}', 'UserController@show' );
+Route::post( 'user/settings', 'PanelUserController@settings' )->name( 'user.settings' );
+Route::post( 'user/settings/google2fa', 'PanelUserController@google2fa' )->name( 'user.settings.google2fa' );
 
 // Token
 Route::get( 'ico', 'TokenController@purchase' )->name( 'token.index' );

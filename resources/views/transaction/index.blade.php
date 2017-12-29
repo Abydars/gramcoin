@@ -1,6 +1,57 @@
 @extends('layouts.admin')
 
 @section('content')
+    <div class="row">
+        <div class="col-lg-3 col-sm-6">
+            <!-- START widget-->
+            <div class="panel widget bg-purple-custom text-white">
+                <div class="row row-table">
+                    <div class="col-xs-4 text-center pv-lg">
+                        <em class="icon-chart fa-3x"></em>
+                    </div>
+                    <div class="col-xs-8 pv-lg">
+                        <div class="h3 mt0 mb0">{{ $btc_balance }}</div>
+                        <div class="h6 mt0 mb-sm text-dark text-bold">{{ $unc_balance }}</div>
+                        <div class="text-uppercase">BTC Deposit</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <!-- START widget-->
+            <div class="panel widget bg-pink-custom text-white">
+                <div class="row row-table">
+                    <div class="col-xs-4 text-center pv-lg">
+                        <em class="fa fa-bitcoin fa-3x"></em>
+                    </div>
+                    <div class="col-xs-8 pv-lg">
+                        <div class="h2 mt0">${{ number_format( $btc_value, 2 ) }}</div>
+                        <div class="text-uppercase">BTC Value</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <!-- START widget-->
+            <div class="panel widget bg-gray">
+                <div class="row row-table">
+                    <div class="col-xs-12 pv-lg">
+                        <div class="text-uppercase">ADDRESS TO ACCEPT BITCOIN PAYMENTS</div>
+                        <div class="input-group">
+                            <input id="address-input" type="text" readonly
+                                   value="{{ $address }}"
+                                   class="form-control" style="height: 44px;"/>
+                            <span class="input-group-btn">
+                                    <button type="button" data-copy-text="#address-input" class="btn btn-default"
+                                            style="height: 44px;"><em
+                                                class="fa fa-files-o"></em></button>
+                                 </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="panel panel-default" id="customer-list-panel">
         <div class="panel-heading"></div>
         <div class="panel-body">

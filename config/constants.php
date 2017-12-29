@@ -1,7 +1,12 @@
 <?php
 
 return [
-	'navigations'     => [
+	'user_status' => [
+		'1' => 'Active',
+		'0' => 'Inactive',
+		'2' => 'Suspended'
+	],
+	'navigations' => [
 		[ 'label' => 'Main', 'item_type' => 'heading', 'roles' => [ 'administrator', 'subscriber' ] ],
 		[
 			'label'     => 'Dashboard',
@@ -21,6 +26,13 @@ return [
 			'label'     => 'Wallet',
 			'action'    => 'wallet',
 			'icon'      => 'icon-wallet',
+			'item_type' => 'item',
+			'roles'     => [ 'subscriber' ]
+		],
+		[
+			'label'     => 'Transactions',
+			'action'    => 'wallet/transactions',
+			'icon'      => 'icon-notebook',
 			'item_type' => 'item',
 			'roles'     => [ 'subscriber' ]
 		],
@@ -62,9 +74,30 @@ return [
 					'roles'     => [ 'administrator' ]
 				]
 			]
+		],
+		[
+			'label'     => 'Manage Users',
+			'action'    => 'user',
+			'icon'      => 'icon-user',
+			'item_type' => 'group',
+			'roles'     => [ 'administrator' ],
+			'children'  => [
+				[
+					'label'     => 'All Users',
+					'action'    => 'user',
+					'item_type' => 'item',
+					'roles'     => [ 'administrator' ]
+				],
+				[
+					'label'     => 'Add New',
+					'action'    => 'user/add',
+					'item_type' => 'item',
+					'roles'     => [ 'administrator' ]
+				]
+			]
 		]
 	],
-	'countries'       => [
+	'countries'   => [
 		'US' => [
 			'AL' => 'Alabama',
 			'AK' => 'Alaska',
@@ -127,7 +160,7 @@ return [
 			'WY' => 'Wyoming',
 		],
 	],
-	'currencies'      => array(
+	'currencies'  => array(
 		'USD' => array(
 			'symbol'         => '$',
 			'name'           => 'US Dollar',
@@ -1191,13 +1224,13 @@ return [
 			'name_plural'    => 'Zambian kwachas',
 		),
 	),
-	'profile'         => [
+	'profile'     => [
 		'default' => [
 			'avatar'     => '/img/avatar.svg',
 			'background' => '/img/signup-bg.jpg',
 		],
 	],
-	'settings'        => [
+	'settings'    => [
 		'default' => [
 			'signin_bg' => '/img/signin-bg.jpg',
 			'signup_bg' => '/img/signup-bg.jpg',

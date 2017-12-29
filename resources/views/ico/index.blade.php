@@ -59,7 +59,7 @@
                         <em class="fa fa-dollar fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
-                        <div class="h3 mt0 mb0">${{ $token_rate }}</div>
+                        <div class="h3 mt0 mb0">${{ number_format($token_rate, 2) }}</div>
                         <div class="text-uppercase">Token Rate</div>
                     </div>
                 </div>

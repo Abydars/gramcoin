@@ -145,51 +145,7 @@
         <!-- START dashboard main content-->
         <div class="col-lg-12">
             <div class="row">
-                @if($active_phase)
-                    <div class="col-lg-6">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="row mb-lg">
-                                    <div class="row row-table">
-                                        <div class="col-xs-5 text-md">Buying Limit:</div>
-                                        <div class="col-xs-7 text-md text-danger">{{ $active_phase->user_limit }} GRM
-                                        </div>
-                                    </div>
-                                    <div class="row row-table">
-                                        <div class="col-xs-5 text-md">Bought:</div>
-                                        <div class="col-xs-7 text-md text-primary">{{ $user_bought }} GRM</div>
-                                    </div>
-                                </div>
-                                @if($active_phase->is_open == false)
-                                    <div class="row p0 mt0 mb0">
-                                        <div class="row row-table text-center bg-purple-custom text-white pt-lg mb-lg"
-                                             id="countdown"
-                                             data-date="{{ $active_phase->launch_time }}">
-                                            <div class="col-xs-3">
-                                                <h1 class="m0" data-countdown-days>00</h1>
-                                                <p>Days</p>
-                                            </div>
-                                            <div class="col-xs-3">
-                                                <h1 class="m0" data-countdown-hours>00</h1>
-                                                <p>Hours</p>
-                                            </div>
-                                            <div class="col-xs-3">
-                                                <h1 class="m0" data-countdown-minutes>00</h1>
-                                                <p>Minutes</p>
-                                            </div>
-                                            <div class="col-xs-3">
-                                                <h1 class="m0" data-countdown-seconds>00</h1>
-                                                <p>Seconds</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-                                @include('layouts.purchase_token', ['enabled' => $active_phase->is_open])
-                            </div>
-                        </div>
-                    </div>
-                @endif
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-body pt0 pb0">
                             @foreach($past_phases as $phase)

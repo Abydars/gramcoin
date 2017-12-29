@@ -12,5 +12,5 @@
     <label class="control-label">USD Amount</label>
     {!! Form::number('usd', '', ['id' => 'input-usd','class' => 'form-control', 'placeholder' => '', 'readonly', 'disabled', 'step' => 'any']) !!}
 </div>
-<button type="submit" class="btn btn-primary" disabled="{{ $enabled ? 'true' : 'false' }}">Buy</button>
+<button type="submit" class="btn btn-primary"{{ $enabled ? '' : 'disabled="true"' }}>Buy</button>
 {!! Form::close() !!}

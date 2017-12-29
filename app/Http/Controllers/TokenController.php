@@ -52,9 +52,10 @@ class TokenController extends PanelController
 		if ( $request->isMethod( 'POST' ) && $active_phase ) {
 			$btc = $request->input( 'btc' );
 
-			$btc_in_satoshi = Currency::convertToSatoshi( $btc );
-			$balance        = $user->btc_balance;
-			$user_tokens    = UserToken::getUserTokensByPhase( $user->id, $active_phase->id );
+			$btc_in_satoshi       = Currency::convertToSatoshi( $btc );
+			$btc_value_in_satoshi = Currency::convertToSatoshi( $btc_value );
+			$balance              = $user->btc_balance;
+			$user_tokens          = UserToken::getUserTokensByPhase( $user->id, $active_phase->id );
 
 			try {
 				$wallet->getBalance();
@@ -78,11 +79,12 @@ class TokenController extends PanelController
 
 						$user->btc_balance -= $btc_in_satoshi;
 						$created           = UserToken::create( [
-							                                        'user_id'       => $user->id,
-							                                        'tokens'        => $tokens,
-							                                        'token_rate'    => $token_rate,
-							                                        'currency'      => 'BTC',
-							                                        'currency_rate' => $btc_value
+							                                        'user_id'        => $user->id,
+							                                        'tokens'         => $tokens,
+							                                        'token_rate'     => $token_rate,
+							                                        'currency'       => 'BTC',
+							                                        'currency_rate'  => $btc_value_in_satoshi,
+							                                        'currency_value' => $btc_in_satoshi
 						                                        ] );
 
 						if ( $created->id > 0 && $user->save() ) {

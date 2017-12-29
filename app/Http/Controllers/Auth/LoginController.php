@@ -44,8 +44,23 @@ class LoginController extends Controller
 		$this->activationService = $activationService;
 	}
 
+	protected function validateLogin( Request $request )
+	{
+		$this->validate( $request,
+		                 [
+			                 $this->username()      => 'required',
+			                 'password'             => 'required',
+			                 'g-recaptcha-response' => 'required|recaptcha'
+		                 ],
+		                 [
+			                 'g-recaptcha-response.required' => 'Please ensure that you are a human!'
+		                 ] );
+	}
+
 	public function login( Request $request )
 	{
+		$this->validateLogin( $request );
+
 		$field = filter_var( $request->input( 'email' ), FILTER_VALIDATE_EMAIL ) ? 'email' : 'username';
 		$request->merge( [ $field => $request->input( 'email' ) ] );
 

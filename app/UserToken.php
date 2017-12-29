@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Currency;
 
 class UserToken extends Model
 {
@@ -18,7 +19,8 @@ class UserToken extends Model
 		'currency',
 		'currency_rate',
 		'meta_data',
-		'phase_id'
+		'phase_id',
+		'currency_value'
 	];
 
 	/**
@@ -27,6 +29,19 @@ class UserToken extends Model
 	 * @var array
 	 */
 	protected $hidden = [];
+
+	protected $appends = [
+		'btc_value'
+	];
+
+	public function getBtcValueAttribute()
+	{
+		if ( $this->currency == 'BTC' ) {
+			return Currency::convertToBtc( $this->currency_rate );
+		}
+
+		return false;
+	}
 
 	public function getMetaDataAttribute( $value )
 	{
@@ -52,12 +67,19 @@ class UserToken extends Model
 		return $this->belongsTo( 'App\Phase', 'phase_id' );
 	}
 
-	public static function getUserTokensByPhase( $user_id, $phase_id )
+	public static function getUserTokens( $user_id, $sum = 'tokens' )
+	{
+		return UserToken::where( 'user_id', $user_id )
+		                ->groupBy( 'phase_id' )
+		                ->sum( $sum );
+	}
+
+	public static function getUserTokensByPhase( $user_id, $phase_id, $sum = 'tokens' )
 	{
 		return UserToken::where( 'user_id', $user_id )
 		                ->where( 'phase_id', $phase_id )
 		                ->groupBy( 'phase_id' )
-		                ->sum( 'tokens' );
+		                ->sum( $sum );
 	}
 
 	public static function getTotalSoldTokens()

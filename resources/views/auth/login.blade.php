@@ -55,6 +55,12 @@
                                 password?</a>
                         </div>
                     </div>
+                    {!! Recaptcha::render() !!}
+                    @if ($errors->has('g-recaptcha-response'))
+                        <ul class="parsley-errors-list filled">
+                            <li class="parsley-required">{{ $errors->first('g-recaptcha-response') }}</li>
+                        </ul>
+                    @endif
                     @if(empty($is_admin))
                         <button type="submit" class="btn btn-block btn-primary mt-lg">Login</button>
                     @else

@@ -33,7 +33,7 @@ class WalletController extends PanelController
 		$user   = Auth::user();
 		$wallet = $user->wallet;
 
-		$gc_value = Currency::getGcValue();
+		$token_rate = Currency::getTokenValue();
 		$address  = $user->addresses->where( 'is_used', false )->first();
 
 		try {
@@ -53,7 +53,7 @@ class WalletController extends PanelController
 			'user'        => $user,
 			'btc_balance' => number_format( $btc_balance, 8 ),
 			'unc_balance' => number_format( $unc_balance, 8 ),
-			'token_rate'  => $gc_value,
+			'token_rate'  => $token_rate,
 			'wallet'      => $user->wallet,
 			'address'     => $address,
 			'bonus'       => $user->getReferralBonuses(),

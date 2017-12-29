@@ -26,7 +26,7 @@ class DashboardHelper
 	private function config_active_navigation()
 	{
 		$path  = Request::path();
-		$queue = $this->navigations;
+		$queue = array_reverse( $this->navigations );
 		do {
 			$navigation = array_shift( $queue );
 			if ( $navigation['item_type'] == 'item' && strpos( $path, $navigation['action'] ) === 0 ) {
@@ -37,10 +37,11 @@ class DashboardHelper
 			}
 
 			if ( isset( $navigation['children'] ) ) {
-				$queue = array_merge( $queue, $navigation['children'] );
+				$navigation['children'] = array_reverse( $navigation['children'] );
+				$queue                  = array_merge( $queue, $navigation['children'] );
 			}
 		} while ( ! empty( $queue ) );
-		$this->active_navigation = false;
+		//$this->active_navigation = false;
 	}
 
 	public function active_navigation()

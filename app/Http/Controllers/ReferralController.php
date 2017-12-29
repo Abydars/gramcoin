@@ -24,7 +24,8 @@ class ReferralController extends PanelController
 		return view( 'referral.index', [
 			'referrals'   => $referrals,
 			'user'        => $user,
-			'percentages' => $percentages
+			'percentages' => $percentages,
+			'referrals'   => Referral::referralCount( $user->id )
 		] );
 	}
 }

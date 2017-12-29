@@ -47,8 +47,33 @@ class User extends Authenticatable
 
 	protected $appends = [
 		'token_balance',
-		'btc_balance_in_btc'
+		'btc_balance_in_btc',
+		'status',
+		'spend'
 	];
+
+	public function getSpendAttribute()
+	{
+		$total = 0;
+
+		UserToken::where( 'user_id', $this->id )->each( function ( $token ) use ( &$total ) {
+			$total += $token->currency_value;
+		} );
+
+		return Currency::convertToBtc( $total );
+	}
+
+	public function getStatusAttribute()
+	{
+		switch ( $this->activated ) {
+			case 1:
+				return 'Active';
+			case 0:
+				return 'Inactive';
+			case 2:
+				return 'Suspended';
+		}
+	}
 
 	public function getBtcBalanceInBtcAttribute()
 	{
@@ -78,24 +103,6 @@ class User extends Authenticatable
 		}
 
 		return [];
-	}
-
-	public function setActivatedAttribute( $value )
-	{
-		$this->attributes['activated'] = filter_var( $value, FILTER_VALIDATE_BOOLEAN );
-	}
-
-	public function getActivatedAttribute()
-	{
-		if ( ! isset( $this->attributes['activated'] ) ) {
-			return true;
-		}
-
-		if ( $this->attributes['activated'] == true ) {
-			return true;
-		}
-
-		return false;
 	}
 
 	public function setMetaDataAttribute( $value )

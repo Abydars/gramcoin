@@ -2,24 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Deal;
-use App\Facades\FormatFacade;
-use App\Invoice;
 use App\User;
-use App\UserGoal;
 use Illuminate\Support\Facades\Auth;
-use PragmaRX\Google2FA\Google2FA;
 use Yajra\Datatables\Datatables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
-use App\Notifications\UserRoleSetNotification;
 use Validator;
+use Dashboard;
+use Currency;
 
-class UserController extends PanelController
+class UserController extends AdminController
 {
 	public function index()
 	{
-		return view( 'user.index' );
+		$active_users   = User::where( 'activated', '1' )->count();
+		$inactive_users = User::where( 'activated', '0' )->count();
+
+		Dashboard::setTitle( 'Users' );
+
+		return view( 'user.index', [
+			'active_users'   => $active_users,
+			'inactive_users' => $inactive_users
+		] );
 	}
 
 	public function data()
@@ -27,165 +31,53 @@ class UserController extends PanelController
 		return Datatables::of( User::all() )->make( true );
 	}
 
-	public function show( $id )
+	public function show( $id, Request $request )
 	{
+		$user   = User::find( $id );
+		$wallet = $user->wallet;
+		$error  = false;
 
-	}
-
-	public function create( Request $request )
-	{
-		$user = new User();
-
-		return view( 'user.create', [ 'user' => $user ] );
-	}
-
-	public function store( $id )
-	{
-	}
-
-	public function edit( $id )
-	{
-		$user = User::find( $id );
-
-		return view( 'user.edit', [
-			'user' => $user
-		] );
-	}
-
-	public function update( $id, Request $request )
-	{
-		$user      = User::find( $id );
-		$activated = filter_var( $request->input( 'activated', 'false' ), FILTER_VALIDATE_BOOLEAN );
-
-		$prev_activated = $user->activated;
-
-		$user->fill( [
-			             'activated' => $activated,
-		             ] );
-
-		$ret = $user->save();
-
-		if ( $ret == true ) {
-			return response()->json( [
-				                         'status'  => 'success',
-				                         'message' => 'User has been updated successfully.',
-			                         ] );
-		} else {
-			return response()->json( [
-				                         'status'  => 'danger',
-				                         'message' => 'User could not be updated.',
-			                         ] );
+		try {
+			$wallet_balance = $wallet->getBalance();
+		} catch ( \Exception $e ) {
+			$wallet_balance = 0;
 		}
-	}
-
-	public function settings( Request $request )
-	{
-		$error         = false;
-		$success       = false;
-		$google2fa_url = false;
-
-		$user = Auth::user();
 
 		if ( $request->isMethod( 'POST' ) ) {
-			$validator = Validator::make( $request->all(), [
-				'password' => 'required|min:6|confirmed',
-			] );
+			if ( $request->has( 'status' ) ) {
 
-			if ( $validator->fails() ) {
-				$error = $validator->errors()->first();
-			} else {
+				$user->activated = $request->get( 'status' );
 
-				$user->password = bcrypt( $request->input( 'password' ) );
+				if ( ! $user->save() ) {
+					$error = 'Failed to update status';
+				}
+			}
 
-				if ( $user->save() ) {
-					$success = 'Profile updated successfully';
+			if ( $request->has( 'balance' ) ) {
+				try {
+					$balance           = $request->input( 'balance' );
+					$user->btc_balance = Currency::convertToSatoshi( $balance );
+
+					if ( ! $user->save() ) {
+						$error = 'Failed to update balance';
+					}
+
+				} catch ( \Exception $e ) {
+					$error = 'Please input the balance in numbers';
 				}
 			}
 		}
 
-		if ( $user->google2fa_secret ) {
-			$google2fa     = new Google2FA();
-			$google2fa_url = $google2fa->getQRCodeGoogleUrl(
-				env( 'app_name' ),
-				$user->email,
-				$user->google2fa_secret
-			);
-		}
+		$name        = ucwords( $user->full_name );
+		$user_status = Config::get( 'constants.user_status' );
 
-		return view( 'user.settings', [
-			'error'         => $error,
-			'success'       => $success,
-			'google2fa_url' => $google2fa_url,
-			'user'          => $user
-		] );
-	}
+		Dashboard::setTitle( "{$name}'s Details" );
 
-	public function google2fa( Request $request )
-	{
-		$user    = Auth::user();
-		$success = false;
-		$error   = false;
-
-		if ( $request->isMethod( 'POST' ) ) {
-			$enabled = $request->has( 'google2fa' );
-
-			if ( $enabled ) {
-				$google2fa              = new Google2FA();
-				$user->google2fa_secret = $google2fa->generateSecretKey();
-				$success                = 'Two Factor Authentication enabled successfully';
-
-				$request->session()->put( '2fa:validation', $user->id );
-			} else {
-				$user->google2fa_secret = null;
-				$success                = 'Two Factor Authentication disabled successfully';
-			}
-
-			if ( ! $user->save() ) {
-				$error = 'Failed to ' . ( $enabled ? 'enable' : 'disable' ) . ' two factor authentication';
-			}
-		}
-
-		return response()->redirectToRoute( 'user.settings' )
-		                 ->with( [
-			                         'success' => $success,
-			                         'error'   => $error
-		                         ] );
-	}
-
-	public function destroy( $id )
-	{
-		$ret = User::destroy( $id );
-
-		if ( $ret > 0 ) {
-			return response()->json( [
-				                         'status'  => 'success',
-				                         'message' => 'User has been deleted successfully.',
-			                         ] );
-		} else {
-			return response()->json( [
-				                         'status'  => 'danger',
-				                         'message' => 'User could not be deleted.',
-			                         ] );
-		}
-	}
-
-	public function deposit()
-	{
-		$this->title = 'Deposit';
-
-		$user = Auth::user();
-
-		$success    = false;
-		$error      = false;
-		$btc_value  = 8000;
-		$token_rate = 1;
-
-		return view( 'user.deposit', [
-			'user'       => $user,
-			'btc_value'  => $btc_value,
-			'token_rate' => $token_rate,
-			'error'      => $error,
-			'success'    => $success
+		return view( 'user.show', [
+			'user'           => $user,
+			'user_status'    => $user_status,
+			'wallet_balance' => $wallet_balance,
+			'error'          => $error
 		] );
 	}
 }
