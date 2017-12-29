@@ -76,25 +76,11 @@ return [
 			]
 		],
 		[
-			'label'     => 'Manage Users',
+			'label'     => 'Users',
 			'action'    => 'user',
 			'icon'      => 'icon-user',
-			'item_type' => 'group',
-			'roles'     => [ 'administrator' ],
-			'children'  => [
-				[
-					'label'     => 'All Users',
-					'action'    => 'user',
-					'item_type' => 'item',
-					'roles'     => [ 'administrator' ]
-				],
-				[
-					'label'     => 'Add New',
-					'action'    => 'user/add',
-					'item_type' => 'item',
-					'roles'     => [ 'administrator' ]
-				]
-			]
+			'item_type' => 'item',
+			'roles'     => [ 'administrator' ]
 		]
 	],
 	'countries'   => [
