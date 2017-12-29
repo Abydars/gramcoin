@@ -25,7 +25,7 @@ class WebhookController extends Controller
 				case "address-transactions":
 
 					$log = date( "Y-m-d h:i:s" ) . ': ' . json_encode( $request->all() ) . PHP_EOL;
-					file_put_contents( storage_path( 'logs' ) . '/' . $identifier . '.json', $log, FILE_APPEND );
+					file_put_contents( storage_path( 'logs' ) . '/transactions.txt', $log, FILE_APPEND );
 					//return;
 
 					$transaction = Transaction::where( 'tx_hash', $data['hash'] )
