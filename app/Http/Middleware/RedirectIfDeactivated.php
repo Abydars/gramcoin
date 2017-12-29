@@ -19,7 +19,9 @@ class RedirectIfDeactivated
 	{
 		$user = Auth::user();
 
-		if ( ! $user->activated ) {
+		if ( $user->activated == '2' ) {
+			return redirect( 'suspended' );
+		} else if ( $user->activated != '1' ) {
 			return redirect( 'activate' );
 		}
 

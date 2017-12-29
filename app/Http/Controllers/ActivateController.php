@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\ActivationService;
 use Illuminate\Support\Facades\Auth;
+use Dashboard;
 
 class ActivateController extends Controller
 {
@@ -20,9 +21,25 @@ class ActivateController extends Controller
 	{
 		$user = Auth::user();
 		if ( ! $user->activated ) {
+			Dashboard::setTitle( 'Activation' );
+
 			$this->activationService->sendActivationMail( $user );
 
 			return view( 'activate.index' );
+		}
+
+		return redirect( $this->redirectPath );
+	}
+
+	public function suspended()
+	{
+		$user = Auth::user();
+		if ( $user->activated == '2' ) {
+			Dashboard::setTitle( 'Suspended' );
+
+			return view( 'activate.suspended', [
+				'user' => $user
+			] );
 		}
 
 		return redirect( $this->redirectPath );

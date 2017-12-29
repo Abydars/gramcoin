@@ -25,6 +25,7 @@ Route::get( 'refer/{guid}', 'Auth\RegisterController@referral' )->name( 'registe
 
 // Deactivated Controllers
 Route::get( 'activate', 'ActivateController@index' )->name( 'activate.index' );
+Route::get( 'suspended', 'ActivateController@suspended' )->name( 'activate.suspended' );
 Route::get( 'activate/send', 'ActivateController@send' )->name( 'activate.send' );
 Route::get( 'activate/{token}', 'ActivateController@activation' )->name( 'activate.activation' );
 
