@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Bonus extends Model
 {
 	protected $table = 'bonuses';
+	public $timestamps = false;
 	protected $fillable = [
 		'awarded_to',
 		'purchase_id',
