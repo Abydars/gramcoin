@@ -73,7 +73,7 @@ class TokenController extends PanelController
 					$tokens        = round( $dollars / $token_rate );
 					$tokens_in_usd = $tokens * $token_rate;
 
-					if ( $user_limit > $user_tokens ) {
+					if ( $user_limit <= ($user_tokens + $tokens) ) {
 						$error = "Sorry, you don't have enough limit to purchase {$tokens} GRM tokens";
 					} else {
 
