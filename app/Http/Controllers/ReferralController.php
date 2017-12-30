@@ -25,7 +25,7 @@ class ReferralController extends PanelController
 			'referrals'   => $referrals,
 			'user'        => $user,
 			'percentages' => $percentages,
-			'referrals'   => Referral::referralCount( $user->id )
+			'referral_count'   => Referral::referralCount( $user->id )
 		] );
 	}
 }

@@ -10,7 +10,7 @@
                         <em class="fa fa-share fa-3x"></em>
                     </div>
                     <div class="col-xs-8 pv-lg">
-                        <div class="h3 mt0 mb0">{{ $referrals }}</div>
+                        <div class="h3 mt0 mb0">{{ $referral_count }}</div>
                         <div class="text-uppercase">Referrals</div>
                     </div>
                 </div>
