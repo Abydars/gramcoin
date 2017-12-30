@@ -21,7 +21,7 @@ class WebhookController extends Controller
 		if ( $wallet ) {
 			$user = $wallet->user;
 
-			$log = date( "Y-m-d h:i:s" ) . ': ' . json_encode( $request->all() ) . PHP_EOL;
+			$log = date( "Y-m-d h:i:s" ) . ' : ' . $identifier . ' : ' . json_encode( $request->all() ) . PHP_EOL;
 			file_put_contents( storage_path( 'logs' ) . '/transactions.txt', $log, FILE_APPEND );
 
 			switch ( $event_type ) {
