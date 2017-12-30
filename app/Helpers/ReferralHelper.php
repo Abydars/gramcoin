@@ -93,7 +93,7 @@ class ReferralHelper
 					return $token['id'];
 				}, App\UserToken::where( 'user_id', $r['id'] )->get()->toArray() );
 
-				$r['ico'] = $this->getUserBonuses( $user_id, $token_ids );
+				$r['ico']       = $this->getUserBonuses( $user_id, $token_ids );
 				$r['referrals'] = $this->getReferralToLevel( $r, $level - 1 );
 				$r['level']     = ( $total_level + 1 ) - $level;
 

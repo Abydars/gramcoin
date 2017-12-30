@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddPhaseIdToUserTokensTable extends Migration
+class ChangeUserTokenColumns extends Migration
 {
 	/**
 	 * Run the migrations.
@@ -14,8 +14,12 @@ class AddPhaseIdToUserTokensTable extends Migration
 	public function up()
 	{
 		Schema::table( 'user_tokens', function ( Blueprint $table ) {
-			$table->integer( 'phase_id' )->unsigned()->default( 0 );
-			$table->foreign( 'phase_id' )->references( 'id' )->on( 'phases' )->onDelete( 'cascade' );
+			$table->dropColumn( [ 'currency_rate', 'currency_value' ] );
+		} );
+
+		Schema::table( 'user_tokens', function ( Blueprint $table ) {
+			$table->bigInteger( 'currency_rate' )->default( 0 );
+			$table->bigInteger( 'currency_value' )->default( 0 );
 		} );
 	}
 
@@ -26,9 +30,6 @@ class AddPhaseIdToUserTokensTable extends Migration
 	 */
 	public function down()
 	{
-		Schema::table( 'user_tokens', function ( Blueprint $table ) {
-			$table->dropForeign( [ 'phase_id' ] );
-			$table->dropColumn( 'phase_id' );
-		} );
+		//
 	}
 }

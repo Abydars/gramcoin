@@ -73,7 +73,7 @@ class TokenController extends PanelController
 					$tokens        = round( $dollars / $token_rate );
 					$tokens_in_usd = $tokens * $token_rate;
 
-					if ( $user_limit <= ($user_tokens + $tokens) ) {
+					if ( $user_limit <= ( $user_tokens + $tokens ) ) {
 						$error = "Sorry, you don't have enough limit to purchase {$tokens} GRM tokens";
 					} else {
 
@@ -84,7 +84,8 @@ class TokenController extends PanelController
 							                                        'token_rate'     => $token_rate,
 							                                        'currency'       => 'BTC',
 							                                        'currency_rate'  => $btc_value_in_satoshi,
-							                                        'currency_value' => $btc_in_satoshi
+							                                        'currency_value' => $btc_in_satoshi,
+							                                        'phase_id'       => $active_phase->id
 						                                        ] );
 
 						if ( $created->id > 0 && $user->save() ) {
