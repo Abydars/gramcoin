@@ -101,6 +101,12 @@ class TokenController extends PanelController
 			}
 		}
 
+		if ( $active_phase ) {
+			$user_bought = UserToken::getUserTokensByPhase( $user->id, $active_phase->id );
+		} else {
+			$error = 'No active phase';
+		}
+
 		Dashboard::setTitle( 'ICO Management' );
 
 		return view( 'ico.index', [
