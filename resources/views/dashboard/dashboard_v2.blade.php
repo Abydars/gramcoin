@@ -118,7 +118,7 @@
             <!-- END date widget    -->
         </div>
     </div>
-    <div class="row mb-xl">
+    <div class="row mb-sm">
         <div class="col-lg-2 col-md-6 col-sm-12 mb-sm">
             <div class="panel widget mb0">
                 <div class="panel-body bg-white text-center">
@@ -160,42 +160,26 @@
             </div>
         </div>
     </div>
-    <div class="row text-center mb-xl mt-sm">
-        <div class="col-lg-3 col-sm-6">
-            <a href="#" class="btn bg-gray text-bold text-md ph-xl">
-                <div class="text-muted">
-                    <i class="fa fa-money"></i>
-                    <span>&nbsp;Lending</span>
-                </div>
-            </a>
-        </div>
+    <div class="text-center mb-sm">
+        <a href="#" class="btn btn-primary">
+            <i class="fa fa-money"></i>
+            <span>&nbsp;Lending</span>
+        </a>
         <div class="clearfix mb-lg visible-xs">&nbsp;</div>
-        <div class="col-lg-3 col-sm-6">
-            <a href="#" class="btn bg-gray text-bold text-md ph-xl">
-                <div class="text-muted">
-                    <i class="fa fa-share"></i>
-                    <span>&nbsp;Reinvest</span>
-                </div>
-            </a>
-        </div>
+        <a href="#" class="btn btn-primary">
+            <i class="fa fa-share"></i>
+            <span>&nbsp;Reinvest</span>
+        </a>
         <div class="clearfix mb-lg hidden-lg">&nbsp;</div>
-        <div class="col-lg-3 col-sm-6">
-            <a href="#" class="btn bg-gray text-bold text-md ph-xl">
-                <div class="text-muted">
-                    <i class="fa fa-dollar"></i>
-                    <span>Convert USD</span>
-                </div>
-            </a>
-        </div>
+        <a href="#" class="btn btn-primary">
+            <i class="fa fa-dollar"></i>
+            <span>Convert USD</span>
+        </a>
         <div class="clearfix mb-lg visible-xs">&nbsp;</div>
-        <div class="col-lg-3 col-sm-6">
-            <a href="#" class="btn bg-gray text-bold text-md ph-xl">
-                <div class="text-muted">
-                    <i class="fa fa-share"></i>
-                    <span>Exchange</span>
-                </div>
-            </a>
-        </div>
+        <a href="#" class="btn btn-primary">
+            <i class="fa fa-share"></i>
+            <span>Exchange</span>
+        </a>
     </div>
     <div class="row">
         <div class="col-lg-12">
