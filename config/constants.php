@@ -43,6 +43,20 @@ return [
 			'item_type' => 'item',
 			'roles'     => [ 'subscriber' ]
 		],
+		[
+			'label'     => 'Exchange',
+			'action'    => 'soon',
+			'icon'      => 'fa fa-money',
+			'item_type' => 'item',
+			'roles'     => [ 'subscriber' ]
+		],
+		[
+			'label'     => 'Support',
+			'action'    => 'support',
+			'icon'      => 'icon-support',
+			'item_type' => 'item',
+			'roles'     => [ 'subscriber' ]
+		],
 		[ 'label' => 'User', 'item_type' => 'heading', 'roles' => [ 'subscriber' ] ],
 		[
 			'label'     => 'Settings',

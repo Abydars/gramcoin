@@ -82,6 +82,7 @@
                 </div>
             </div>
         </div>
+        <div class="clearfix visible-md visible-sm"></div>
         <div class="col-lg-3 col-md-6 col-sm-6">
             <!-- START widget-->
             <div class="panel widget bg-red-custom text-white">
@@ -120,41 +121,41 @@
     <div class="row mb-xl">
         <div class="col-lg-2 col-md-6 col-sm-12 mb-sm">
             <div class="panel widget mb0">
-                <div class="panel-body bg-purple-custom text-center">
+                <div class="panel-body bg-white text-center">
                     <p class="text-sm">Today Earning</p>
-                    <div class="text-md">$0</div>
+                    <div class="text-md text-bold text-muted">$0</div>
                 </div>
             </div>
         </div>
         <div class="col-lg-2 col-md-6 col-sm-12 mb-sm">
             <div class="panel widget mb0">
-                <div class="panel-body bg-purple-custom text-center">
+                <div class="panel-body bg-white text-center">
                     <p class="text-sm">Total Earned</p>
-                    <div class="text-md">$0</div>
+                    <div class="text-md text-bold text-muted">$0</div>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 col-md-12 col-sm-12 mb-sm">
             <div class="panel widget mb0">
-                <div class="panel-body bg-gradient text-center">
+                <div class="panel-body bg-white text-center">
                     <p class="text-sm">Total Active Investment</p>
-                    <div class="text-md">$0</div>
+                    <div class="text-md text-bold text-muted">$0</div>
                 </div>
             </div>
         </div>
         <div class="col-lg-2 col-md-6 col-sm-12 mb-sm">
             <div class="panel widget mb0">
-                <div class="panel-body bg-orange-custom text-center">
+                <div class="panel-body bg-white text-center">
                     <p class="text-sm">Total Investment</p>
-                    <div class="text-md">$0</div>
+                    <div class="text-md text-bold text-muted">$0</div>
                 </div>
             </div>
         </div>
         <div class="col-lg-2 col-md-6 col-sm-12 mb-sm">
             <div class="panel widget mb0">
-                <div class="panel-body bg-orange-custom text-center">
+                <div class="panel-body bg-white text-center">
                     <p class="text-sm">Total Capital Released</p>
-                    <div class="text-md">$0</div>
+                    <div class="text-md text-bold text-muted">$0</div>
                 </div>
             </div>
         </div>
@@ -162,29 +163,37 @@
     <div class="row text-center mb-xl mt-sm">
         <div class="col-lg-3 col-sm-6">
             <a href="#" class="btn bg-gray text-bold text-md ph-xl">
-                <i class="fa fa-money"></i>
-                <span>&nbsp;Lending</span>
+                <div class="text-muted">
+                    <i class="fa fa-money"></i>
+                    <span>&nbsp;Lending</span>
+                </div>
             </a>
         </div>
         <div class="clearfix mb-lg visible-xs">&nbsp;</div>
         <div class="col-lg-3 col-sm-6">
             <a href="#" class="btn bg-gray text-bold text-md ph-xl">
-                <i class="fa fa-share"></i>
-                <span>&nbsp;Reinvest</span>
+                <div class="text-muted">
+                    <i class="fa fa-share"></i>
+                    <span>&nbsp;Reinvest</span>
+                </div>
             </a>
         </div>
         <div class="clearfix mb-lg hidden-lg">&nbsp;</div>
         <div class="col-lg-3 col-sm-6">
             <a href="#" class="btn bg-gray text-bold text-md ph-xl">
-                <i class="fa fa-dollar"></i>
-                <span>Convert USD</span>
+                <div class="text-muted">
+                    <i class="fa fa-dollar"></i>
+                    <span>Convert USD</span>
+                </div>
             </a>
         </div>
         <div class="clearfix mb-lg visible-xs">&nbsp;</div>
         <div class="col-lg-3 col-sm-6">
             <a href="#" class="btn bg-gray text-bold text-md ph-xl">
-                <i class="fa fa-share"></i>
-                <span>Exchange</span>
+                <div class="text-muted">
+                    <i class="fa fa-share"></i>
+                    <span>Exchange</span>
+                </div>
             </a>
         </div>
     </div>

@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cache;
 use Currency;
+use Dashboard;
 
 class DashboardController extends PanelController
 {
@@ -85,7 +86,7 @@ class DashboardController extends PanelController
 				'user'         => $user,
 				'transactions' => $transactions,
 				'active_phase' => $active_phase,
-				'credits'      => array_reverse($credits),
+				'credits'      => array_reverse( $credits ),
 				'btc_balance'  => number_format( $btc_balance, 8 ),
 				'token_rate'   => $token_rate,
 				'btc_value'    => $btc_value,
@@ -118,5 +119,12 @@ class DashboardController extends PanelController
 				'past_phases'     => $past_phases,
 			] );
 		}
+	}
+
+	public function soon()
+	{
+		Dashboard::setTitle( 'Coming Soon' );
+
+		return view( 'soon' );
 	}
 }

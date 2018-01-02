@@ -23,6 +23,12 @@ Route::get( 'admin/{nonce}', 'Auth\LoginController@admin_login' );
 // Referral
 Route::get( 'refer/{guid}', 'Auth\RegisterController@referral' )->name( 'register.referral' );
 
+// Coming soon
+Route::get( 'soon', 'DashboardController@soon' )->name( 'soon' );
+
+// Support
+Route::get( 'support', 'SupportController@index' )->name( 'support.index' );
+
 // Deactivated Controllers
 Route::get( 'activate', 'ActivateController@index' )->name( 'activate.index' );
 Route::get( 'suspended', 'ActivateController@suspended' )->name( 'activate.suspended' );

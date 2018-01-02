@@ -64,31 +64,50 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-6 col-sm-6">
+        <div class="col-lg-12 col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="panel-title"><h2><em class="icon-wallet fa"></em>&nbsp;Bitcoin Wallet</h2></div>
                 </div>
                 <div class="panel-body">
-                    <div data-scrollable="" data-height="200">
-                        <h4>Get address to accept Bitcoin payments</h4>
-                        <div class="input-group">
-                            <input id="address-input" type="text" readonly value="{{ $address }}"
-                                   class="form-control" style="height: 44px;"/>
-                            <span class="input-group-btn">
+                    <h4>Get address to accept Bitcoin payments</h4>
+                    <div class="input-group">
+                        <input id="address-input" type="text" readonly value="{{ $address }}"
+                               class="form-control" style="height: 44px;"/>
+                        <span class="input-group-btn">
                                     <button type="button" data-copy-text="#address-input" class="btn btn-default"
                                             style="height: 44px;"><em
                                                 class="fa fa-files-o"></em></button>
                                  </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title"><h2><em class="fa-sign-out fa"></em>&nbsp;Withdraw GRM</h2></div>
+                </div>
+                <div class="panel-body">
+                    <div data-scrollable="" data-height="200">
+                        <h4>Withdraw from your GRM Wallet</h4>
+                        <div class="form-group">
+                            <label>Tokens to Withdraw</label>
+                            {!! Form::number('amount', false, ['id' => 'input-amount','class' => 'form-control', 'placeholder' => 'Number of Tokens', 'required']) !!}
                         </div>
                     </div>
+                </div>
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-primary" disabled>Request Withdrawal</button>
                 </div>
             </div>
         </div>
         <div class="col-lg-6 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div class="panel-title"><h2><em class="fa-sign-out fa"></em>&nbsp;Withdraw</h2></div>
+                    <div class="panel-title"><h2><em class="fa-sign-out fa"></em>&nbsp;Withdraw BTC</h2></div>
                 </div>
                 {!! Form::open(['route' => ['wallet.withdraw'], 'id' => 'withdraw-form', 'method' => 'POST', 'data-parsley-validate' => ' ', 'novalidate' => ' ', 'class' => '']) !!}
                 <div class="panel-body">

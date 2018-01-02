@@ -50,7 +50,7 @@ class LoginController extends Controller
 		                 [
 			                 $this->username()      => 'required',
 			                 'password'             => 'required',
-			                 'g-recaptcha-response' => 'required|recaptcha'
+			                 //'g-recaptcha-response' => 'required|recaptcha'
 		                 ],
 		                 [
 			                 'g-recaptcha-response.required' => 'Please ensure that you are a human!'
