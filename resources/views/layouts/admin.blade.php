@@ -27,6 +27,7 @@ $active_navigation = Dashboard::active_navigation();
 			                        'url'       => asset( '/' )
 		                        ] ); ?>
     </script>
+    @stack('styles')
 </head>
 <body class=""><!--aside-collapsed layout-fixed aside-collapsed-texta aside-hover aside-show-scrollbar-->
 <div class="wrapper">
@@ -35,7 +36,7 @@ $active_navigation = Dashboard::active_navigation();
     <section>
         <!-- Page content-->
         <div class="content-wrapper">
-            <h3>{{ Dashboard::title() }}
+            <h3 class="clearfix">{{ Dashboard::title() }}
                 <div class="pull-right" id="top-layout">@yield('top')</div>
             </h3>
             <div class="row">

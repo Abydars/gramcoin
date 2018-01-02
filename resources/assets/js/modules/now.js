@@ -1,23 +1,26 @@
 // NOW TIMER
 // ----------------------------------- 
 
-(function(window, document, $, undefined){
+(function (window, document, $, undefined) {
 
-  $(function(){
+    $(function () {
 
-    $('[data-now]').each(function(){
-      var element = $(this),
-          format = element.data('format');
+        $('[data-now]').each(function () {
+            var element = $(this),
+                format = element.data('format');
 
-      function updateTime() {
-        var dt = moment( new Date() ).format(format);
-        element.text(dt);
-      }
+            function updateTime() {
+                var now = new Date();
+                now = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
 
-      updateTime();
-      setInterval(updateTime, 1000);
-    
+                var dt = moment(now).format(format);
+                element.text(dt);
+            }
+
+            updateTime();
+            setInterval(updateTime, 1000);
+
+        });
     });
-  });
 
 })(window, document, window.jQuery);

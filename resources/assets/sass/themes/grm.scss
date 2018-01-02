@@ -250,23 +250,81 @@ body,
   }
 }
 
+.btn-purple {
+  background: #9c27b0;
+  border-color: #9c27b0;
+  color: #FFF;
+  &:hover, &:focus {
+    background: #9c27b0;
+    border-color: #9c27b0;
+    color: #FFF;
+  }
+  &:active, &:active:hover {
+    background: #9c27b0;
+    border-color: #9c27b0;
+    color: #FFF;
+  }
+}
+
+.btn-pink {
+  background: #e91e63;
+  border-color: #e91e63;
+  color: #FFF;
+  &:hover, &:focus {
+    background: #e91e63;
+    border-color: #e91e63;
+    color: #FFF;
+  }
+  &:active, &:active:hover {
+    background: #e91e63;
+    border-color: #e91e63;
+    color: #FFF;
+  }
+}
+
+.btn-red {
+  background: #db4437;
+  border-color: #db4437;
+  color: #FFF;
+  &:hover, &:focus {
+    background: #db4437;
+    border-color: #db4437;
+    color: #FFF;
+  }
+  &:active, &:active:hover {
+    background: #db4437;
+    border-color: #db4437;
+    color: #FFF;
+  }
+}
+
 /* =========================================================================
    Colors
  */
 .bg-purple-custom {
   background: #9c27b0;
+  color: #FFFFFF;
 }
 
 .bg-pink-custom {
   background: #e91e63;
+  color: #FFFFFF;
 }
 
 .bg-red-custom {
   background: #db4437;
+  color: #FFFFFF;
 }
 
 .bg-orange-custom {
   background: #ff9900;
+  color: #FFFFFF;
+}
+
+.bg-gradient {
+  background-color: $nav-header-bg;
+  @include gradient-horizontal($nav-top-bg-start, $nav-top-bg-end);
+  color: #FFFFFF;
 }
 
 ::selection {

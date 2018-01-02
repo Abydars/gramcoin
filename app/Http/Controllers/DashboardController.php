@@ -70,7 +70,7 @@ class DashboardController extends PanelController
 
 			$btc_balance = $user->btc_balance_in_btc;
 
-			return view( 'dashboard.dashboard', [
+			return view( 'dashboard.dashboard_v2', [
 				'user'            => $user,
 				'transactions'    => $transactions,
 				'active_phase'    => $active_phase,
