@@ -1,37 +1,9 @@
 @extends('layouts.admin')
 
-@push('styles')
-<style>
-    #top-layout {
-        width: 50%;
-    }
-
-    @media screen and (max-width: 800px) {
-        #top-layout {
-            width: 100%;
-        }
-    }
-</style>
-@endpush
-
-@section('top')
-    <div class="text-right">
-        <div class="inline br pr-lg">
-            <div class="text-uppercase">1 BTC = ${{ number_format( $btc_value, 2 ) }}</div>
-        </div>
-        <div class="inline">
-            <div class="text-uppercase">1 GRM = ${{ $token_rate }}</div>
-        </div>
-    </div>
-@endsection
-
-@section('modals')
-@endsection
-
 @section('content')
     <!-- START widgets box-->
     <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="col-lg-6 col-md-12">
             <!-- START widget-->
             <div class="panel widget bg-gray">
                 <div class="row row-table">
@@ -51,9 +23,37 @@
                 </div>
             </div>
         </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <!-- START widget-->
+            <div class="panel widget bg-gray">
+                <div class="row row-table">
+                    <div class="col-xs-4 text-center pv-lg">
+                        <img src="{{ asset('/img/currency-light.png') }}"/>
+                    </div>
+                    <div class="col-xs-8 pv-lg">
+                        <div class="h2 mt0">${{ number_format($token_rate, 2) }}</div>
+                        <div class="text-uppercase">GRM Value</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <!-- START widget-->
+            <div class="panel widget bg-gray">
+                <div class="row row-table">
+                    <div class="col-xs-4 text-center text-white pv-lg">
+                        <em class="fa fa-bitcoin fa-3x"></em>
+                    </div>
+                    <div class="col-xs-8 pv-lg">
+                        <div class="h2 mt0">${{ number_format( $btc_value, 2 ) }}</div>
+                        <div class="text-uppercase">BTC Value</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row">
-        <div class="col-lg-3 col-sm-6">
+        <div class="col-lg-3 col-md-6 col-sm-6">
             <!-- START widget-->
             <div class="panel widget bg-orange-custom text-white">
                 <div class="row row-table">
@@ -68,8 +68,7 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-lg-3 col-sm-6">
+        <div class="col-lg-3 col-md-6 col-sm-6">
             <!-- START widget-->
             <div class="panel widget bg-purple-custom text-white">
                 <div class="row row-table">
@@ -83,7 +82,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-sm-6">
+        <div class="col-lg-3 col-md-6 col-sm-6">
             <!-- START widget-->
             <div class="panel widget bg-red-custom text-white">
                 <div class="row row-table">
@@ -97,7 +96,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="col-lg-3 col-md-6 col-sm-6">
             <!-- START date widget-->
             <div class="panel widget">
                 <div class="row row-table">
@@ -118,34 +117,12 @@
             <!-- END date widget    -->
         </div>
     </div>
-    <div class="row text-center mb-xl mt-sm">
-        <div class="col-lg-3">
-            <div class="bg-gray">
-                <a href="#" class="btn bg-gray text-bold text-md pv-lg ph-xl">Lending</a>
-            </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="bg-gray">
-                <a href="#" class="btn bg-gray text-bold text-md pv-lg ph-xl">Reinvest</a>
-            </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="bg-gray">
-                <a href="#" class="btn bg-gray text-bold text-md pv-lg ph-xl">Convert USD</a>
-            </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="bg-gray">
-                <a href="#" class="btn bg-gray text-bold text-md pv-lg ph-xl">Exchange</a>
-            </div>
-        </div>
-    </div>
     <div class="row mb-xl">
         <div class="col-lg-2 col-md-6 col-sm-12 mb-sm">
             <div class="panel widget mb0">
                 <div class="panel-body bg-purple-custom text-center">
                     <p class="text-sm">Today Earning</p>
-                    <div class="text-md">$300</div>
+                    <div class="text-md">$0</div>
                 </div>
             </div>
         </div>
@@ -153,7 +130,7 @@
             <div class="panel widget mb0">
                 <div class="panel-body bg-purple-custom text-center">
                     <p class="text-sm">Total Earned</p>
-                    <div class="text-md">$300</div>
+                    <div class="text-md">$0</div>
                 </div>
             </div>
         </div>
@@ -161,7 +138,7 @@
             <div class="panel widget mb0">
                 <div class="panel-body bg-gradient text-center">
                     <p class="text-sm">Total Active Investment</p>
-                    <div class="text-md">$300</div>
+                    <div class="text-md">$0</div>
                 </div>
             </div>
         </div>
@@ -169,7 +146,7 @@
             <div class="panel widget mb0">
                 <div class="panel-body bg-orange-custom text-center">
                     <p class="text-sm">Total Investment</p>
-                    <div class="text-md">$300</div>
+                    <div class="text-md">$0</div>
                 </div>
             </div>
         </div>
@@ -177,9 +154,38 @@
             <div class="panel widget mb0">
                 <div class="panel-body bg-orange-custom text-center">
                     <p class="text-sm">Total Capital Released</p>
-                    <div class="text-md">$300</div>
+                    <div class="text-md">$0</div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row text-center mb-xl mt-sm">
+        <div class="col-lg-3 col-sm-6">
+            <a href="#" class="btn bg-gray text-bold text-md ph-xl">
+                <i class="fa fa-money"></i>
+                <span>&nbsp;Lending</span>
+            </a>
+        </div>
+        <div class="clearfix mb-lg visible-xs">&nbsp;</div>
+        <div class="col-lg-3 col-sm-6">
+            <a href="#" class="btn bg-gray text-bold text-md ph-xl">
+                <i class="fa fa-share"></i>
+                <span>&nbsp;Reinvest</span>
+            </a>
+        </div>
+        <div class="clearfix mb-lg hidden-lg">&nbsp;</div>
+        <div class="col-lg-3 col-sm-6">
+            <a href="#" class="btn bg-gray text-bold text-md ph-xl">
+                <i class="fa fa-dollar"></i>
+                <span>Convert USD</span>
+            </a>
+        </div>
+        <div class="clearfix mb-lg visible-xs">&nbsp;</div>
+        <div class="col-lg-3 col-sm-6">
+            <a href="#" class="btn bg-gray text-bold text-md ph-xl">
+                <i class="fa fa-share"></i>
+                <span>Exchange</span>
+            </a>
         </div>
     </div>
     <div class="row">
@@ -190,72 +196,13 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12">
-                            <p class="text-md">1.8%</p>
-                            <div class="progress progress-striped progress-xs">
-                                <div class="progress-bar progress-bar-info" role="progressbar"
-                                     aria-valuenow="100"
-                                     aria-valuemin="0" aria-valuemax="100"
-                                     style="width: 100%">
-                                </div>
+                        @foreach($credits as $date => $credit)
+                            <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12 text-center">
+                                <p class="text-md">{{ $credit['percent'] }}%</p>
+                                <p>{{ $date }}</p>
+                                <p class="p0">{{ $credit['percent'] == '100' ? 'Completed' : 'Pending' }}</p>
                             </div>
-                            <p class="p0">Completed</p>
-                        </div>
-                        <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12">
-                            <p class="text-md">1.8%</p>
-                            <div class="progress progress-striped progress-xs">
-                                <div class="progress-bar progress-bar-info" role="progressbar"
-                                     aria-valuenow="50"
-                                     aria-valuemin="0" aria-valuemax="100"
-                                     style="width: 50%">
-                                </div>
-                            </div>
-                            <p class="p0">Pending</p>
-                        </div>
-                        <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12">
-                            <p class="text-md">0%</p>
-                            <div class="progress progress-striped progress-xs">
-                                <div class="progress-bar progress-bar-info" role="progressbar"
-                                     aria-valuenow="0"
-                                     aria-valuemin="0" aria-valuemax="100"
-                                     style="width: 0%">
-                                </div>
-                            </div>
-                            <p class="p0">Pending</p>
-                        </div>
-                        <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12">
-                            <p class="text-md">0%</p>
-                            <div class="progress progress-striped progress-xs">
-                                <div class="progress-bar progress-bar-info" role="progressbar"
-                                     aria-valuenow="0"
-                                     aria-valuemin="0" aria-valuemax="100"
-                                     style="width: 0%">
-                                </div>
-                            </div>
-                            <p class="p0">Pending</p>
-                        </div>
-                        <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12">
-                            <p class="text-md">0%</p>
-                            <div class="progress progress-striped progress-xs">
-                                <div class="progress-bar progress-bar-info" role="progressbar"
-                                     aria-valuenow="0"
-                                     aria-valuemin="0" aria-valuemax="100"
-                                     style="width: 0%">
-                                </div>
-                            </div>
-                            <p class="p0">Pending</p>
-                        </div>
-                        <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12">
-                            <p class="text-md">0%</p>
-                            <div class="progress progress-striped progress-xs">
-                                <div class="progress-bar progress-bar-info" role="progressbar"
-                                     aria-valuenow="0"
-                                     aria-valuemin="0" aria-valuemax="100"
-                                     style="width: 0%">
-                                </div>
-                            </div>
-                            <p class="p0">Pending</p>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

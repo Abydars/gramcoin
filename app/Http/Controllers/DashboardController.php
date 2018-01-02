@@ -10,6 +10,7 @@ use App\User;
 use App\UserToken;
 use App\UserTransaction;
 use Blocktrail;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -45,12 +46,9 @@ class DashboardController extends PanelController
 		$user   = Auth::user();
 		$wallet = $user->wallet;
 
-		$btc_value  = Currency::getBtcValue();
-		$token_rate = Currency::getTokenValue();
-
-		$inactive_phases = Phase::getInactivePhases();
-		$active_phase    = Phase::getActivePhase();
-		$past_phases     = Phase::getPastPhases();
+		$btc_value    = Currency::getBtcValue();
+		$token_rate   = Currency::getTokenValue();
+		$active_phase = Phase::getActivePhase();
 
 		if ( $user->role == 'subscriber' ) {
 			$user_bought = 0;
@@ -69,18 +67,30 @@ class DashboardController extends PanelController
 			}
 
 			$btc_balance = $user->btc_balance_in_btc;
+			$credits     = [];
+
+			$day_before       = 6;
+			$last_before_date = Carbon::now( 'UTC' )->subDays( $day_before );
+
+			while ( $day_before > 0 ) {
+				$credits[ $last_before_date->toDateString() ] = [
+					'percent' => 0
+				];
+
+				$last_before_date = $last_before_date->addDay();
+				$day_before --;
+			}
 
 			return view( 'dashboard.dashboard_v2', [
-				'user'            => $user,
-				'transactions'    => $transactions,
-				'active_phase'    => $active_phase,
-				'inactive_phases' => $inactive_phases,
-				'past_phases'     => $past_phases,
-				'btc_balance'     => number_format( $btc_balance, 8 ),
-				'token_rate'      => $token_rate,
-				'btc_value'       => $btc_value,
-				'unc_balance'     => number_format( $unc_balance, 8 ),
-				'user_bought'     => $user_bought
+				'user'         => $user,
+				'transactions' => $transactions,
+				'active_phase' => $active_phase,
+				'credits'      => array_reverse($credits),
+				'btc_balance'  => number_format( $btc_balance, 8 ),
+				'token_rate'   => $token_rate,
+				'btc_value'    => $btc_value,
+				'unc_balance'  => number_format( $unc_balance, 8 ),
+				'user_bought'  => $user_bought
 			] );
 		} else if ( $user->role == 'administrator' ) {
 
