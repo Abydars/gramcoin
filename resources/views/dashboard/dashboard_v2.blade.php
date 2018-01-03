@@ -120,7 +120,7 @@
     </div>
     <div class="row mb-sm">
         <div class="col-lg-2 col-md-6 col-sm-12 mb-sm">
-            <div class="panel widget mb0">
+            <div class="panel widget mb0 disabled">
                 <div class="panel-body bg-white text-center">
                     <p class="text-sm">Today Earning</p>
                     <div class="text-md text-bold text-muted">$0</div>
@@ -128,7 +128,7 @@
             </div>
         </div>
         <div class="col-lg-2 col-md-6 col-sm-12 mb-sm">
-            <div class="panel widget mb0">
+            <div class="panel widget mb0 disabled">
                 <div class="panel-body bg-white text-center">
                     <p class="text-sm">Total Earned</p>
                     <div class="text-md text-bold text-muted">$0</div>
@@ -136,7 +136,7 @@
             </div>
         </div>
         <div class="col-lg-4 col-md-12 col-sm-12 mb-sm">
-            <div class="panel widget mb0">
+            <div class="panel widget mb0 disabled">
                 <div class="panel-body bg-white text-center">
                     <p class="text-sm">Total Active Investment</p>
                     <div class="text-md text-bold text-muted">$0</div>
@@ -144,7 +144,7 @@
             </div>
         </div>
         <div class="col-lg-2 col-md-6 col-sm-12 mb-sm">
-            <div class="panel widget mb0">
+            <div class="panel widget mb0 disabled">
                 <div class="panel-body bg-white text-center">
                     <p class="text-sm">Total Investment</p>
                     <div class="text-md text-bold text-muted">$0</div>
@@ -152,7 +152,7 @@
             </div>
         </div>
         <div class="col-lg-2 col-md-6 col-sm-12 mb-sm">
-            <div class="panel widget mb0">
+            <div class="panel widget mb0 disabled">
                 <div class="panel-body bg-white text-center">
                     <p class="text-sm">Total Capital Released</p>
                     <div class="text-md text-bold text-muted">$0</div>
@@ -161,22 +161,19 @@
         </div>
     </div>
     <div class="text-center mb-sm">
-        <a href="#" class="btn btn-primary">
+        <a href="#" class="btn btn-primary disabled mr-lg">
             <i class="fa fa-money"></i>
             <span>&nbsp;Lending</span>
         </a>
-        <div class="clearfix mb-lg visible-xs">&nbsp;</div>
-        <a href="#" class="btn btn-primary">
+        <a href="#" class="btn btn-primary disabled mr-lg">
             <i class="fa fa-share"></i>
             <span>&nbsp;Reinvest</span>
         </a>
-        <div class="clearfix mb-lg hidden-lg">&nbsp;</div>
-        <a href="#" class="btn btn-primary">
+        <a href="#" class="btn btn-primary disabled mr-lg">
             <i class="fa fa-dollar"></i>
             <span>Convert USD</span>
         </a>
-        <div class="clearfix mb-lg visible-xs">&nbsp;</div>
-        <a href="#" class="btn btn-primary">
+        <a href="#" class="btn btn-primary disabled">
             <i class="fa fa-share"></i>
             <span>Exchange</span>
         </a>
