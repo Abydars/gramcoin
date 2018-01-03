@@ -94,8 +94,12 @@
                     <div data-scrollable="" data-height="200">
                         <h4>Withdraw from your GRM Wallet</h4>
                         <div class="form-group">
-                            <label>Tokens to Withdraw</label>
-                            {!! Form::number('amount', false, ['id' => 'input-amount','class' => 'form-control', 'placeholder' => 'Number of Tokens', 'required']) !!}
+                            <label>Amount to Withdraw</label>
+                            {!! Form::number('amount', false, ['id' => 'input-amount','class' => 'form-control', 'placeholder' => 'Enter GRM Amount', 'required']) !!}
+                        </div>
+                        <div class="form-group">
+                            <label>GRM Address</label>
+                            {!! Form::text('address', false, ['id' => 'input-address','class' => 'form-control', 'placeholder' => 'Enter your address', 'required']) !!}
                         </div>
                     </div>
                 </div>
