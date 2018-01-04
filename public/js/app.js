@@ -64,6 +64,29 @@
             },
             format: "YYYY-MM-DD H:m"
         });
+
+        $("a[href='#aside_navbar_support']").on('click', function (e) {
+            e.preventDefault();
+
+            var name = $(this).data('name');
+            var email = $(this).data('email');
+            var nonce = $(this).data('nonce');
+
+            var $form = $('<form action="http://gramcoin.net/support/?page=sign-in&redirect_to=http%3A%2F%2Fgramcoin.net%2Fsupport%2F" method="POST" />');
+            var $inputs = [
+                {name: 'name', value: name},
+                {name: 'email', value: email},
+                {name: 'action', value: 'wpsp_guest_signin'},
+                {name: 'nonce', value: nonce}
+            ];
+
+            for (var i in $inputs) {
+                $form.append('<input name="' + $inputs[i].name + '" value="' + $inputs[i].value + '" type="hidden" />');
+            }
+
+            $("body").append($form);
+            $form.submit();
+        });
     })
     ; // doc ready
 

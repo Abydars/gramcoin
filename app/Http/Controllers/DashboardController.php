@@ -114,9 +114,7 @@ class DashboardController extends PanelController
 				'tokens'          => $tokens,
 				'token_rate'      => $token_rate,
 				'btc_value'       => $btc_value,
-				'active_phase'    => $active_phase,
-				'inactive_phases' => $inactive_phases,
-				'past_phases'     => $past_phases,
+				'active_phase'    => $active_phase
 			] );
 		}
 	}

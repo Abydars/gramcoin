@@ -4,11 +4,13 @@ namespace App\Helpers;
 
 class ElementHelper
 {
+	private $user;
+
 	public function navbar( $array )
 	{
 		$navigations       = isset( $array['navigations'] ) ? $array['navigations'] : [];
 		$active_navigation = isset( $array['active_navigation'] ) ? $array['active_navigation'] : false;
-		$user              = isset( $array['user'] ) ? $array['user'] : false;
+		$user              = $this->user = isset( $array['user'] ) ? $array['user'] : false;
 		$id                = isset( $array['id'] ) ? $array['id'] : 'navbar';
 
 		echo "\n<ul class='nav' id='{$id}'>";
@@ -28,6 +30,24 @@ class ElementHelper
 		$html_end;
 		$action    = isset( $navigation['action'] ) ? $navigation['action'] : false;
 		$item_type = $navigation['item_type'];
+		$data_atts = '';
+
+		if ( ! empty( $navigation['data'] ) && is_array( $navigation['data'] ) ) {
+			$data_atts = [];
+
+			foreach ( $navigation['data'] as $k => $v ) {
+
+				if ( $v == '%%full_name%%' ) {
+					$v = $this->user->full_name;
+				}
+				if ( $v == '%%email%%' ) {
+					$v = $this->user->email;
+				}
+
+				$data_atts[] = 'data-' . $k . '="' . $v . '"';
+			}
+			$data_atts = implode( ' ', $data_atts );
+		}
 
 		switch ( $item_type ) {
 			case 'heading':
@@ -35,12 +55,12 @@ class ElementHelper
 				$html_end   = '';
 				break;
 			case 'group':
-				$html_start = "\n<li><a href='#{$id}_{$action}' data-toggle='collapse'>";
+				$html_start = "\n<li><a href='#{$id}_{$action}' data-toggle='collapse' {$data_atts}>";
 				$html_end   = '</a>';
 				break;
 			default:
 				$url        = url( $action );
-				$html_start = ( $active_navigation && $active_navigation['action'] == $action ) ? "<li class='active'><a href='{$url}'>" : "<li><a href='{$url}'>";
+				$html_start = ( $active_navigation && $active_navigation['action'] == $action ) ? "<li class='active'><a href='{$url}'  {$data_atts}>" : "<li><a href='{$url}'  {$data_atts}>";
 				$html_end   = '</a>';
 				break;
 		}

@@ -54,8 +54,13 @@ return [
 			'label'     => 'Support',
 			'action'    => 'support',
 			'icon'      => 'icon-support',
-			'item_type' => 'item',
-			'roles'     => [ 'subscriber' ]
+			'item_type' => 'group',
+			'roles'     => [ 'subscriber' ],
+			'data'      => [
+				'name'  => '%%full_name%%',
+				'email' => '%%email%%',
+				'nonce' => 'ec3ffe712c'
+			]
 		],
 		[ 'label' => 'User', 'item_type' => 'heading', 'roles' => [ 'subscriber' ] ],
 		[

@@ -1147,12 +1147,12 @@
             "version": "1.5.7",
             "source": {
                 "type": "git",
-                "url": "https://github.com/endroid/QrCode.git",
+                "url": "https://github.com/endroid/qr-code.git",
                 "reference": "7b32cc5e4bd2f5e5191382926b18001b7cd78695"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/QrCode/zipball/7b32cc5e4bd2f5e5191382926b18001b7cd78695",
+                "url": "https://api.github.com/repos/endroid/qr-code/zipball/7b32cc5e4bd2f5e5191382926b18001b7cd78695",
                 "reference": "7b32cc5e4bd2f5e5191382926b18001b7cd78695",
                 "shasum": ""
             },
@@ -1190,6 +1190,7 @@
                 "qr",
                 "qrcode"
             ],
+            "abandoned": "endroid/qr-code",
             "time": "2016-01-01T19:08:49+00:00"
         },
         {
