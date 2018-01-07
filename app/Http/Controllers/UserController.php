@@ -28,7 +28,7 @@ class UserController extends AdminController
 
 	public function data()
 	{
-		return Datatables::of( User::all() )->make( true );
+		return Datatables::of( User::with('wallet')->get() )->make( true );
 	}
 
 	public function show( $id, Request $request )

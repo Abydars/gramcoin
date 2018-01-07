@@ -38,6 +38,7 @@
                    id="users-table">
                 <thead>
                 <tr>
+                    <th style="text-align: left;">Wallet ID</th>
                     <th style="text-align: left;">Full Name</th>
                     <th style="text-align: left;">Email</th>
                     <th style="text-align: left;">Balance</th>
@@ -71,6 +72,12 @@
                 });
             },
             columns: [
+                {
+                    name: 'wallet_id',
+                    data: function(row) {
+                        return row.wallet ? row.wallet.identity : '';
+                    }
+                },
                 {
                     name: 'full_name',
                     data: 'full_name'
