@@ -28,17 +28,20 @@ class UserController extends AdminController
 
 	public function data()
 	{
-		return Datatables::of( User::with('wallet')->get() )->make( true );
+		return Datatables::of( User::with( 'wallet' )->get() )->make( true );
 	}
 
 	public function show( $id, Request $request )
 	{
-		$user   = User::find( $id );
-		$wallet = $user->wallet;
-		$error  = false;
+		$user           = User::find( $id );
+		$wallet         = $user->wallet;
+		$error          = false;
+		$wallet_balance = 0;
 
 		try {
-			$wallet_balance = Currency::convertToBtc( $wallet->getBalance() );
+			if ( $wallet ) {
+				$wallet_balance = Currency::convertToBtc( $wallet->getBalance() );
+			}
 		} catch ( \Exception $e ) {
 			$wallet_balance = 0;
 		}
