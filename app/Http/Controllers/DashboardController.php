@@ -50,6 +50,8 @@ class DashboardController extends PanelController
 		$btc_value    = Currency::getBtcValue();
 		$token_rate   = Currency::getTokenValue();
 		$active_phase = Phase::getActivePhase();
+		$past_phases  = Phase::getPastPhases();
+		$inactive_phases = Phase::getInactivePhases();
 
 		if ( $user->role == 'subscriber' ) {
 			$user_bought = 0;
@@ -108,13 +110,15 @@ class DashboardController extends PanelController
 
 
 			return view( 'dashboard.admin', [
-				'active_users'    => $active_users,
-				'top_user'        => $top_user,
-				'sold_tokens'     => $sold_tokens,
-				'tokens'          => $tokens,
-				'token_rate'      => $token_rate,
-				'btc_value'       => $btc_value,
-				'active_phase'    => $active_phase
+				'active_users' => $active_users,
+				'top_user'     => $top_user,
+				'sold_tokens'  => $sold_tokens,
+				'tokens'       => $tokens,
+				'token_rate'   => $token_rate,
+				'btc_value'    => $btc_value,
+				'active_phase' => $active_phase,
+				'past_phases'  => $past_phases,
+				'inactive_phases' => $inactive_phases
 			] );
 		}
 	}

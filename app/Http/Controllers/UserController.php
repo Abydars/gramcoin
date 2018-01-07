@@ -77,6 +77,7 @@ class UserController extends AdminController
 			'user'           => $user,
 			'user_status'    => $user_status,
 			'wallet_balance' => $wallet_balance,
+			'wallet'         => $wallet,
 			'error'          => $error
 		] );
 	}

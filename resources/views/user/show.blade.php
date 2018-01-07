@@ -57,12 +57,45 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="password-modal" tabindex="-1" role="dialog" aria-labelledby="Wallet Password"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-purple-custom text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title">Wallet Password</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label">CLICK COPY BUTTON TO COPY</label>
+                        <div class="input-group">
+                            <input id="wallet-password-input" type="text" readonly
+                                   value="{{ $wallet->pass }}"
+                                   class="form-control" style="height: 44px;"/>
+                            <span class="input-group-btn">
+                                    <button type="button" data-copy-text="#wallet-password-input"
+                                            class="btn btn-default"
+                                            style="height: 44px;"><em
+                                                class="fa fa-files-o"></em></button>
+                                 </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('content')
     @if($error)
         <div class="alert alert-danger">{{ $error }}</div>
     @endif
+    <h3 class="mt0 mb-xl">Wallet ID# {{ $wallet->identity }}</h3>
     <div class="row">
         <div class="col-md-3">
             <div class="panel widget">
@@ -139,6 +172,27 @@
                                style="color: white !important;">Change
                                 status</a>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel widget">
+                <div class="row row-table">
+                    <div class="col-xs-4 text-center bg-white pv-lg">
+                        <em class="fa fa-bitcoin fa-3x"></em>
+                    </div>
+                    <div class="col-xs-8 pv-lg">
+                        <h4 class="m0 text-uppercase">Wallet Password</h4>
+                    </div>
+                </div>
+                <div class="panel-body bg-red-custom text-white">
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-12">
+                            <a href="#password-modal" data-toggle="modal" class="bg-transparent text-white p0"
+                               style="color: white !important;">Show Password</a>
+                        </div>
+                        <div class="col-lg-6 col-sm-12"></div>
                     </div>
                 </div>
             </div>
