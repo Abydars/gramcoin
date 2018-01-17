@@ -248,7 +248,8 @@ return [
 		'Currency'     => App\Facades\CurrencyFacade::class,
 		'Referral'     => App\Facades\ReferralFacade::class,
 		'Blocktrail'   => \Blocktrail\SDK\BlocktrailSDK::class,
-		'Option'       => App\Facades\OptionsFacade::class
+		'Option'       => App\Facades\OptionsFacade::class,
+		'Wallet'       => App\Facades\WalletFacade::class,
 	],
 
 ];

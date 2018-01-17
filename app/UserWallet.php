@@ -5,12 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
+use Wallet;
 
 class UserWallet extends Model
 {
 	protected $table = 'wallets';
-	protected $bitcoinClient;
-	protected $liveWallet;
 
 	protected $fillable = [
 		'identity',
@@ -21,19 +20,11 @@ class UserWallet extends Model
 	public function __construct( array $attributes = [] )
 	{
 		parent::__construct( $attributes );
-
-		$this->bitcoinClient = App::make( 'Blocktrail' );
 	}
 
 	public function user()
 	{
-		return $this->hasOne('App\User', 'wallet_id', 'id');
-		//return $this->belongsTo( 'App\User' );
-	}
-
-	public function webhook()
-	{
-		return $this->hasOne( 'App\Webhook', 'wallet_id', 'id' );
+		return $this->hasOne( 'App\User', 'wallet_id', 'id' );
 	}
 
 	public function transactions()
@@ -46,47 +37,22 @@ class UserWallet extends Model
 		$this->attributes['password'] = Hash::make( $value );
 	}
 
-	public function setBlocktrailKeysAttribute( $value )
-	{
-		$this->attributes['blocktrail_keys'] = json_encode( $value );
-	}
-
-	public function getBlocktrailKeysAttribute( $value )
-	{
-		return json_decode( $value, true );
-	}
-
-	public function initLiveWallet()
-	{
-		$this->liveWallet = $this->bitcoinClient->initWallet( $this->identity, $this->pass );
-	}
-
 	public function getBalance()
 	{
-		if ( ! $this->liveWallet ) {
-			$this->initLiveWallet();
-		}
-		list( $this->balance, $this->unc_balance ) = $this->liveWallet->getBalance();
+		$this->balance     = 0;
+		$this->unc_balance = 0;
 
 		return $this->balance;
 	}
 
 	public function getNewAddress()
 	{
-		if ( ! $this->liveWallet ) {
-			$this->initLiveWallet();
-		}
-
-		return $this->liveWallet->getNewAddress();
+		return Wallet::getNewAddress();
 	}
 
 	public function pay( $address, $amount )
 	{
-		if ( ! $this->liveWallet ) {
-			$this->initLiveWallet();
-		}
-
-		return $this->liveWallet->pay( array( $address => $amount ) );
+		return Wallet::pay( $address, $amount );
 	}
 
 }

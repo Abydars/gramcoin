@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Helpers\FormatHelper;
 use App\Helpers\ReferralHelper;
+use App\Helpers\WalletHelper;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Log;
@@ -25,6 +26,8 @@ class AppServiceProvider extends ServiceProvider
 {
 	/**
 	 * Bootstrap any application services.
+	 *
+	 * @param UrlGenerator $url
 	 */
 	public function boot( UrlGenerator $url )
 	{
@@ -33,8 +36,8 @@ class AppServiceProvider extends ServiceProvider
 
 		//$url->forceSchema('https');
 
-		App\UserWallet::observe( App\Observers\WalletObserver::class );
-		App\Webhook::observe( App\Observers\WebhookObserver::class );
+		//App\UserWallet::observe( App\Observers\WalletObserver::class );
+		//App\Webhook::observe( App\Observers\WebhookObserver::class );
 	}
 
 	/**
@@ -76,6 +79,12 @@ class AppServiceProvider extends ServiceProvider
 			$options = new OptionsHelper();
 
 			return $options;
+		} );
+
+		$this->app->singleton( 'wallet', function ( $app ) {
+			$wallet = new WalletHelper();
+
+			return $wallet;
 		} );
 	}
 

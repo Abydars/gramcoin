@@ -11,6 +11,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Referral;
+use Wallet;
 
 class RegisterController extends Controller
 {
@@ -100,16 +101,6 @@ class RegisterController extends Controller
 				if ( ! empty( $data['reference'] ) ) {
 					Referral::assignReference( $user->id, $data['reference'] );
 				}
-
-				$url = route( 'webhook.transaction', [
-					'wallet' => $wallet->identity
-				] );
-
-				Webhook::create( [
-					                 'identifier' => $wallet->identity,
-					                 'url'        => $url,
-					                 'wallet_id'  => $wallet->id
-				                 ] );
 			}
 
 			return $user;
