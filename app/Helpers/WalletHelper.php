@@ -18,6 +18,22 @@ class WalletHelper
 		$this->wallet     = $this->blocktrail->initWallet( $identity, $password );
 	}
 
+	public function getAddressBalance( $address )
+	{
+		$addresses = $this->wallet->addresses();
+
+		foreach ( $addresses['data'] as $add ) {
+			if ( $add['address'] == $address ) {
+				return [
+					$add['balance'],
+					$add['unc_balance']
+				];
+			}
+		}
+
+		return false;
+	}
+
 	public function getBalance()
 	{
 		list( $balance, $unc_balance ) = $this->wallet->getBalance();

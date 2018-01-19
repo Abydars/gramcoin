@@ -39,8 +39,9 @@ class UserWallet extends Model
 
 	public function getBalance()
 	{
-		$this->balance     = 0;
-		$this->unc_balance = 0;
+		$address = UserAddress::where( 'user_id', $this->user_id )->first();
+
+		list( $this->balance, $this->unc_balance ) = Wallet::getAddressBalance( $address['address'] );
 
 		return $this->balance;
 	}
