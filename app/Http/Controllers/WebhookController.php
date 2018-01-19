@@ -113,8 +113,9 @@ class WebhookController extends Controller
 		switch ( $event_type ) {
 			case "address-transactions":
 
-				$inputs  = $data['inputs'];
-				$outputs = $data['outputs'];
+				$inputs    = $data['inputs'];
+				$outputs   = $data['outputs'];
+				$confirmed = $data['confirmations'] > 0;
 
 				$changes = [];
 
@@ -125,9 +126,9 @@ class WebhookController extends Controller
 
 					if ( $system_address ) {
 						if ( $input['output_confirmed'] ) {
-							$changes[ $input_address ][] = [
+							$changes[ $system_address->id ][] = [
 								'type'   => 'input',
-								'amount' => $input_output['value']
+								'amount' => $input['value']
 							];
 						}
 					}
@@ -138,91 +139,60 @@ class WebhookController extends Controller
 					$system_address = UserAddress::where( 'address', $output_address )->first();
 
 					if ( $system_address ) {
-						$changes[ $output_address ][] = [
+						$changes[ $system_address->id ][] = [
 							'type'   => 'output',
 							'amount' => $output['value']
 						];
 					}
 				}
 
-				$log ='Changes : ' . $identifier . ' : ' . json_encode( $changes ) . PHP_EOL;
+				$log = 'Changes : ' . $identifier . ' : ' . json_encode( $changes ) . PHP_EOL;
 				file_put_contents( storage_path( 'logs' ) . '/transactions.txt', $log, FILE_APPEND );
-				exit;
 
-				$addresses = $response_wallet['addresses'];
-				$address   = UserAddress::with( 'user' )->where( 'address', $addresses[0] )->first();
+				foreach ( $changes as $address_id => $change ) {
+					$user_address = UserAddress::with( 'user' )->find( $address_id );
+					$is_sender    = $change['type'] == 'output';
+					$amount       = $change['amount'];
 
-				if ( $address ) {
-					$user = $address->user;
+					if ( $user_address ) {
+						$user = $user_address->user;
 
-					$transaction = Transaction::where( 'tx_hash', $data['hash'] )
-					                          ->where( 'wallet_id', $user->wallet_id );
+						$transaction = Transaction::where( 'tx_hash', $data['hash'] )
+						                          ->where( 'wallet_id', $user->wallet_id );
 
-					$confirmed        = $data['confirmations'] > 0;
-					$was_confirmed    = $transaction->exists() && $transaction->first()->status == 'confirmed';
-					$wallet_addresses = $addresses;
-					$address          = false;
-					$amount           = false;
-					$is_sender        = false;
-					$has_output       = false;
+						$was_confirmed = $transaction->exists() && $transaction->first()->status == 'confirmed';
 
-					foreach ( $data['inputs'] as $input ) {
-						$is_sender = in_array( $input['address'], $wallet_addresses );
+						$txData = [
+							'tx_hash'       => $data['hash'],
+							'recipient'     => $user_address->address,
+							'direction'     => $is_sender ? 'sent' : 'receiver',
+							'amount'        => $amount,
+							'confirmations' => $data['confirmations'],
+							'status'        => $confirmed ? 'confirmed' : 'unconfirmed',
+							'wallet_id'     => $user->wallet_id,
+							'tx_time'       => Carbon::now()->toDateTimeString()
+						];
 
-						$output_index = 0;//$input['output_index'];
-						$amount       = $data['outputs'][ $output_index ]['value'];
-						$address      = $data['outputs'][ $output_index ]['address'];
-						$has_output   = in_array( $address, $wallet_addresses );
+						$transaction = Transaction::updateOrCreate( [
+							                                            'tx_hash'   => $data['hash'],
+							                                            'wallet_id' => $user->wallet_id
+						                                            ], $txData );
 
-						if ( $has_output ) {
-							break;
-						}
-					}
-
-					if ( ! $is_sender && ! $has_output ) {
-						return;
-					}
-
-					$txData = [
-						'tx_hash'       => $data['hash'],
-						'recipient'     => $address,
-						'direction'     => $is_sender ? 'sent' : 'receiver',
-						'amount'        => $amount,
-						'confirmations' => $data['confirmations'],
-						'status'        => $confirmed ? 'confirmed' : 'unconfirmed',
-						'wallet_id'     => $user->wallet_id,
-						'tx_time'       => Carbon::now()->toDateTimeString()
-					];
-
-					$transaction = Transaction::updateOrCreate( [
-						                                            'tx_hash'   => $data['hash'],
-						                                            'wallet_id' => $user->wallet_id
-					                                            ], $txData );
-
-					if ( $transaction->id > 0 ) {
-
-						if ( $confirmed && ! $was_confirmed ) {
-
-							if ( $is_sender ) {
-								$user->btc_balance -= $amount;
-							} else {
-								$user->btc_balance += $amount;
+						if ( $transaction->id > 0 ) {
+							if ( $confirmed && ! $was_confirmed ) {
+								if ( $is_sender ) {
+									$user->btc_balance -= $amount;
+								} else {
+									$user->btc_balance += $amount;
+								}
+								$user->save();
 							}
-
-							$user->save();
 						}
-
-						return response()->json( [
-							                         'code'    => 200,
-							                         'message' => 'Transaction ID: ' . $transaction->id
-						                         ] );
-					} else {
-						return response()->json( [
-							                         'code'    => 400,
-							                         'message' => 'Failed to create transaction'
-						                         ] );
 					}
 				}
+
+				exit();
+
 				break;
 		}
 	}
