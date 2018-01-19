@@ -44,9 +44,9 @@ class WalletHelper
 		];
 	}
 
-	public function pay( $address, $amount )
+	public function pay( $from, $address, $amount )
 	{
-		return $this->wallet->pay( array( $address => $amount ) );
+		return $this->wallet->pay( array( $address => $amount ), $from );
 	}
 
 	public function getNewAddress()
