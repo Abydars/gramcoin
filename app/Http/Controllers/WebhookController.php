@@ -113,22 +113,47 @@ class WebhookController extends Controller
 		switch ( $event_type ) {
 			case "address-transactions":
 
-				$addresses = $response_wallet['addresses'];
+				$inputs  = $data['inputs'];
+				$outputs = $data['outputs'];
 
-				if ( count( $addresses ) > 1 ) {
-					$log = date( "Y-m-d h:i:s" ) . ' : ' . $identifier . ' : ' . json_encode( $request->all() ) . PHP_EOL;
-					file_put_contents( storage_path( 'logs' ) . '/MultipleAddressesTrans.txt', $log, FILE_APPEND );
+				$changes = [];
 
-					return;
+				foreach ( $inputs as $input ) {
+					$input_address  = $input['address'];
+					$system_address = UserAddress::where( 'address', $input_address )->first();
+					$input_output   = $outputs[ $input['output_index'] ];
+
+					if ( $system_address ) {
+						if ( $input['output_confirmed'] ) {
+							$changes[ $input_address ][] = [
+								'type'   => 'input',
+								'amount' => $input_output['value']
+							];
+						}
+					}
 				}
 
-				$address = UserAddress::with( 'user' )->where( 'address', $addresses[0] )->first();
+				foreach ( $outputs as $output ) {
+					$output_address = $output['address'];
+					$system_address = UserAddress::where( 'address', $output_address )->first();
+
+					if ( $system_address ) {
+						$changes[ $output_address ][] = [
+							'type'   => 'output',
+							'amount' => $output_address['value']
+						];
+					}
+				}
+
+				$log ='Changes : ' . $identifier . ' : ' . json_encode( $changes ) . PHP_EOL;
+				file_put_contents( storage_path( 'logs' ) . '/transactions.txt', $log, FILE_APPEND );
+				exit;
+
+				$addresses = $response_wallet['addresses'];
+				$address   = UserAddress::with( 'user' )->where( 'address', $addresses[0] )->first();
 
 				if ( $address ) {
 					$user = $address->user;
-
-					$log = date( "Y-m-d h:i:s" ) . ' : ' . $identifier . ' : ' . json_encode( $request->all() ) . PHP_EOL;
-					file_put_contents( storage_path( 'logs' ) . '/transactions.txt', $log, FILE_APPEND );
 
 					$transaction = Transaction::where( 'tx_hash', $data['hash'] )
 					                          ->where( 'wallet_id', $user->wallet_id );
