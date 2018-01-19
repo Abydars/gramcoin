@@ -140,7 +140,7 @@ class WebhookController extends Controller
 					if ( $system_address ) {
 						$changes[ $output_address ][] = [
 							'type'   => 'output',
-							'amount' => $output_address['value']
+							'amount' => $output['value']
 						];
 					}
 				}
