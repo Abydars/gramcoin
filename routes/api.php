@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 // Webhook
-Route::post( 'webhook/{wallet}', 'WebhookController@transactionEvent' )->name( 'webhook.transaction' );
+Route::post( 'webhook/GramCoinWallet', 'WebhookController@transactionEvent' )->name( 'webhook.transaction' );
 
 // Auth
 //Route::get( 'admin/exists', 'ApiController@admin_exists' );
