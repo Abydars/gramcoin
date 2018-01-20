@@ -109,14 +109,12 @@ class WalletController extends PanelController
 		} else {
 
 			$after_fee_balance = $balance - $amount;
+			$transaction_fee   = Option::getTransactionFee();
 
-			$tx = new Blocktrail\SDK\TransactionBuilder();
-			$tx->addRecipient( $request->input( 'address' ), $amount );
-
-			if ( $after_fee_balance < $tx->getFee() ) {
+			if ( $after_fee_balance < $transaction_fee ) {
 				$response = $response->redirectToRoute( 'wallet.index' )
 				                     ->withErrors( [
-					                                   'error' => 'Insufficient Balance to pay fee: ' . $tx->getFee()
+					                                   'error' => 'Insufficient Balance to pay fee: ' . $transaction_fee
 				                                   ] )
 				                     ->withInput();
 			}

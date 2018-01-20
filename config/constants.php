@@ -100,6 +100,13 @@ return [
 			'icon'      => 'icon-user',
 			'item_type' => 'item',
 			'roles'     => [ 'administrator' ]
+		],
+		[
+			'label'     => 'Settings',
+			'action'    => 'settings',
+			'icon'      => 'icon-settings',
+			'item_type' => 'item',
+			'roles'     => [ 'administrator' ]
 		]
 	],
 	'countries'   => [

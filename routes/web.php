@@ -78,5 +78,8 @@ Route::delete( 'phases/{phase}', 'PhaseController@destroy' )->name( 'phase.destr
 Route::get( 'referral', 'ReferralController@index' )->name( 'referral.index' );
 Route::get( 'referral/data', 'ReferralController@data' )->name( 'referral.data' );
 
+Route::get( 'settings', 'SettingController@index' )->name( 'settings.index' );
+Route::post( 'settings', 'SettingController@index' );
+
 // Pusher
 Route::get( 'pusher/auth', 'PusherController@auth' )->name( 'pusher.auth' );
