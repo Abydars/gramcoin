@@ -4,8 +4,7 @@ namespace App\Helpers;
 
 use App;
 use App\Setting;
-use Illuminate\Support\Facades\Cache;
-use Carbon\Carbon;
+use Currency;
 
 class OptionsHelper
 {
@@ -31,7 +30,7 @@ class OptionsHelper
 		$transaction_fee = Setting::get( Setting::TRANSACTION_FEE );
 
 		if ( $transaction_fee ) {
-			return $transaction_fee;
+			return Currency::convertToSatoshi( $transaction_fee );
 		}
 
 		return 0;
