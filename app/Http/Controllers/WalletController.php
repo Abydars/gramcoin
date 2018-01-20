@@ -113,7 +113,7 @@ class WalletController extends PanelController
 			$transaction_fee   = Option::getTransactionFee();
 
 			if ( $after_fee_balance < $transaction_fee ) {
-				$response = $response->redirectToRoute( 'wallet.index' )
+				return $response->redirectToRoute( 'wallet.index' )
 				                     ->withErrors( [
 					                                   'error' => 'Insufficient Balance to pay fee: ' . $transaction_fee
 				                                   ] )
