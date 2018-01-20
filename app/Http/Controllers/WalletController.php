@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Notification;
 use Validator;
 use Blocktrail;
 use Referral;
+use Option;
 
 class WalletController extends PanelController
 {
@@ -120,7 +121,7 @@ class WalletController extends PanelController
 			}
 
 			$txData = array(
-				'tx_hash'       => 'REQUEST WITHDRAWAL WITH FEE: ' . $tx->getFee(),
+				'tx_hash'       => 'REQUEST WITHDRAWAL WITH FEE: ' . $transaction_fee,
 				'tx_time'       => Carbon::now(),
 				'recipient'     => $request->get( 'address' ),
 				'direction'     => 'sent',
