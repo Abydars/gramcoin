@@ -150,42 +150,44 @@ class WebhookController extends Controller
 				file_put_contents( storage_path( 'logs' ) . '/transactions.txt', $log, FILE_APPEND );
 
 				foreach ( $changes as $address_id => $change ) {
-					$user_address = UserAddress::with( 'user' )->find( $address_id );
-					$is_sender    = $change['type'] == 'output';
-					$amount       = $change['amount'];
+					foreach ( $change as $tx ) {
+						$user_address = UserAddress::with( 'user' )->find( $address_id );
+						$is_sender    = $tx['type'] == 'input';
+						$amount       = $tx['amount'];
 
-					if ( $user_address ) {
-						$user = $user_address->user;
+						if ( $user_address ) {
+							$user = $user_address->user;
 
-						$transaction = Transaction::where( 'tx_hash', $data['hash'] )
-						                          ->where( 'wallet_id', $user->wallet_id );
+							$transaction = Transaction::where( 'tx_hash', $data['hash'] )
+							                          ->where( 'wallet_id', $user->wallet_id );
 
-						$was_confirmed = $transaction->exists() && $transaction->first()->status == 'confirmed';
+							$was_confirmed = $transaction->exists() && $transaction->first()->status == 'confirmed';
 
-						$txData = [
-							'tx_hash'       => $data['hash'],
-							'recipient'     => $user_address->address,
-							'direction'     => $is_sender ? 'sent' : 'receiver',
-							'amount'        => $amount,
-							'confirmations' => $data['confirmations'],
-							'status'        => $confirmed ? 'confirmed' : 'unconfirmed',
-							'wallet_id'     => $user->wallet_id,
-							'tx_time'       => Carbon::now()->toDateTimeString()
-						];
+							$txData = [
+								'tx_hash'       => $data['hash'],
+								'recipient'     => $user_address->address,
+								'direction'     => $is_sender ? 'sent' : 'receiver',
+								'amount'        => $amount,
+								'confirmations' => $data['confirmations'],
+								'status'        => $confirmed ? 'confirmed' : 'unconfirmed',
+								'wallet_id'     => $user->wallet_id,
+								'tx_time'       => Carbon::now()->toDateTimeString()
+							];
 
-						$transaction = Transaction::updateOrCreate( [
-							                                            'tx_hash'   => $data['hash'],
-							                                            'wallet_id' => $user->wallet_id
-						                                            ], $txData );
+							$transaction = Transaction::updateOrCreate( [
+								                                            'tx_hash'   => $data['hash'],
+								                                            'wallet_id' => $user->wallet_id
+							                                            ], $txData );
 
-						if ( $transaction->id > 0 ) {
-							if ( $confirmed && ! $was_confirmed ) {
-								if ( $is_sender ) {
-									$user->btc_balance -= $amount;
-								} else {
-									$user->btc_balance += $amount;
+							if ( $transaction->id > 0 ) {
+								if ( $confirmed && ! $was_confirmed ) {
+									if ( $is_sender ) {
+										$user->btc_balance -= $amount;
+									} else {
+										$user->btc_balance += $amount;
+									}
+									$user->save();
 								}
-								$user->save();
 							}
 						}
 					}
