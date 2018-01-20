@@ -24,7 +24,7 @@ class WalletController extends PanelController
 	public function __construct( Blocktrail $blocktrail )
 	{
 		parent::__construct();
-		
+
 		$this->blocktrail = $blocktrail;
 	}
 
@@ -34,7 +34,7 @@ class WalletController extends PanelController
 		$wallet = $user->wallet;
 
 		$token_rate = Currency::getTokenValue();
-		$address  = $user->addresses->where( 'is_used', false )->first();
+		$address    = $user->addresses->where( 'is_used', false )->first();
 
 		try {
 			$wallet->getBalance();
@@ -107,8 +107,22 @@ class WalletController extends PanelController
 			                                   ] )
 			                     ->withInput();
 		} else {
+
+			$after_fee_balance = $balance - $amount;
+
+			$tx = new Blocktrail\SDK\TransactionBuilder();
+			$tx->addRecipient( $request->input( 'address' ), $amount );
+
+			if ( $after_fee_balance < $tx->getFee() ) {
+				$response = $response->redirectToRoute( 'wallet.index' )
+				                     ->withErrors( [
+					                                   'error' => 'Insufficient Balance to pay fee: ' . $tx->getFee()
+				                                   ] )
+				                     ->withInput();
+			}
+
 			$txData = array(
-				'tx_hash'       => 'REQUEST WITHDRAWAL',
+				'tx_hash'       => 'REQUEST WITHDRAWAL WITH FEE: ' . $tx->getFee(),
 				'tx_time'       => Carbon::now(),
 				'recipient'     => $request->get( 'address' ),
 				'direction'     => 'sent',
