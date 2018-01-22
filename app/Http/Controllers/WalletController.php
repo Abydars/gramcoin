@@ -101,8 +101,11 @@ class WalletController extends PanelController
 
 		}
 
-		$balance += $unc_balance;
-		$amount  = intval( Currency::convertToSatoshi( $request->get( 'amount' ) ) );
+		if ( $unc_balance < 0 ) {
+			$balance += $unc_balance;
+		}
+
+		$amount = intval( Currency::convertToSatoshi( $request->get( 'amount' ) ) );
 
 		if ( $amount > $balance ) {
 			$response = $response->redirectToRoute( 'wallet.index' )
