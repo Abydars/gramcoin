@@ -116,6 +116,7 @@ class WebhookController extends Controller
 
 				$inputs    = $data['inputs'];
 				$outputs   = $data['outputs'];
+				$fee       = $data['total_fee'];
 				$confirmed = $data['confirmations'] > 0;
 
 				$changes = [];
@@ -140,10 +141,17 @@ class WebhookController extends Controller
 					$system_address = UserAddress::where( 'address', $output_address )->first();
 
 					if ( $system_address ) {
-						$changes[ $system_address->id ][] = [
-							'type'   => 'output',
-							'amount' => $output['value']
-						];
+						if ( isset( $changes[ $system_address->id ] ) ) {
+							$c                                 = $changes[ $system_address->id ][0];
+							$changes[ $system_address->id ][0] = [
+								'amount' => ( ( $c['amount'] - $output['value'] ) - $fee )
+							];
+						} else {
+							$changes[ $system_address->id ][] = [
+								'type'   => 'output',
+								'amount' => $output['value']
+							];
+						}
 					}
 				}
 
