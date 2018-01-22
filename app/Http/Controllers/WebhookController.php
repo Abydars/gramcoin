@@ -108,19 +108,29 @@ class WebhookController extends Controller
 		$data            = $request->get( 'data' );
 		$response_wallet = $request->get( 'wallet' );
 
-		$log = date( "Y-m-d h:i:s" ) . ' : ' . $identifier . ' : ' . json_encode( $request->all() ) . PHP_EOL;
-		file_put_contents( storage_path( 'logs' ) . '/transactions.txt', $log, FILE_APPEND );
+		//$log = date( "Y-m-d h:i:s" ) . ' : ' . $identifier . ' : ' . json_encode( $request->all() ) . PHP_EOL;
+		//file_put_contents( storage_path( 'logs' ) . '/transactions.txt', $log, FILE_APPEND );
 
 		switch ( $event_type ) {
 			case "address-transactions":
 
-				$inputs    = $data['inputs'];
-				$outputs   = $data['outputs'];
-				$fee       = $data['total_fee'];
-				$confirmed = $data['confirmations'] > 0;
+				$inputs             = $data['inputs'];
+				$outputs            = $data['outputs'];
+				$sender_address     = $data['estimated_change_address'];
+				$transaction_amount = $data['estimated_value'];
+				$confirmed          = $data['confirmations'] > 0;
 
 				$changes = [];
 
+				$sender_address_obj = UserAddress::where( 'address', $sender_address )->first();
+				if ( $sender_address_obj ) {
+					$changes[ $sender_address_obj->id ][] = [
+						'type'   => 'input',
+						'amount' => $transaction_amount
+					];
+				}
+
+				/*
 				foreach ( $inputs as $input ) {
 					$input_address  = $input['address'];
 					$system_address = UserAddress::where( 'address', $input_address )->first();
@@ -135,23 +145,21 @@ class WebhookController extends Controller
 						}
 					}
 				}
+				*/
 
 				foreach ( $outputs as $output ) {
 					$output_address = $output['address'];
 					$system_address = UserAddress::where( 'address', $output_address )->first();
 
+					if ( $output_address == $sender_address ) {
+						continue;
+					}
+
 					if ( $system_address ) {
-						if ( isset( $changes[ $system_address->id ] ) ) {
-							$c                                 = $changes[ $system_address->id ][0];
-							$changes[ $system_address->id ][0] = [
-								'amount' => ( ( $c['amount'] - $output['value'] ) - $fee )
-							];
-						} else {
-							$changes[ $system_address->id ][] = [
-								'type'   => 'output',
-								'amount' => $output['value']
-							];
-						}
+						$changes[ $system_address->id ][] = [
+							'type'   => 'output',
+							'amount' => $output['value']
+						];
 					}
 				}
 
@@ -161,7 +169,7 @@ class WebhookController extends Controller
 				foreach ( $changes as $address_id => $change ) {
 					foreach ( $change as $tx ) {
 						$user_address = UserAddress::with( 'user' )->find( $address_id );
-						$is_sender    = $tx['type'] == 'input';
+						$is_sender    = $user_address->address == $sender_address;
 						$amount       = $tx['amount'];
 
 						if ( $user_address ) {
