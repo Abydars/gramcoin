@@ -152,7 +152,7 @@ class WalletController extends PanelController
 				                ->withInput();
 			}
 
-			$response = $response->redirectToRoute( 'wallet.transactions', [ $transaction->id ] );
+			$response = $response->redirectToRoute( 'wallet.transactions.show', [ $transaction->id ] );
 		}
 
 		return $response;

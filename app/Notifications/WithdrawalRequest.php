@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Currency;
 
 class WithdrawalRequest extends Notification
 {
@@ -51,7 +52,7 @@ class WithdrawalRequest extends Notification
 			->line( 'Amount: ' . number_format( $this->transaction->amount_in_btc, 10 ) . ' BTC' );
 
 		if ( $fee = $this->transaction->getMetaDataByKey( 'fee' ) ) {
-			$mail_message = $mail_message->line( 'Transaction fee: ' . number_format( $fee, 10 ) . ' BTC' );
+			$mail_message = $mail_message->line( 'Transaction fee: ' . Currency::convertToBtc( $fee ) . ' BTC' );
 		}
 
 		$mail_message = $mail_message->action( 'Accept Request', route( 'wallet.transactions.show_request', [ $this->transaction->id ] ) );

@@ -51,14 +51,14 @@ class AdminController extends PanelController
 					$tx = $wallet->pay( $transaction->recipient, $transaction->amount );
 
 					$txData = array(
-						'tx_hash'       => $tx,
-						'tx_time'       => Carbon::now(),
-						'recipient'     => $transaction->recipient,
-						'direction'     => 'sent',
-						'amount'        => $transaction->amount,
-						'confirmations' => 0,
-						'status'        => 'unconfirmed',
-						'wallet_id'     => $wallet->id,
+						'tx_hash'   => $tx,
+						'tx_time'   => Carbon::now(),
+						//'recipient'     => $transaction->recipient,
+						//'direction'     => 'sent',
+						//'amount'        => $transaction->amount,
+						//'confirmations' => 0,
+						'status'    => 'unconfirmed',
+						'wallet_id' => $wallet->id,
 					);
 
 					$transaction->fill( $txData );
