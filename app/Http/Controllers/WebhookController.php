@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Currency;
+use Option;
 
 class WebhookController extends Controller
 {
@@ -182,6 +183,8 @@ class WebhookController extends Controller
 							if ( $transaction->id > 0 ) {
 								if ( $confirmed && ! $was_confirmed ) {
 									if ( $is_sender ) {
+										$transaction_fee   = Option::getTransactionFee();
+										$amount            += $transaction_fee;
 										$user->btc_balance -= $amount;
 									} else {
 										$user->btc_balance += $amount;

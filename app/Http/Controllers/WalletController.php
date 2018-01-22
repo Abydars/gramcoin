@@ -67,10 +67,13 @@ class WalletController extends PanelController
 		$user   = Auth::user();
 		$wallet = $user->wallet;
 
-		$validator = Validator::make( $request->all(), [
-			'amount'  => 'required',
-			'address' => 'required'
-		] );
+		$validator = Validator::make( $request->all(),
+		                              [
+			                              'amount'  => 'required|numeric|min:0.00003',
+			                              'address' => 'required'
+		                              ], [
+			                              'amount.min' => 'Amount must be greater than 0.00003 BTC'
+		                              ] );
 
 		if ( $validator->fails() ) {
 			$error_message = $validator->errors()->first();
@@ -114,10 +117,10 @@ class WalletController extends PanelController
 
 			if ( $after_fee_balance < $transaction_fee ) {
 				return $response->redirectToRoute( 'wallet.index' )
-				                     ->withErrors( [
-					                                   'error' => 'Insufficient Balance to pay fee: ' . $transaction_fee
-				                                   ] )
-				                     ->withInput();
+				                ->withErrors( [
+					                              'error' => 'Insufficient Balance to pay fee: ' . Currency::convertToBtc( $transaction_fee ) . ' BTC'
+				                              ] )
+				                ->withInput();
 			}
 
 			$txData = array(
