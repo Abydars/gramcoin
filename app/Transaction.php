@@ -49,7 +49,7 @@ class Transaction extends Model
 
 	public function getMetaDataByKey( $key )
 	{
-		$meta_data = json_decode( $this->attributes['meta_data'], true );
+		$meta_data = json_decode( $this->meta_data, true );
 
 		return isset( $meta_data[ $key ] ) ? $meta_data[ $key ] : false;
 	}
@@ -57,10 +57,10 @@ class Transaction extends Model
 	public function setMetaDataByKey( $key, $value )
 	{
 		$meta_data = [];
-		if ( $this->attributes['meta_data'] ) {
-			$meta_data = json_decode( $this->attributes['meta_data'], true );
+		if ( $this->meta_data ) {
+			$meta_data = json_decode( $this->meta_data, true );
 		}
-		$meta_data[ $key ]             = $value;
-		$this->attributes['meta_data'] = json_encode( $meta_data );
+		$meta_data[ $key ] = $value;
+		$this->meta_data   = json_encode( $meta_data );
 	}
 }
