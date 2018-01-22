@@ -18,7 +18,8 @@ class Transaction extends Model
 		'confirmations',
 		'wallet_id',
 		'tx_time',
-		'status'
+		'status',
+		'meta_data'
 	];
 
 	protected $appends = [
@@ -44,5 +45,19 @@ class Transaction extends Model
 	public function getCreatedAtHumanAttribute()
 	{
 		return Carbon::parse( $this->tx_time )->toDateTimeString();
+	}
+
+	public function getMetaDataByKey( $key )
+	{
+		$this->meta_data = json_decode( $this->meta_data, true );
+
+		return isset( $this->meta_data[ $key ] ) ? $this->meta_data[ $key ] : false;
+	}
+
+	public function setMetaDataByKey( $key, $value )
+	{
+		$this->meta_data         = json_decode( $this->meta_data, true );
+		$this->meta_data[ $key ] = $value;
+		$this->meta_data         = json_encode( $this->meta_data );
 	}
 }

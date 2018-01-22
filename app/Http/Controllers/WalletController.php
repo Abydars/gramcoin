@@ -124,7 +124,7 @@ class WalletController extends PanelController
 			}
 
 			$txData = array(
-				'tx_hash'       => 'REQUEST WITHDRAWAL WITH FEE: ' . $transaction_fee,
+				'tx_hash'       => str_replace( '%', Currency::convertToBtc( $transaction_fee ), 'Request withdrawal with % BTC transaction fee' ),
 				'tx_time'       => Carbon::now(),
 				'recipient'     => $request->get( 'address' ),
 				'direction'     => 'sent',
@@ -136,6 +136,9 @@ class WalletController extends PanelController
 
 			$transaction    = Transaction::firstOrCreate( $txData );
 			$administrators = User::where( 'role', 'administrator' )->get();
+
+			$transaction->setMetaDataByKey( 'fee', $transaction_fee );
+			$transaction->save();
 
 			try {
 				Notification::send( $administrators, new WithdrawalRequest( $transaction ) );

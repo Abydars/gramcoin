@@ -183,7 +183,12 @@ class WebhookController extends Controller
 							if ( $transaction->id > 0 ) {
 								if ( $confirmed && ! $was_confirmed ) {
 									if ( $is_sender ) {
-										$transaction_fee   = Option::getTransactionFee();
+										$transaction_fee = Option::getTransactionFee();
+
+										if ( $fee = $transaction->getMetaDataByKey( 'fee' ) ) {
+											$transaction_fee = $fee;
+										}
+
 										$amount            += $transaction_fee;
 										$user->btc_balance -= $amount;
 									} else {
