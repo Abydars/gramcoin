@@ -62,11 +62,15 @@ class User extends Authenticatable
 		if ( $unc_plus ) {
 			$unc_plus = Currency::convertToBtc( $unc_plus );
 			$unc_plus = number_format( $unc_plus, 4 );
+		} else {
+			$unc_plus = number_format( 0, 8 );
 		}
 
 		if ( $unc_minus ) {
 			$unc_minus = Currency::convertToBtc( $unc_minus );
 			$unc_minus = number_format( $unc_minus, 4 );
+		} else {
+			$unc_minus = number_format( 0, 8 );
 		}
 
 		return "{$unc_minus}, {$unc_plus}";
