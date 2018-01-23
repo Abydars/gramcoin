@@ -73,7 +73,7 @@ class User extends Authenticatable
 			$unc_minus = number_format( 0, 8 );
 		}
 
-		return "{$unc_minus}, {$unc_plus}";
+		return "-{$unc_minus}, {$unc_plus}";
 	}
 
 	public function getUncBalanceAttribute()
