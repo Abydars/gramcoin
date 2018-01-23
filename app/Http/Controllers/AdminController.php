@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\WithdrawalRequest;
+use App\Notifications\WithdrawalResponse;
 use App\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Dashboard;
+use Option;
 
 class AdminController extends PanelController
 {
@@ -44,11 +47,22 @@ class AdminController extends PanelController
 
 		if ( $transaction ) {
 
-			$wallet = $transaction->wallet;
+			$wallet      = $transaction->wallet;
+			$user        = $wallet->user;
+			$balance     = $user->btc_balance;
+			$unc_balance = $user->unc_balance['minus'];
+			$amount      = $transaction->amount;
 
-			if ( $accepted ) {
+			if ( $unc_balance > 0 ) {
+				$balance -= $unc_balance;
+			}
+
+			$transaction_fee   = Option::getTransactionFee();
+			$after_fee_balance = $balance - $amount - $transaction_fee;
+
+			if ( $accepted && $after_fee_balance >= 0 ) {
 				try {
-					$tx = $wallet->pay( $transaction->recipient, $transaction->amount );
+					$tx = $wallet->pay( $transaction->recipient, $amount );
 
 					$txData = array(
 						'tx_hash'   => $tx,
@@ -57,31 +71,27 @@ class AdminController extends PanelController
 						//'direction'     => 'sent',
 						//'amount'        => $transaction->amount,
 						//'confirmations' => 0,
-						'status'    => 'unconfirmed',
+						'status'    => 'processing',
 						'wallet_id' => $wallet->id,
 					);
 
 					$transaction->fill( $txData );
 
-					if ( $transaction->save() ) {
-
-						return response()
-							->redirectToRoute( 'wallet.transactions.show', [ $transaction->id ] );
-
-					} else {
-						$transaction->status = 'failed';
-					}
 				} catch ( \Exception $e ) {
 					$transaction->status = 'failed';
 				}
 
+			} else if ( $after_fee_balance < 0 ) {
+				$transaction->status = 'insufficient balance';
 			} else {
 				$transaction->status = 'declined';
 			}
 
 			$transaction->save();
+			$user->notify( new WithdrawalResponse( $transaction ) );
 
-			return response()->redirectToRoute( 'dashboard' );
+			return response()
+				->redirectToRoute( 'wallet.transactions.show', [ $transaction->id ] );
 		}
 	}
 }

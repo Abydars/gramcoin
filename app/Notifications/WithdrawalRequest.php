@@ -49,7 +49,7 @@ class WithdrawalRequest extends Notification
 		$mail_message = ( new MailMessage )
 			->subject( 'New Withdrawal Request' )
 			->line( 'Withdrawal Request from ' . ucwords( $this->transaction->wallet->user->full_name ) )
-			->line( 'Amount: ' . number_format( $this->transaction->amount_in_btc, 10 ) . ' BTC' );
+			->line( 'Amount: ' . number_format( $this->transaction->amount_in_btc, 8 ) . ' BTC' );
 
 		if ( $fee = $this->transaction->getMetaDataByKey( 'fee' ) ) {
 			$mail_message = $mail_message->line( 'Transaction fee: ' . Currency::convertToBtc( $fee ) . ' BTC' );

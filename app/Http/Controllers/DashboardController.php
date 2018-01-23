@@ -47,10 +47,10 @@ class DashboardController extends PanelController
 		$user   = Auth::user();
 		$wallet = $user->wallet;
 
-		$btc_value    = Currency::getBtcValue();
-		$token_rate   = Currency::getTokenValue();
-		$active_phase = Phase::getActivePhase();
-		$past_phases  = Phase::getPastPhases();
+		$btc_value       = Currency::getBtcValue();
+		$token_rate      = Currency::getTokenValue();
+		$active_phase    = Phase::getActivePhase();
+		$past_phases     = Phase::getPastPhases();
 		$inactive_phases = Phase::getInactivePhases();
 
 		if ( $user->role == 'subscriber' ) {
@@ -62,14 +62,8 @@ class DashboardController extends PanelController
 
 			$transactions = Transaction::where( 'wallet_id', $user->wallet->id )->orderBy( 'tx_time', 'desc' )->get();
 
-			try {
-				$wallet->getBalance();
-				$unc_balance = Currency::convertToBtc( $wallet->unc_balance );
-			} catch ( Exception $e ) {
-				$unc_balance = 0;
-			}
-
 			$btc_balance = $user->btc_balance_in_btc;
+			$unc_balance = $user->unc_balance_formatted;
 			$credits     = [];
 
 			$day_before       = 6;
@@ -92,7 +86,7 @@ class DashboardController extends PanelController
 				'btc_balance'  => number_format( $btc_balance, 8 ),
 				'token_rate'   => $token_rate,
 				'btc_value'    => $btc_value,
-				'unc_balance'  => number_format( $unc_balance, 8 ),
+				'unc_balance'  => $unc_balance,
 				'user_bought'  => $user_bought
 			] );
 		} else if ( $user->role == 'administrator' ) {
@@ -110,14 +104,14 @@ class DashboardController extends PanelController
 
 
 			return view( 'dashboard.admin', [
-				'active_users' => $active_users,
-				'top_user'     => $top_user,
-				'sold_tokens'  => $sold_tokens,
-				'tokens'       => $tokens,
-				'token_rate'   => $token_rate,
-				'btc_value'    => $btc_value,
-				'active_phase' => $active_phase,
-				'past_phases'  => $past_phases,
+				'active_users'    => $active_users,
+				'top_user'        => $top_user,
+				'sold_tokens'     => $sold_tokens,
+				'tokens'          => $tokens,
+				'token_rate'      => $token_rate,
+				'btc_value'       => $btc_value,
+				'active_phase'    => $active_phase,
+				'past_phases'     => $past_phases,
 				'inactive_phases' => $inactive_phases
 			] );
 		}

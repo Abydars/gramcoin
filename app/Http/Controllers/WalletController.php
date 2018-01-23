@@ -37,14 +37,8 @@ class WalletController extends PanelController
 		$token_rate = Currency::getTokenValue();
 		$address    = $user->addresses->where( 'is_used', false )->first();
 
-		try {
-			$wallet->getBalance();
-			$unc_balance = Currency::convertToBtc( $wallet->unc_balance );
-		} catch ( Exception $e ) {
-			$unc_balance = 0;
-		}
-
 		$btc_balance = $user->btc_balance_in_btc;
+		$unc_balance = $user->unc_balance_formatted;
 
 		if ( $address ) {
 			$address = $address->address;
@@ -53,7 +47,7 @@ class WalletController extends PanelController
 		return view( 'wallet.index', [
 			'user'        => $user,
 			'btc_balance' => number_format( $btc_balance, 8 ),
-			'unc_balance' => number_format( $unc_balance, 8 ),
+			'unc_balance' => $unc_balance,
 			'token_rate'  => $token_rate,
 			'wallet'      => $user->wallet,
 			'address'     => $address,
@@ -85,24 +79,12 @@ class WalletController extends PanelController
 			                 ->withInput();
 		}
 
-		$response = response();
-		$balance  = $user->btc_balance;
+		$response    = response();
+		$balance     = $user->btc_balance;
+		$unc_balance = $user->unc_balance['minus'];
 
-		try {
-			$wallet->getBalance();
-			$unc_balance = $wallet->unc_balance;
-		} catch ( Exception $e ) {
-
-			return $response->redirectToRoute( 'wallet.index' )
-			                ->withErrors( [
-				                              'error' => 'Failed to get balance, Please try again later'
-			                              ] )
-			                ->withInput();
-
-		}
-
-		if ( $unc_balance < 0 ) {
-			$balance += $unc_balance;
+		if ( $unc_balance > 0 ) {
+			$balance -= $unc_balance;
 		}
 
 		$amount = intval( Currency::convertToSatoshi( $request->get( 'amount' ) ) );

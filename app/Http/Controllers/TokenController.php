@@ -57,15 +57,7 @@ class TokenController extends PanelController
 			$balance              = $user->btc_balance;
 			$user_tokens          = UserToken::getUserTokensByPhase( $user->id, $active_phase->id );
 
-			try {
-				$wallet->getBalance();
-				$unc_balance = $wallet->unc_balance;
-			} catch ( Exception $e ) {
-				$unc_balance = 0;
-				$error       = "Failed to get balance, Please try again later";
-			}
-
-			$balance += $unc_balance;
+			$balance -= $user->unc_balance['minus'];
 
 			if ( ! $error ) {
 				if ( $balance >= $btc_in_satoshi ) {

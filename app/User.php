@@ -49,8 +49,39 @@ class User extends Authenticatable
 		'token_balance',
 		'btc_balance_in_btc',
 		'status',
-		'spend'
+		'spend',
+		'unc_balance',
+		'unc_balance_formatted'
 	];
+
+	public function getUncBalanceFormattedAttribute()
+	{
+		$unc_minus = $this->getMetaDataByKey( 'unc_minus' );
+		$unc_plus  = $this->getMetaDataByKey( 'unc_plus' );
+
+		if ( $unc_plus ) {
+			$unc_plus = Currency::convertToBtc( $unc_plus );
+			$unc_plus = number_format( $unc_plus, 4 );
+		}
+
+		if ( $unc_minus ) {
+			$unc_minus = Currency::convertToBtc( $unc_minus );
+			$unc_minus = number_format( $unc_minus, 4 );
+		}
+
+		return "{$unc_minus}, {$unc_plus}";
+	}
+
+	public function getUncBalanceAttribute()
+	{
+		$unc_minus = $this->getMetaDataByKey( 'unc_minus' );
+		$unc_plus  = $this->getMetaDataByKey( 'unc_plus' );
+
+		return [
+			'minus' => $unc_minus,
+			'plus'  => $unc_plus
+		];
+	}
 
 	public function getSpendAttribute()
 	{
@@ -108,6 +139,51 @@ class User extends Authenticatable
 	public function setMetaDataAttribute( $value )
 	{
 		$this->attributes['meta_data'] = json_encode( $value );
+	}
+
+	public function getMetaDataByKey( $key )
+	{
+		$meta_data = json_decode( $this->meta_data, true );
+
+		return isset( $meta_data[ $key ] ) ? $meta_data[ $key ] : false;
+	}
+
+	public function setMetaDataByKey( $key, $value )
+	{
+		$meta_data = [];
+		if ( $this->meta_data ) {
+			$meta_data = json_decode( $this->meta_data, true );
+		}
+		$meta_data[ $key ] = $value;
+		$this->meta_data   = json_encode( $meta_data );
+	}
+
+	public function addUncMinus( $amount )
+	{
+		$unc_minus = $this->getMetaDataByKey( 'unc_minus' );
+		$unc_minus = intval( $unc_minus ) + $amount;
+		$this->setMetaDataByKey( 'unc_minus', $unc_minus );
+	}
+
+	public function MinusUncMinus( $amount )
+	{
+		$unc_minus = $this->getMetaDataByKey( 'unc_minus' );
+		$unc_minus = intval( $unc_minus ) - $amount;
+		$this->setMetaDataByKey( 'unc_minus', $unc_minus );
+	}
+
+	public function addUncPlus( $amount )
+	{
+		$unc_plus = $this->getMetaDataByKey( 'unc_plus' );
+		$unc_plus = intval( $unc_plus ) + $amount;
+		$this->setMetaDataByKey( 'unc_plus', $unc_plus );
+	}
+
+	public function MinusUncPlus( $amount )
+	{
+		$unc_plus = $this->getMetaDataByKey( 'unc_plus' );
+		$unc_plus = intval( $unc_plus ) - $amount;
+		$this->setMetaDataByKey( 'unc_plus', $unc_plus );
 	}
 
 	public function tokens()

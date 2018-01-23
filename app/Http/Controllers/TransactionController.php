@@ -20,14 +20,8 @@ class TransactionController extends PanelController
 
 		$btc_value = Currency::getBtcValue();
 
-		try {
-			$wallet->getBalance();
-			$unc_balance = Currency::convertToBtc( $wallet->unc_balance );
-		} catch ( Exception $e ) {
-			$unc_balance = 0;
-		}
-
 		$btc_balance = $user->btc_balance_in_btc;
+		$unc_balance = $user->unc_balance_formatted;
 
 		if ( $address ) {
 			$address = $address->address;
@@ -40,7 +34,7 @@ class TransactionController extends PanelController
 			'address'     => $address,
 			'btc_value'   => $btc_value,
 			'btc_balance' => number_format( $btc_balance, 8 ),
-			'unc_balance' => number_format( $unc_balance, 8 ),
+			'unc_balance' => $unc_balance,
 		] );
 	}
 

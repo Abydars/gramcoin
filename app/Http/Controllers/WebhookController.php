@@ -207,11 +207,26 @@ class WebhookController extends Controller
 
 										$amount            += $transaction_fee;
 										$user->btc_balance -= $amount;
+										$user->MinusUncMinus( $amount );
 									} else {
 										$user->btc_balance += $amount;
+										$user->MinusUncPlus( $amount );
 									}
-									$user->save();
+								} else if ( ! $was_confirmed && ! $confirmed ) {
+									if ( $is_sender ) {
+										$transaction_fee = Option::getTransactionFee();
+
+										if ( $fee = $transaction->getMetaDataByKey( 'fee' ) ) {
+											$transaction_fee = $fee;
+										}
+
+										$amount += $transaction_fee;
+										$user->addUncMinus( $amount );
+									} else {
+										$user->addUncPlus( $amount );
+									}
 								}
+								$user->save();
 							}
 						}
 					}
