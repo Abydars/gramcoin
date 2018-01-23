@@ -147,12 +147,21 @@ class User extends Authenticatable
 
 	public function getMetaDataByKey( $key )
 	{
+		$meta_data = $this->meta_data;
+
+		if ( ! is_array( $this->meta_data ) ) {
+			$meta_data = json_decode( $this->meta_data, true );
+		}
+
 		return isset( $meta_data[ $key ] ) ? $meta_data[ $key ] : false;
 	}
 
 	public function setMetaDataByKey( $key, $value )
 	{
-		$meta_data         = $this->meta_data;
+		if ( ! is_array( $this->meta_data ) ) {
+			$meta_data = json_decode( $this->meta_data, true );
+		}
+
 		$meta_data[ $key ] = $value;
 		$this->meta_data   = json_encode( $meta_data );
 	}
